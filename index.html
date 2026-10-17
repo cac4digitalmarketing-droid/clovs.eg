@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<!-- CLOVS v39 production repair: parser-safe neon + merchant order notifications 2026-10-17 -->
+<!-- CLOVS v40 mobile hero + marketer cart recovery 2026-10-17 -->
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -273,16 +273,30 @@
       #sidebar-links { min-height:0; overscroll-behavior:contain; }
       #sidebar-footer { flex-shrink:0; }
       #toast-container { left:.625rem; right:.625rem; width:auto; }
-      #home-hero { display:block; min-height:0; }
-      #slider-container { position:relative; inset:auto; height:clamp(155px, 52vw, 230px); background:#0f172a; }
-      #home-hero #slider-container .slider-image { object-fit:contain; object-position:center; opacity:1; }
-      #home-hero > .bg-gradient-to-t { position:relative; inset:auto; min-height:285px; justify-content:flex-start; background:#0f172a; padding:1.25rem 1.1rem 4.5rem; }
-      #home-hero > .bg-gradient-to-t > div { width:100%; }
-      #home-hero #slide-title { font-size:clamp(1.45rem, 7vw, 2rem); line-height:1.35; }
-      #home-hero #slide-cta { gap:.5rem; padding-top:.5rem; }
-      #home-hero #slide-cta button { flex:1 1 130px; min-width:0; padding:.65rem .75rem; font-size:.75rem; justify-content:center; text-align:center; }
-      #home-hero .slider-arrow { width:36px; height:36px; top:auto !important; bottom:.75rem; transform:none !important; }
-      #slider-dots { top:auto; bottom:1.65rem; left:50%; transform:translateX(-50%); max-width:calc(100% - 110px); overflow-x:auto; scrollbar-width:none; }
+      #home-hero {
+        display:flex; min-height:clamp(410px, 118vw, 540px);
+        border-radius:24px; isolation:isolate; background:#071b16;
+      }
+      #slider-container { position:absolute; inset:0; width:100%; height:100%; background:#0f172a; }
+      #home-hero #slider-container .slider-image {
+        width:100%; height:100%; object-fit:cover; object-position:center; opacity:1;
+        transform:scale(1.002);
+      }
+      #home-hero > .bg-gradient-to-t {
+        position:absolute; inset:0; min-height:0; justify-content:flex-end;
+        background:linear-gradient(to top,rgba(2,10,8,.94) 0%,rgba(2,10,8,.68) 34%,rgba(2,10,8,.20) 68%,rgba(2,10,8,.04) 100%);
+        padding:1.25rem 1rem 4.65rem;
+      }
+      #home-hero > .bg-gradient-to-t > div { width:100%; max-width:none; }
+      #home-hero #slide-tag { font-size:.68rem; padding:.38rem .72rem; }
+      #home-hero #slide-title { font-size:clamp(1.55rem, 7.2vw, 2.15rem); line-height:1.28; text-shadow:0 3px 18px rgba(0,0,0,.48); }
+      #home-hero #slide-desc { font-size:.82rem; line-height:1.75; color:#e2e8f0; max-width:95%; text-shadow:0 2px 12px rgba(0,0,0,.4); }
+      #home-hero #slide-cta { gap:.5rem; padding-top:.45rem; }
+      #home-hero #slide-cta button { flex:1 1 130px; min-width:0; min-height:43px; padding:.68rem .72rem; font-size:.72rem; justify-content:center; text-align:center; backdrop-filter:blur(8px); }
+      #home-hero .slider-arrow { width:38px; height:38px; top:46% !important; bottom:auto; transform:translateY(-50%) !important; background:rgba(2,10,8,.54); }
+      #home-hero .slider-arrow.right-4 { right:.65rem; }
+      #home-hero .slider-arrow.left-4 { left:.65rem; }
+      #slider-dots { top:auto; bottom:1.2rem; left:50%; transform:translateX(-50%); max-width:calc(100% - 96px); overflow-x:auto; scrollbar-width:none; padding:.2rem .35rem; border-radius:999px; background:rgba(2,10,8,.2); backdrop-filter:blur(6px); }
       #slider-dots::-webkit-scrollbar { display:none; }
       .app-view, .app-view .grid > *, .app-view .flex > * { min-width:0; }
       .app-view .flex.justify-between { flex-wrap:wrap; gap:.75rem; }
@@ -297,6 +311,13 @@
       .product-card > .relative.bg-slate-100 { height:clamp(180px, 58vw, 260px); }
       .product-card > .p-5, .product-card > .p-6 { padding:1rem; gap:.75rem; }
       .product-card h3, .product-card h4 { font-size:1rem; line-height:1.5; overflow-wrap:anywhere; }
+    }
+    @media (max-width:390px) {
+      #home-hero { min-height:430px; border-radius:21px; }
+      #home-hero > .bg-gradient-to-t { padding-inline:.88rem; padding-bottom:4.35rem; }
+      #home-hero #slide-title { font-size:1.52rem; }
+      #home-hero #slide-desc { font-size:.76rem; line-height:1.7; }
+      #home-hero #slide-cta button { min-height:41px; font-size:.68rem; }
     }
     @media (min-width:640px) and (max-width:1279px) {
       #header-inner { gap:1rem; }
@@ -1447,7 +1468,7 @@ body.clovs-store-mode #modal-actions>.clovs-primary-button{background:#a15b38!im
       <div id="cart-content-area" class="grid grid-cols-1 lg:grid-cols-3 gap-6"></div>
     </div>
 
-    <div id="view-marketer-order" class="app-view hidden space-y-6 fade-in"><div class="clovs-panel"><h2 class="text-2xl font-black">سلة المسوق</h2><p>أضف المنتجات وعمولتك ثم أكمل بيانات عميلك.</p></div><div id="marketer-order-content-area" class="grid grid-cols-1 lg:grid-cols-3 gap-6"></div></div>
+    <div id="view-marketer-order" class="app-view hidden space-y-6 fade-in"><div class="clovs-panel"><div class="flex items-center justify-between gap-3 flex-wrap"><div><h2 class="text-2xl font-black">سلة المسوق</h2><p>أضف المنتجات وعمولتك ثم أكمل بيانات عميلك.</p></div><button type="button" onclick="clovsRepairMarketerCart()" class="text-xs font-black px-3 py-2 rounded-xl bg-emerald-50 text-emerald-700 hover:bg-emerald-100"><i class="fa-solid fa-rotate"></i> تحديث السلة</button></div></div><div id="marketer-order-content-area" class="grid grid-cols-1 lg:grid-cols-3 gap-6"></div></div>
     <div id="view-marketer-store" class="app-view hidden space-y-4 fade-in"></div>
     <div id="view-storefront" class="app-view hidden space-y-4 fade-in"></div>
     <div id="view-store-checkout" class="app-view hidden space-y-4 fade-in"></div>
@@ -4749,6 +4770,7 @@ body.clovs-store-mode #modal-actions>.clovs-primary-button{background:#a15b38!im
       if (!isCustomerAudience() && !isMarketerAudience()) return showToast('تجهيز الطلبات متاح للعميل والمسوق فقط','info');
       clovsSelectCart();
       const marketerMode = isMarketerAudience();
+      if(marketerMode && !clovsEnsureMarketerCart())return showToast('جلسة المسوق محتاجة تسجيل دخول من جديد قبل استخدام السلة.','error');
       const prod = appState.products.find(p => p.id === productId);
       if (!prod) return;
 
@@ -4797,7 +4819,9 @@ body.clovs-store-mode #modal-actions>.clovs-primary-button{background:#a15b38!im
     function renderCartView() {
       if (!isCustomerAudience() && !isMarketerAudience()) return;
       clovsSelectCart();
+      if(isMarketerAudience() && !clovsEnsureMarketerCart())return;
       const container = document.getElementById(isMarketerAudience() ? 'marketer-order-content-area' : 'cart-content-area');
+      if(!container)return;
       const items = appState.activeCart.items;
       const marketerCart = isMarketerAudience();
 
@@ -5128,12 +5152,12 @@ body.clovs-store-mode #modal-actions>.clovs-primary-button{background:#a15b38!im
     async function readFreshCheckoutProducts(items) {
       const ids = [...new Set(items.map(item => item?.product?.id).filter(id => /^[A-Za-z0-9_-]{1,128}$/.test(id || '')))];
       if (ids.length !== new Set(items.map(item => item?.product?.id)).size) throw new Error('invalid-product-id');
-      const snaps = await Promise.all(ids.map(id => readFirebaseValueWithRetry(productsRef.child(id), 3, 180)));
+      const snaps = await Promise.all(ids.map(async id => ({id,snap:await readFirebaseValueWithRetry(productsRef.child(id), 3, 180)})));
       const map = new Map();
-      snaps.forEach(snap => {
+      snaps.forEach(({id,snap}) => {
         if (!snap.exists()) return;
-        const product = firebaseSnapshotToProducts({ val: () => ({ [snap.key]: snap.val() }) })[0];
-        if (product) map.set(snap.key, product);
+        const product = firebaseSnapshotToProducts({ val: () => ({ [id]: snap.val() }) })[0];
+        if (product) map.set(id, product);
       });
       return map;
     }
@@ -5259,10 +5283,18 @@ body.clovs-store-mode #modal-actions>.clovs-primary-button{background:#a15b38!im
         switchView('auth');
         return;
       }
-      if (!appState.currentUser?.firebaseMarketer || !firebaseAuth.currentUser) {
-        showToast('هذه السلة متاحة للشراء بحساب عميل أو لإنشاء أوردر بحساب مسوق.', 'error');
+      if (appState.currentUser?.role !== 'marketer' || !clovsLiveMarketerSession()) {
+        showToast('جلسة المسوق غير متزامنة مع Firebase. سجّل خروج ثم دخول مرة واحدة وأعد فتح السلة.', 'error');
         return;
       }
+      if(!clovsEnsureMarketerCart()){showToast('تعذر تجهيز سلة المسوق. أعد تسجيل الدخول.', 'error');return;}
+      if (!clovsV11.config.serviceUrl) {
+        try{
+          const cfg=(await readFirebaseValueWithRetry(firebaseDB.ref('siteSettings/clovsV11'),2,160)).val()||{};
+          if(cfg.serviceUrl)clovsV11.config={...clovsV11.config,...cfg};
+        }catch(_){}
+      }
+      if (!clovsV11.config.serviceUrl) { showToast('خدمة حفظ الأوردرات غير مربوطة. راجع إعدادات الربط في لوحة المدير.', 'error'); return; }
       if (orderSubmissionInProgress) return;
       if (!appState.activeCart.items.length) {
         showToast('أضف منتجاً إلى السلة أولاً', 'error');
@@ -7964,7 +7996,8 @@ body.clovs-store-mode #modal-actions>.clovs-primary-button{background:#a15b38!im
     function clovsCartStorageKey(key){return CLOVS_CART_STORAGE_PREFIX+encodeURIComponent(String(key||'guest')).slice(0,180);}
     function clovsCartProductSnapshot(product){
       const p=product||{},rawImage=String(productMainImage(p)||'');
-      return {id:String(p.id||'').slice(0,128),name:String(p.name||'منتج').slice(0,200),price:Number(p.price)||0,discountPercent:Number(p.discountPercent)||0,stock:Number(p.stock)||0,image:/^https:\/\//i.test(rawImage)?rawImage.slice(0,1800):'',images:/^https:\/\//i.test(rawImage)?[rawImage.slice(0,1800)]:[],variants:Array.isArray(p.variants)?p.variants.slice(0,12):[]};
+      const stockRaw=Number(p.stock),stock=Number.isFinite(stockRaw)?Math.max(0,Math.trunc(stockRaw)):10;
+      return {id:String(p.id||'').slice(0,128),name:String(p.name||'منتج').slice(0,200),price:Number(p.price)||0,discountPercent:Number(p.discountPercent)||0,stock:stock,image:/^https:\/\//i.test(rawImage)?rawImage.slice(0,1800):'',images:/^https:\/\//i.test(rawImage)?[rawImage.slice(0,1800)]:[],variants:Array.isArray(p.variants)?p.variants.slice(0,12):[],merchantUid:String(p.merchantUid||'').slice(0,128),merchantName:String(p.merchantName||'').slice(0,100)};
     }
     function clovsSanitizeCart(raw){
       const source=raw&&typeof raw==='object'?raw:{},cart=clovsEmptyCart(),items=Array.isArray(source.items)?source.items:[];
@@ -8008,8 +8041,29 @@ body.clovs-store-mode #modal-actions>.clovs-primary-button{background:#a15b38!im
       const persistFromForm=event=>{const id=event.target?.id||'';if(/^cust-|^pay-sender-phone$/.test(id))queueMicrotask(clovsPersistActiveCart);if(event.target?.closest?.('#view-store-checkout'))queueMicrotask(clovsPersistStoreCart);};
       document.addEventListener('input',persistFromForm);document.addEventListener('change',persistFromForm);window.addEventListener('pagehide',()=>{clovsPersistActiveCart();clovsPersistStoreCart();});
     }
+    function clovsLiveMarketerSession(){
+      const u=appState.currentUser,authUser=firebaseAuth.currentUser;
+      return !!(u && u.role==='marketer' && authUser && String(authUser.uid||'')===String(u.uid||''));
+    }
+    function clovsMarketerCartKey(){
+      const u=appState.currentUser,authUser=firebaseAuth.currentUser;
+      const uid=String(authUser?.uid||u?.uid||'').trim();
+      return u?.role==='marketer' && uid ? `marketer:${uid}` : '';
+    }
+    function clovsEnsureMarketerCart(){
+      if(appState.currentUser?.role!=='marketer')return true;
+      const key=clovsMarketerCartKey();
+      if(!key)return false;
+      if(clovsCartKey!==key)clovsSelectCart();
+      if(!appState.activeCart||!Array.isArray(appState.activeCart.items)){
+        appState.activeCart=clovsEmptyCart();clovsCartKey=key;clovsCarts.set(key,appState.activeCart);clovsPersistActiveCart();
+      }
+      return true;
+    }
     function clovsSelectCart(){
-      const u=appState.currentUser, key=u ? `${u.role}:${u.uid||u.id}` : 'guest';
+      const u=appState.currentUser, authUid=String(firebaseAuth.currentUser?.uid||'').trim();
+      const identity=(u?.role==='marketer'&&authUid)?authUid:(u?.uid||u?.id);
+      const key=u ? `${u.role}:${identity}` : 'guest';
       if(key===clovsCartKey)return;
       clovsPersistActiveCart();
       const guest=clovsCarts.get('guest')||clovsLoadPersistedCart('guest');
@@ -8347,7 +8401,29 @@ body.clovs-store-mode #modal-actions>.clovs-primary-button{background:#a15b38!im
     function clovsUpdateStoreTotals(){const c=clovsStoreCart.customer,sub=roundMoneyValue(clovsStoreCart.items.reduce((n,i)=>n+(clovsStoreProducts.find(p=>p.id===i.productId)?.storePrice||0)*i.quantity,0)),shipping=Number(appState.shippingRates[c.governorate]??DEFAULT_SHIPPING[c.governorate]);const a=document.getElementById('store-shipping-total'),b=document.getElementById('store-grand-total');if(a)a.textContent='الشحن: '+money(shipping)+' ج.م';if(b)b.textContent='الإجمالي: '+money(sub+shipping)+' ج.م';}
     async function clovsEnsureStoreGuestSession(){if(firebaseAuth.currentUser)return firebaseAuth.currentUser;try{return (await firebaseAuth.signInAnonymously()).user;}catch(error){if(error?.code==='auth/operation-not-allowed'||error?.code==='auth/admin-restricted-operation')return null;throw new Error('تعذر تجهيز جلسة شراء الضيف: '+String(error?.message||'حاول مرة أخرى').slice(0,100));}}
     async function clovsSubmitStoreOrder(e){e.preventDefault();if(orderSubmissionInProgress||!clovsStoreCart.items.length)return;const b=document.getElementById('store-checkout-submit'),status=document.getElementById('store-checkout-status'),inputCustomer=clovsStoreCart.customer||{};const name=String(inputCustomer.name||'').trim(),phone=String(inputCustomer.phone||'').trim(),address=String(inputCustomer.address||'').trim(),alternatePhone=String(inputCustomer.alternatePhone||'').trim();if(!name||name.length>100||!/^01[0-9]{9}$/.test(phone)||!address||address.length>300||!GOVERNORATES.includes(inputCustomer.governorate)||(alternatePhone&&!/^01[0-9]{9}$/.test(alternatePhone)))return showToast('راجع الاسم ورقم الهاتف والعنوان والمحافظة قبل تأكيد الطلب','error');orderSubmissionInProgress=true;b.disabled=true;clovsPersistStoreCart();try{status.textContent='جاري مراجعة السعر والمخزون وحفظ الطلب...';const latest=await firebaseDB.ref('marketerStores/'+clovsStore.ownerUid).once('value');if(!latest.exists()||latest.val().enabled===false)throw new Error('المتجر غير متاح');clovsStore=latest.val();const products=await Promise.all(clovsStoreCart.items.map(async i=>{const p=await productsRef.child(i.productId).once('value');if(!p.exists())throw new Error('أحد المنتجات غير متاح');const entry=clovsStore.products?.[i.productId];if(!entry)throw new Error('أحد المنتجات أُزيل من المتجر');const raw=p.val();return {...raw,id:i.productId,stock:raw.stock==null?10:Number(raw.stock),storePrice:Number(entry.price)};}));clovsStoreProducts=Array.from(new Map([...clovsStoreProducts,...products].map(p=>[p.id,p])).values());const c={...clovsStoreCart.customer},key=clovsStoreCart.orderKey||ordersRef.push().key;clovsStoreCart.orderKey=key;const items=clovsStoreCart.items.map(i=>{const p=products.find(p=>p.id===i.productId);return {product:p,quantity:i.quantity,commission:roundMoneyValue(p.storePrice-getProductPrice(p)),selectedVariants:i.selectedVariants};}),subtotal=roundMoneyValue(items.reduce((n,i)=>n+(getProductPrice(i.product)+i.commission)*i.quantity,0)),shipping=roundMoneyValue(Number(appState.shippingRates[c.governorate]??DEFAULT_SHIPPING[c.governorate])),order={id:'ORD-'+key,createdAt:Date.now(),customer:c,items,subtotal,shippingRate:shipping,grandTotal:roundMoneyValue(subtotal+shipping),marketerName:clovsStore.name,marketerPageName:clovsStore.name,paymentMethod:'cod'};clovsUpdateStoreTotals();await clovsEnsureStoreGuestSession();const canvas=await clovsShippingLabelCanvas(order);const r=await clovsService('storeOrder',{storeSlug:clovsStore.slug,orderKey:key,items:clovsStoreCart.items,customer:c,paymentMethod:'cod',paymentProof:{},shippingLabelData:canvas.toDataURL('image/png'),expectedGrandTotal:order.grandTotal});clovsStoreCart.items=[];clovsStoreCart.orderKey=null;clovsClearPersistedStoreCart(clovsStore.slug);clovsPersistStoreCart();if(firebaseAuth.currentUser)clovsService('notifyOrder',{orderKey:key},45000).catch(()=>{});openModal('تم تأكيد طلبك','رقم الطلب: ORD-'+key+' · الإجمالي: '+money(r.grandTotal)+' ج.م');switchView('storefront');}catch(err){status.textContent=err.message;showToast(err.message,'error');}finally{orderSubmissionInProgress=false;b.disabled=false;}}
-    function clovsOpenCart(){if(clovsStore&&['storefront','store-checkout','auth'].includes(appState.currentView))return switchView('store-checkout');switchView(appState.currentUser?.role==='marketer'?'marketer-order':'cart');}
+    async function clovsRepairMarketerCart(){
+      if(appState.currentUser?.role!=='marketer')return;
+      clovsSelectCart();
+      if(!clovsEnsureMarketerCart())return showToast('جلسة المسوق غير مكتملة. سجّل دخولك مرة أخرى.','error');
+      try{
+        const fresh=await readFreshCheckoutProducts(appState.activeCart.items);
+        appState.activeCart.items=appState.activeCart.items.filter(item=>fresh.has(item.product.id)).map(item=>({...item,product:fresh.get(item.product.id)}));
+        clovsInvalidatePendingCheckout();clovsPersistActiveCart();updateCartBadge();renderCartView();
+        showToast('تم تحديث السلة والمخزون بنجاح.');
+      }catch(error){console.error('[CLOVS marketer cart repair]',error);showToast('تعذر تحديث السلة من Firebase. راجع الاتصال وحاول مرة أخرى.','error');}
+    }
+
+    function clovsOpenCart(){
+      if(clovsStore&&['storefront','store-checkout','auth'].includes(appState.currentView))return switchView('store-checkout');
+      clovsSelectCart();
+      if(appState.currentUser?.role==='marketer'){
+        if(!clovsEnsureMarketerCart())return showToast('سجّل دخول المسوق من جديد لتجهيز السلة.','error');
+        switchView('marketer-order');
+        requestAnimationFrame(()=>renderCartView());
+        return;
+      }
+      switchView('cart');
+    }
     async function clovsTestTelegram(){const el=document.getElementById('clovs-integration-status');try{el.textContent='جاري اختبار الإرسال...';const r=await clovsService('testTelegram');el.textContent='تم إرسال رسالة اختبار للبوت · متابعة الطلبات: '+(r.triggerInstalled?'مفعّلة':'شغّل installClovs في Apps Script');}catch(e){el.textContent=e.message;}}
 
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initializeClovs, { once:true });
