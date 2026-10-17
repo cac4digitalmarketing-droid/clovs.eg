@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<!-- CLOVS v40 mobile hero + marketer cart recovery 2026-10-17 -->
+<!-- CLOVS v44 exact 1772x451 smooth slider -->
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -1108,6 +1108,405 @@ body.clovs-store-mode #modal-actions>.clovs-primary-button{background:#a15b38!im
   @media(max-width:639px){.clovs-v38-neon-orbit{inset:-1.4px!important;padding:1.45px!important}.clovs-order-merchant-list{min-width:96px}.clovs-merchant-order-alert{padding:12px 13px;border-radius:15px}}
 </style>
 
+
+<style id="clovs-v41-slider-fix">
+  /* CLOVS v41: full image slider, separated copy, desktop motion, no center zoom/cropping. */
+  #home-hero{
+    --clovs-media-h:clamp(300px,27vw,380px);
+    --clovs-glow-x:50%;--clovs-glow-y:35%;--clovs-bg-x:50%;--clovs-bg-y:50%;
+    min-height:0!important;height:auto!important;display:block!important;position:relative!important;
+    border-radius:30px!important;overflow:hidden!important;background:#061913!important;
+    border:1px solid rgba(16,185,129,.18)!important;
+    box-shadow:0 28px 70px -42px rgba(2,44,32,.7),0 12px 34px -26px rgba(16,185,129,.36)!important;
+    transition:transform .35s ease,box-shadow .35s ease,border-color .35s ease!important;
+  }
+  #home-hero:hover{transform:translateY(-2px);border-color:rgba(16,185,129,.34)!important;box-shadow:0 34px 84px -42px rgba(2,44,32,.8),0 14px 40px -26px rgba(16,185,129,.48)!important}
+  #home-hero::before{content:"";position:absolute;inset:-28%;z-index:7;pointer-events:none;background:radial-gradient(circle at var(--clovs-glow-x) var(--clovs-glow-y),rgba(52,211,153,.18),rgba(16,185,129,.05) 18%,transparent 42%);mix-blend-mode:screen;opacity:.72;transition:background-position .14s linear}
+  #home-hero::after{content:"";position:absolute;inset:0;z-index:6;pointer-events:none;border-radius:inherit;background:linear-gradient(110deg,transparent 18%,rgba(255,255,255,.10) 35%,transparent 52%);transform:translateX(-120%);animation:clovsHeroSheen 8s ease-in-out infinite}
+  @keyframes clovsHeroSheen{0%,62%{transform:translateX(-120%)}78%,100%{transform:translateX(120%)}}
+
+  #home-hero #slider-container{
+    position:relative!important;inset:auto!important;width:100%!important;height:var(--clovs-media-h)!important;min-height:var(--clovs-media-h)!important;
+    overflow:hidden!important;background-color:#081b16!important;background-repeat:no-repeat!important;background-size:cover!important;background-position:var(--clovs-bg-x) var(--clovs-bg-y)!important;
+    transition:background-position .18s ease-out!important;isolation:isolate!important;
+  }
+  #home-hero #slider-container::before{content:"";position:absolute;inset:-24px;z-index:0;background:inherit;background-size:cover;background-position:inherit;filter:blur(24px) saturate(1.08);transform:scale(1.08);opacity:.78}
+  #home-hero #slider-container::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(2,12,9,.04),rgba(2,12,9,.14));pointer-events:none}
+  #home-hero #slider-container .slider-image{
+    position:absolute!important;inset:0!important;z-index:2!important;width:100%!important;height:100%!important;
+    object-fit:contain!important;object-position:center!important;opacity:1!important;transform:none!important;
+    filter:saturate(1.035) contrast(1.025) brightness(1.035);will-change:opacity,transform,filter;
+    transition:opacity .72s cubic-bezier(.2,.72,.2,1),transform .72s cubic-bezier(.2,.72,.2,1),filter .72s ease!important;
+  }
+  #home-hero #slider-container .slider-image.is-entering{opacity:0!important;filter:blur(3px) saturate(.9) brightness(.88);transform:translate3d(3.2%,0,0)!important}
+  #home-hero #slider-container .slider-image.is-entering.from-prev{transform:translate3d(-3.2%,0,0)!important}
+  #home-hero #slider-container .slider-image.is-current{opacity:1!important;transform:translate3d(0,0,0)!important;filter:saturate(1.035) contrast(1.025) brightness(1.035)}
+  #home-hero #slider-container .slider-image.is-leaving{opacity:0!important;transform:translate3d(-2.2%,0,0)!important;filter:blur(2px) brightness(.9)}
+
+  #home-hero .slide-content-layer{
+    position:relative!important;inset:auto!important;z-index:10!important;min-height:168px!important;width:100%!important;
+    display:flex!important;justify-content:center!important;align-items:center!important;
+    padding:22px 34px 24px!important;color:#fff!important;
+    background:radial-gradient(circle at 12% 0%,rgba(16,185,129,.10),transparent 31%),linear-gradient(135deg,#061b16 0%,#08271f 55%,#0a3026 100%)!important;
+    border-top:1px solid rgba(255,255,255,.08)!important;
+  }
+  #home-hero .slide-content-layer>div{width:100%!important;max-width:1120px!important;margin:0 auto!important;display:grid!important;grid-template-columns:minmax(0,1.4fr) minmax(270px,.6fr)!important;grid-template-areas:"title tag" "desc cta";align-items:center!important;column-gap:28px!important;row-gap:7px!important}
+  #home-hero #slide-tag{grid-area:tag;justify-self:end;margin:0!important;background:rgba(16,185,129,.16)!important;color:#b8ffe2!important;border:1px solid rgba(52,211,153,.28)!important;backdrop-filter:blur(10px)}
+  #home-hero #slide-title{grid-area:title;margin:0!important;font-size:clamp(1.55rem,2.3vw,2.35rem)!important;line-height:1.35!important;text-shadow:none!important;color:#fff!important}
+  #home-hero #slide-desc{grid-area:desc;margin:0!important;max-width:780px!important;color:#c9ddd5!important;font-size:.92rem!important;line-height:1.85!important;text-shadow:none!important}
+  #home-hero #slide-cta{grid-area:cta;justify-self:end;padding-top:0!important;gap:.55rem!important}
+  #home-hero #slide-cta button{min-height:43px!important;padding:.68rem 1rem!important}
+
+  #home-hero .clovs-copy-enter #slide-tag{animation:clovsCopyIn .48s .03s both}
+  #home-hero .clovs-copy-enter #slide-title{animation:clovsCopyIn .56s .08s both}
+  #home-hero .clovs-copy-enter #slide-desc{animation:clovsCopyIn .62s .14s both}
+  #home-hero .clovs-copy-enter #slide-cta{animation:clovsCopyIn .66s .19s both}
+  @keyframes clovsCopyIn{from{opacity:0;transform:translateY(12px);filter:blur(3px)}to{opacity:1;transform:translateY(0);filter:blur(0)}}
+
+  #home-hero .slider-arrow{top:calc(var(--clovs-media-h) * .5)!important;bottom:auto!important;z-index:20!important;background:rgba(3,18,14,.58)!important;border-color:rgba(255,255,255,.28)!important;box-shadow:0 8px 24px -12px rgba(0,0,0,.7)!important;backdrop-filter:blur(12px)!important}
+  #home-hero .slider-arrow:hover{background:rgba(5,66,47,.88)!important;transform:translateY(-50%) scale(1.08)!important}
+  #home-hero #slider-dots{top:calc(var(--clovs-media-h) - 34px)!important;bottom:auto!important;left:50%!important;transform:translateX(-50%)!important;z-index:21!important;padding:.28rem .45rem!important;background:rgba(2,12,9,.32)!important;border:1px solid rgba(255,255,255,.12)!important;border-radius:999px!important;backdrop-filter:blur(10px)!important}
+
+  @media(max-width:639px){
+    #home-hero{--clovs-media-h:clamp(230px,68vw,310px);border-radius:22px!important;margin-top:2px!important}
+    #home-hero:hover{transform:none}
+    #home-hero #slider-container{height:var(--clovs-media-h)!important;min-height:var(--clovs-media-h)!important}
+    #home-hero #slider-container::before{inset:-14px;filter:blur(18px) saturate(1.06);opacity:.72}
+    #home-hero #slider-container .slider-image{object-fit:contain!important;object-position:center!important;transform:none!important}
+    #home-hero .slide-content-layer{min-height:0!important;padding:16px 14px 18px!important;align-items:stretch!important}
+    #home-hero .slide-content-layer>div{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:8px!important;max-width:none!important}
+    #home-hero #slide-tag{align-self:flex-start!important;justify-self:auto!important;font-size:.64rem!important;padding:.34rem .62rem!important}
+    #home-hero #slide-title{font-size:clamp(1.22rem,5.7vw,1.65rem)!important;line-height:1.38!important}
+    #home-hero #slide-desc{font-size:.76rem!important;line-height:1.7!important;max-width:none!important;color:#cbded6!important}
+    #home-hero #slide-cta{justify-self:auto!important;padding-top:.28rem!important;display:grid!important;grid-template-columns:1fr 1fr!important;gap:.5rem!important}
+    #home-hero #slide-cta button{min-width:0!important;min-height:41px!important;padding:.62rem .55rem!important;font-size:.67rem!important;justify-content:center!important}
+    #home-hero .slider-arrow{width:36px!important;height:36px!important;top:calc(var(--clovs-media-h) * .5)!important;background:rgba(2,12,9,.48)!important}
+    #home-hero .slider-arrow.right-4{right:.55rem!important}#home-hero .slider-arrow.left-4{left:.55rem!important}
+    #home-hero #slider-dots{top:calc(var(--clovs-media-h) - 31px)!important;max-width:calc(100% - 92px)!important;overflow-x:auto!important}
+    #home-hero::after{animation-duration:10s}
+  }
+  @media(max-width:390px){
+    #home-hero{--clovs-media-h:225px}
+    #home-hero .slide-content-layer{padding:14px 12px 16px!important}
+    #home-hero #slide-title{font-size:1.2rem!important}
+    #home-hero #slide-desc{font-size:.72rem!important}
+    #home-hero #slide-cta{grid-template-columns:1fr!important}
+  }
+  @media(prefers-reduced-motion:reduce){
+    #home-hero::after,#home-hero .clovs-copy-enter #slide-tag,#home-hero .clovs-copy-enter #slide-title,#home-hero .clovs-copy-enter #slide-desc,#home-hero .clovs-copy-enter #slide-cta{animation:none!important}
+    #home-hero #slider-container .slider-image{transition:opacity .2s linear!important}
+  }
+</style>
+
+
+<style id="clovs-v42-compact-slider">
+  /* v42: one cohesive hero card. No stacked media/copy blocks, no image crop. */
+  #home-hero{
+    --clovs-v42-h:clamp(248px,23vw,318px);
+    height:var(--clovs-v42-h)!important;
+    min-height:var(--clovs-v42-h)!important;
+    max-height:318px!important;
+    display:block!important;
+    border-radius:24px!important;
+    overflow:hidden!important;
+    isolation:isolate!important;
+    background:#071b15!important;
+  }
+  #home-hero #slider-container{
+    position:absolute!important;inset:0!important;width:100%!important;height:100%!important;min-height:0!important;
+    background-size:cover!important;background-position:var(--clovs-bg-x,50%) var(--clovs-bg-y,50%)!important;
+  }
+  #home-hero #slider-container::before{inset:-18px!important;filter:blur(25px) saturate(1.1)!important;opacity:.66!important;transform:scale(1.07)!important}
+  #home-hero #slider-container::after{background:linear-gradient(180deg,rgba(2,12,9,.02) 0%,rgba(2,12,9,.04) 42%,rgba(2,12,9,.62) 78%,rgba(2,12,9,.88) 100%)!important}
+  #home-hero #slider-container .slider-image{
+    object-fit:contain!important;object-position:center!important;width:100%!important;height:100%!important;
+    padding:0!important;filter:saturate(1.03) contrast(1.025) brightness(1.03)!important;
+  }
+  #home-hero .slide-content-layer{
+    position:absolute!important;inset:auto 0 0 0!important;z-index:12!important;width:100%!important;min-height:0!important;height:auto!important;
+    padding:42px 22px 16px!important;display:block!important;
+    background:linear-gradient(180deg,transparent 0%,rgba(3,18,14,.56) 32%,rgba(3,18,14,.90) 100%)!important;
+    border-top:0!important;pointer-events:none!important;
+  }
+  #home-hero .slide-content-layer>div{
+    width:100%!important;max-width:1160px!important;margin:0 auto!important;
+    display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;
+    grid-template-areas:"tag cta" "title cta" "desc cta"!important;
+    column-gap:20px!important;row-gap:4px!important;align-items:end!important;
+  }
+  #home-hero #slide-tag{grid-area:tag;justify-self:start!important;align-self:end!important;margin:0 0 2px!important;font-size:.62rem!important;padding:.3rem .58rem!important;pointer-events:auto!important}
+  #home-hero #slide-title{grid-area:title;margin:0!important;font-size:clamp(1.25rem,1.9vw,1.85rem)!important;line-height:1.28!important;max-width:760px!important;color:#fff!important;text-shadow:0 2px 14px rgba(0,0,0,.28)!important}
+  #home-hero #slide-desc{grid-area:desc;margin:0!important;font-size:.76rem!important;line-height:1.55!important;max-width:760px!important;color:#d5e7df!important;display:-webkit-box!important;-webkit-line-clamp:2!important;-webkit-box-orient:vertical!important;overflow:hidden!important}
+  #home-hero #slide-cta{grid-area:cta!important;align-self:end!important;justify-self:end!important;padding:0!important;display:flex!important;gap:.45rem!important;pointer-events:auto!important}
+  #home-hero #slide-cta button{min-height:38px!important;padding:.55rem .78rem!important;font-size:.68rem!important;border-radius:12px!important;white-space:nowrap!important}
+  #home-hero .slider-arrow{top:50%!important;width:38px!important;height:38px!important;z-index:24!important}
+  #home-hero #slider-dots{top:12px!important;bottom:auto!important;left:50%!important;transform:translateX(-50%)!important;z-index:24!important;padding:.24rem .38rem!important}
+  #home-hero::before{opacity:.56!important}
+  #home-hero::after{animation-duration:9s!important;opacity:.72!important}
+
+  @media (max-width:639px){
+    #home-hero{
+      --clovs-v42-h:clamp(198px,56vw,236px);
+      height:var(--clovs-v42-h)!important;min-height:var(--clovs-v42-h)!important;max-height:236px!important;
+      border-radius:18px!important;margin-top:0!important;
+    }
+    #home-hero #slider-container{height:100%!important;min-height:0!important}
+    #home-hero #slider-container::before{inset:-12px!important;filter:blur(18px) saturate(1.06)!important;opacity:.62!important}
+    #home-hero #slider-container .slider-image{object-fit:contain!important;object-position:center!important}
+    #home-hero .slide-content-layer{padding:34px 10px 10px!important}
+    #home-hero .slide-content-layer>div{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;grid-template-areas:"tag cta" "title cta"!important;column-gap:8px!important;row-gap:3px!important;align-items:end!important}
+    #home-hero #slide-tag{font-size:.52rem!important;padding:.22rem .44rem!important;max-width:145px!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+    #home-hero #slide-title{font-size:clamp(.92rem,4.6vw,1.18rem)!important;line-height:1.25!important;max-width:100%!important;display:-webkit-box!important;-webkit-line-clamp:2!important;-webkit-box-orient:vertical!important;overflow:hidden!important}
+    #home-hero #slide-desc{display:none!important}
+    #home-hero #slide-cta{gap:.3rem!important;align-self:end!important}
+    #home-hero #slide-cta button{min-height:34px!important;padding:.42rem .52rem!important;font-size:.57rem!important;border-radius:10px!important}
+    #home-hero .slider-arrow{width:31px!important;height:31px!important;top:48%!important;font-size:.72rem!important;background:rgba(3,18,14,.48)!important}
+    #home-hero .slider-arrow.right-4{right:.42rem!important}#home-hero .slider-arrow.left-4{left:.42rem!important}
+    #home-hero #slider-dots{top:8px!important;max-width:calc(100% - 82px)!important;background:rgba(2,12,9,.23)!important;border-color:rgba(255,255,255,.09)!important}
+  }
+  @media(max-width:390px){
+    #home-hero{--clovs-v42-h:194px;max-height:194px!important}
+    #home-hero #slide-cta button:nth-child(2){display:none!important}
+  }
+</style>
+
+
+<style id="clovs-v43-fixed-hd-slider">
+  /* v43: fixed compact slider dimensions, no image-size layout shifts, HD clean image, smooth cross-fade. */
+  #home-hero{
+    --clovs-v43-h:250px;
+    height:var(--clovs-v43-h)!important;
+    min-height:var(--clovs-v43-h)!important;
+    max-height:var(--clovs-v43-h)!important;
+    border-radius:22px!important;
+    overflow:hidden!important;
+    contain:layout paint;
+    transform:translateZ(0);
+  }
+  #home-hero #slider-container{
+    position:absolute!important;
+    inset:0!important;
+    width:100%!important;
+    height:100%!important;
+    min-height:0!important;
+    overflow:hidden!important;
+    background-color:#071b15!important;
+  }
+  #home-hero #slider-container::before{
+    inset:-14px!important;
+    filter:blur(22px) saturate(1.03)!important;
+    opacity:.46!important;
+    transform:scale(1.045)!important;
+  }
+  #home-hero #slider-container::after{
+    background:linear-gradient(180deg,rgba(2,12,9,0) 0%,rgba(2,12,9,.03) 47%,rgba(2,12,9,.62) 78%,rgba(2,12,9,.86) 100%)!important;
+  }
+  #home-hero #slider-container .slider-image{
+    position:absolute!important;
+    inset:0!important;
+    width:100%!important;
+    height:100%!important;
+    object-fit:contain!important;
+    object-position:center center!important;
+    padding:0!important;
+    margin:0!important;
+    opacity:1;
+    filter:none!important;
+    image-rendering:auto;
+    backface-visibility:hidden;
+    transform:translate3d(0,0,0) scale(1)!important;
+    transition:opacity .82s cubic-bezier(.22,.61,.36,1), transform .82s cubic-bezier(.22,.61,.36,1)!important;
+    will-change:opacity,transform;
+  }
+  #home-hero #slider-container .slider-image.is-entering{
+    opacity:0!important;
+    filter:none!important;
+    transform:translate3d(14px,0,0) scale(.995)!important;
+  }
+  #home-hero #slider-container .slider-image.is-entering.from-prev{
+    transform:translate3d(-14px,0,0) scale(.995)!important;
+  }
+  #home-hero #slider-container .slider-image.is-current{
+    opacity:1!important;
+    filter:none!important;
+    transform:translate3d(0,0,0) scale(1)!important;
+  }
+  #home-hero #slider-container .slider-image.is-leaving{
+    opacity:0!important;
+    filter:none!important;
+    transform:translate3d(-10px,0,0) scale(1.002)!important;
+  }
+  #home-hero .slide-content-layer{
+    padding:32px 18px 13px!important;
+    background:linear-gradient(180deg,transparent 0%,rgba(3,18,14,.46) 34%,rgba(3,18,14,.88) 100%)!important;
+  }
+  #home-hero .slide-content-layer>div{
+    max-width:1180px!important;
+    grid-template-columns:minmax(0,1fr) auto!important;
+    grid-template-areas:"tag cta" "title cta" "desc cta"!important;
+    column-gap:16px!important;
+    row-gap:2px!important;
+  }
+  #home-hero #slide-tag{font-size:.58rem!important;padding:.26rem .52rem!important;margin-bottom:1px!important}
+  #home-hero #slide-title{font-size:clamp(1.08rem,1.65vw,1.58rem)!important;line-height:1.25!important}
+  #home-hero #slide-desc{font-size:.70rem!important;line-height:1.45!important;-webkit-line-clamp:1!important;max-width:720px!important}
+  #home-hero #slide-cta button{min-height:35px!important;padding:.46rem .68rem!important;font-size:.62rem!important;border-radius:11px!important}
+  #home-hero .slider-arrow{width:34px!important;height:34px!important;top:50%!important}
+  #home-hero #slider-dots{top:9px!important;padding:.20rem .34rem!important}
+
+  @media(max-width:1023px){
+    #home-hero{--clovs-v43-h:220px}
+  }
+  @media(max-width:639px){
+    #home-hero{
+      --clovs-v43-h:174px;
+      height:var(--clovs-v43-h)!important;
+      min-height:var(--clovs-v43-h)!important;
+      max-height:var(--clovs-v43-h)!important;
+      border-radius:17px!important;
+    }
+    #home-hero #slider-container::before{inset:-10px!important;filter:blur(15px) saturate(1.02)!important;opacity:.42!important}
+    #home-hero .slide-content-layer{padding:26px 9px 8px!important}
+    #home-hero .slide-content-layer>div{
+      grid-template-columns:minmax(0,1fr) auto!important;
+      grid-template-areas:"tag cta" "title cta"!important;
+      column-gap:7px!important;row-gap:2px!important;
+    }
+    #home-hero #slide-tag{font-size:.48rem!important;padding:.19rem .38rem!important;max-width:116px!important}
+    #home-hero #slide-title{font-size:clamp(.78rem,4vw,1rem)!important;line-height:1.2!important;-webkit-line-clamp:1!important}
+    #home-hero #slide-desc{display:none!important}
+    #home-hero #slide-cta{gap:.24rem!important}
+    #home-hero #slide-cta button{min-height:30px!important;padding:.34rem .44rem!important;font-size:.50rem!important;border-radius:9px!important}
+    #home-hero .slider-arrow{width:28px!important;height:28px!important;font-size:.66rem!important}
+    #home-hero .slider-arrow.right-4{right:.34rem!important}
+    #home-hero .slider-arrow.left-4{left:.34rem!important}
+    #home-hero #slider-dots{top:6px!important;max-width:calc(100% - 72px)!important;padding:.16rem .28rem!important}
+  }
+  @media(max-width:390px){
+    #home-hero{--clovs-v43-h:164px}
+    #home-hero #slide-tag{display:none!important}
+    #home-hero .slide-content-layer>div{grid-template-areas:"title cta"!important}
+  }
+  @media(prefers-reduced-motion:reduce){
+    #home-hero #slider-container .slider-image{transition:opacity .22s linear!important;transform:none!important}
+  }
+</style>
+
+
+<style id="clovs-v44-exact-slider-ratio">
+  /* v44: exact 1772x451 ratio, one visible slide only, pure smooth fade, extra HD */
+  #home-hero{
+    --clovs-v44-ratio: 1772 / 451;
+    width:min(100%, 1772px)!important;
+    max-width:1772px!important;
+    aspect-ratio:1772 / 451!important;
+    height:auto!important;
+    min-height:0!important;
+    max-height:none!important;
+    margin-inline:auto!important;
+    border-radius:22px!important;
+    overflow:hidden!important;
+  }
+  #home-hero #slider-container{
+    position:absolute!important;
+    inset:0!important;
+    width:100%!important;
+    height:100%!important;
+    overflow:hidden!important;
+    background:#061510!important;
+    isolation:isolate!important;
+  }
+  #home-hero #slider-container::before{
+    inset:0!important;
+    filter:blur(18px) saturate(1.02)!important;
+    opacity:.28!important;
+    transform:scale(1.04)!important;
+  }
+  #home-hero #slider-container::after{
+    background:linear-gradient(180deg,rgba(2,12,9,.03) 0%,rgba(2,12,9,.08) 52%,rgba(2,12,9,.48) 78%,rgba(2,12,9,.74) 100%)!important;
+  }
+  #home-hero #slider-container .slider-image{
+    position:absolute!important;
+    inset:0!important;
+    width:100%!important;
+    height:100%!important;
+    object-fit:contain!important;
+    object-position:center center!important;
+    background:transparent!important;
+    padding:0!important;
+    margin:0!important;
+    filter:none!important;
+    transform:none!important;
+    opacity:1!important;
+    transition:opacity .72s cubic-bezier(.22,.61,.36,1)!important;
+    will-change:opacity!important;
+  }
+  #home-hero #slider-container .slider-image.is-entering,
+  #home-hero #slider-container .slider-image.is-entering.from-prev,
+  #home-hero #slider-container .slider-image.is-current,
+  #home-hero #slider-container .slider-image.is-leaving{
+    transform:none!important;
+    filter:none!important;
+  }
+  #home-hero #slider-container .slider-image.is-entering,
+  #home-hero #slider-container .slider-image.is-leaving{ opacity:0!important; }
+  #home-hero #slider-container .slider-image.is-current{ opacity:1!important; }
+
+  #home-hero .slide-content-layer{
+    padding:18px 18px 14px!important;
+    background:linear-gradient(180deg,transparent 0%,rgba(2,12,9,.14) 40%,rgba(2,12,9,.76) 100%)!important;
+  }
+  #home-hero .slide-content-layer>div{
+    max-width:1320px!important;
+    grid-template-columns:minmax(0,1fr) auto!important;
+    grid-template-areas:"tag cta" "title cta" "desc cta"!important;
+    align-items:end!important;
+    column-gap:16px!important;
+    row-gap:2px!important;
+  }
+  #home-hero #slide-tag{font-size:.58rem!important;padding:.24rem .5rem!important;margin:0 0 2px!important}
+  #home-hero #slide-title{font-size:clamp(1.05rem,1.55vw,1.5rem)!important;line-height:1.22!important;max-width:860px!important}
+  #home-hero #slide-desc{font-size:.7rem!important;line-height:1.45!important;max-width:860px!important;-webkit-line-clamp:1!important}
+  #home-hero #slide-cta button{min-height:35px!important;padding:.44rem .66rem!important;font-size:.61rem!important;border-radius:11px!important}
+  #home-hero .slider-arrow{width:34px!important;height:34px!important;top:50%!important;transform:translateY(-50%)!important}
+  #home-hero #slider-dots{top:9px!important;bottom:auto!important}
+
+  @media (max-width:1024px){
+    #home-hero{border-radius:18px!important}
+    #home-hero .slide-content-layer{padding:14px 12px 10px!important}
+    #home-hero #slide-title{font-size:clamp(.95rem,2.3vw,1.22rem)!important;max-width:100%!important}
+    #home-hero #slide-desc{font-size:.64rem!important}
+    #home-hero #slide-cta button{min-height:32px!important;padding:.36rem .56rem!important;font-size:.56rem!important}
+  }
+  @media (max-width:640px){
+    #home-hero{
+      width:100%!important;
+      max-width:100%!important;
+      aspect-ratio:1772 / 451!important;
+      border-radius:15px!important;
+    }
+    #home-hero #slider-container::before{filter:blur(12px) saturate(1.02)!important;opacity:.24!important;transform:scale(1.02)!important}
+    #home-hero .slide-content-layer{padding:10px 10px 8px!important}
+    #home-hero .slide-content-layer>div{
+      grid-template-columns:minmax(0,1fr) auto!important;
+      grid-template-areas:"title cta"!important;
+      align-items:end!important;
+      column-gap:8px!important;
+    }
+    #home-hero #slide-tag, #home-hero #slide-desc{display:none!important}
+    #home-hero #slide-title{font-size:clamp(.76rem,3.5vw,.96rem)!important;line-height:1.18!important;display:-webkit-box!important;-webkit-line-clamp:1!important;-webkit-box-orient:vertical!important;overflow:hidden!important}
+    #home-hero #slide-cta{gap:.24rem!important}
+    #home-hero #slide-cta button{min-height:29px!important;padding:.32rem .42rem!important;font-size:.49rem!important;border-radius:9px!important}
+    #home-hero .slider-arrow{width:28px!important;height:28px!important;font-size:.66rem!important}
+    #home-hero .slider-arrow.left-4{left:.35rem!important}
+    #home-hero .slider-arrow.right-4{right:.35rem!important}
+    #home-hero #slider-dots{top:6px!important;max-width:calc(100% - 70px)!important;padding:.14rem .24rem!important}
+  }
+  @media (prefers-reduced-motion:reduce){
+    #home-hero #slider-container .slider-image{transition:opacity .2s linear!important}
+  }
+</style>
+
 </head>
 
 <body class="firebase-booting bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col selection:bg-brand-500 selection:text-white">
@@ -1322,7 +1721,7 @@ body.clovs-store-mode #modal-actions>.clovs-primary-button{background:#a15b38!im
       <div id="home-category-strip" class="home-category-strip" aria-label="تسوق حسب القسم"></div>
       <div id="home-hero" class="relative rounded-3xl overflow-hidden shadow-2xl bg-slate-900 min-h-[400px] sm:min-h-[460px] flex items-center">
         <div id="slider-container" class="absolute inset-0 w-full h-full" style="background:linear-gradient(135deg,#064e3b,#0f172a)"></div>
-        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent flex flex-col justify-end p-6 sm:p-12 text-white z-10">
+        <div id="slide-content-layer" class="slide-content-layer absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent flex flex-col justify-end p-6 sm:p-12 text-white z-10">
           <div class="max-w-2xl space-y-3">
             <span id="slide-tag" class="bg-brand-500 text-white text-xs font-black px-3.5 py-1.5 rounded-full uppercase tracking-wider inline-block">منصة نمو الأرباح</span>
             <h2 id="slide-title" class="text-3xl sm:text-5xl font-black leading-tight">ابدأ مشروع الدروبشيبينغ الخاص بك اليوم بكل سهولة</h2>
@@ -4133,7 +4532,60 @@ body.clovs-store-mode #modal-actions>.clovs-primary-button{background:#a15b38!im
     function fastCloudinaryImage(url, width = 1400) {
       if (typeof url !== 'string' || !url.includes('res.cloudinary.com/') || !url.includes('/image/upload/')) return url;
       if (url.includes('/image/upload/f_auto,')) return url;
-      return url.replace('/image/upload/', `/image/upload/f_auto,q_auto,w_${width},c_limit/`);
+      return url.replace('/image/upload/', `/image/upload/f_auto,q_auto:best,w_${Math.min(3800, Math.max(1800, Number(width)||2400))},c_limit/`);
+    }
+
+    function clovsRestartSlideCopyAnimation() {
+      const layer = document.getElementById('slide-content-layer');
+      if (!layer) return;
+      layer.classList.remove('clovs-copy-enter');
+      void layer.offsetWidth;
+      layer.classList.add('clovs-copy-enter');
+    }
+
+    function clovsSetupHeroMotion() {
+      const hero = document.getElementById('home-hero');
+      if (!hero || hero.dataset.clovsMotionBound === '1') return;
+      hero.dataset.clovsMotionBound = '1';
+      hero.style.setProperty('--clovs-glow-x', '50%');
+      hero.style.setProperty('--clovs-glow-y', '35%');
+      hero.style.setProperty('--clovs-bg-x', '50%');
+      hero.style.setProperty('--clovs-bg-y', '50%');
+      const move = (event) => {
+        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        const rect = hero.getBoundingClientRect();
+        if (!rect.width || !rect.height) return;
+        const px = Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width));
+        const py = Math.max(0, Math.min(1, (event.clientY - rect.top) / rect.height));
+        hero.style.setProperty('--clovs-glow-x', `${(px * 100).toFixed(1)}%`);
+        hero.style.setProperty('--clovs-glow-y', `${(py * 100).toFixed(1)}%`);
+        hero.style.setProperty('--clovs-bg-x', `${(48 + (px - .5) * 8).toFixed(2)}%`);
+        hero.style.setProperty('--clovs-bg-y', `${(48 + (py - .5) * 8).toFixed(2)}%`);
+      };
+      hero.addEventListener('pointermove', move, { passive:true });
+      hero.addEventListener('pointerleave', () => {
+        hero.style.setProperty('--clovs-glow-x', '50%');
+        hero.style.setProperty('--clovs-glow-y', '35%');
+        hero.style.setProperty('--clovs-bg-x', '50%');
+        hero.style.setProperty('--clovs-bg-y', '50%');
+      }, { passive:true });
+    }
+
+    function clovsPreloadNextSlide() {
+      const slides = appState.slides || [];
+      if (slides.length < 2) return;
+      const next = slides[(appState.currentSlideIdx + 1) % slides.length];
+      if (!next || !next.image) return;
+      const viewport = Math.max(window.innerWidth || 0, 1280);
+      const dpr = Math.min(window.devicePixelRatio || 1, 3);
+      const requestedWidth = Math.min(3800, Math.max(2000, Math.round(viewport * dpr)));
+      const raw = safeImageUrl(next.image, '');
+      if (!raw) return;
+      const url = fastCloudinaryImage(raw, requestedWidth);
+      const img = new Image();
+      img.decoding = 'async';
+      img.fetchPriority = 'low';
+      img.src = url;
     }
 
     function renderSlider() {
@@ -4146,34 +4598,57 @@ body.clovs-store-mode #modal-actions>.clovs-primary-button{background:#a15b38!im
       const current = slides[appState.currentSlideIdx] || slides[0];
       if (!container || !dotsContainer || !current) return;
 
-      const imageUrl = fastCloudinaryImage(safeImageUrl(current.image, 'https://placehold.co/1200x500/0f172a/ffffff?text=Clovs'), 1400);
+      const viewport = Math.max(window.innerWidth || 0, 1280);
+      const dpr = Math.min(window.devicePixelRatio || 1, 3);
+      const requestedWidth = Math.min(3800, Math.max(2000, Math.round(viewport * dpr)));
+      const rawImageUrl = safeImageUrl(current.image, 'https://placehold.co/1600x600/0f172a/ffffff?text=Clovs');
+      const imageUrl = fastCloudinaryImage(rawImageUrl, requestedWidth);
+      container.style.backgroundImage = `linear-gradient(rgba(3,18,14,.34),rgba(3,18,14,.34)), url(${JSON.stringify(imageUrl)})`;
+
       const activeImage = container.querySelector('.slider-image.is-current');
       if (!activeImage || activeImage.dataset.slideImage !== imageUrl) {
         const token = ++sliderRenderToken;
         const incoming = new Image();
-        incoming.className = 'slider-image';
+        incoming.className = `slider-image is-entering ${sliderTransitionDirection < 0 ? 'from-prev' : 'from-next'}`;
         incoming.decoding = 'async';
         incoming.loading = 'eager';
         incoming.fetchPriority = 'high';
-        incoming.alt = '';
+        incoming.alt = current.title ? `صورة ${current.title}` : 'CLOVS';
         incoming.dataset.slideImage = imageUrl;
+        let revealed = false;
         const reveal = () => {
-          if (token !== sliderRenderToken) return;
-          container.replaceChildren(incoming);
-          incoming.classList.add('is-current');
+          if (revealed || token !== sliderRenderToken) return;
+          revealed = true;
+          const outgoing = container.querySelector('.slider-image.is-current');
+          container.appendChild(incoming);
+          requestAnimationFrame(() => requestAnimationFrame(() => {
+            incoming.classList.remove('is-entering','from-prev','from-next');
+            incoming.classList.add('is-current');
+            if (outgoing && outgoing !== incoming) {
+              outgoing.classList.remove('is-current');
+              outgoing.classList.add('is-leaving');
+              window.setTimeout(() => { if (outgoing.isConnected) outgoing.remove(); }, 900);
+            }
+          }));
         };
-        incoming.addEventListener('load', reveal, { once: true });
+        const revealDecoded = () => {
+          if (typeof incoming.decode === 'function') incoming.decode().catch(() => {}).finally(reveal);
+          else reveal();
+        };
+        incoming.addEventListener('load', revealDecoded, { once:true });
         incoming.onerror = () => {
           incoming.onerror = null;
-          incoming.src = 'https://placehold.co/1200x500/0f172a/ffffff?text=Clovs';
+          incoming.src = 'https://placehold.co/1600x600/0f172a/ffffff?text=Clovs';
         };
         incoming.src = imageUrl;
-        if (incoming.complete && incoming.naturalWidth) reveal();
+        if (incoming.complete && incoming.naturalWidth) revealDecoded();
       }
 
       document.getElementById('slide-tag').innerText = current.tag || '';
       document.getElementById('slide-title').innerText = current.title || '';
       document.getElementById('slide-desc').innerText = current.desc || '';
+      clovsRestartSlideCopyAnimation();
+      clovsSetupHeroMotion();
 
       let dotsHtml = '';
       slides.forEach((_, idx) => {
@@ -4181,6 +4656,7 @@ body.clovs-store-mode #modal-actions>.clovs-primary-button{background:#a15b38!im
         dotsHtml += `<button type="button" onclick="goToSlide(${idx})" aria-label="عرض الشريحة ${idx + 1}" aria-current="${idx === appState.currentSlideIdx ? 'true' : 'false'}" class="h-2 rounded-full transition-all duration-300 flex-shrink-0 ${active}"></button>`;
       });
       dotsContainer.innerHTML = dotsHtml;
+      window.setTimeout(clovsPreloadNextSlide, 120);
     }
 
     const PRODUCT_PLACEHOLDER = 'https://placehold.co/500x500/059669/ffffff?text=Clovs';
@@ -7914,7 +8390,7 @@ body.clovs-store-mode #modal-actions>.clovs-primary-button{background:#a15b38!im
       const endpoint=String(clovsV11.config.serviceUrl||'');if(!/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(endpoint))throw new Error('خدمة CLOVS غير مربوطة. افتح إعدادات الربط واحفظ رابط Apps Script /exec الصحيح.');
       const actor=firebaseAuth.currentUser,publicStoreOrder=action==='storeOrder'&&!actor;if(!actor&&!publicStoreOrder)throw new Error('سجّل الدخول أولاً');
       const idToken=actor?await actor.getIdToken():'';const guestId=publicStoreOrder?clovsGuestOrderId():'';const controller=new AbortController(), timer=setTimeout(()=>controller.abort(),timeout);
-      try{const response=await fetch(endpoint,{method:'POST',body:new URLSearchParams({payload:JSON.stringify({action,data,idToken,guestId})}),signal:controller.signal,redirect:'follow',credentials:'omit'});const result=await response.json();if(actor&&firebaseAuth.currentUser?.uid!==actor.uid)throw new Error('جلسة الحساب تغيرت');if(!result.success){let message=result.message||'تعذر تنفيذ الطلب';if(message==='طلب غير معروف'&&['saveStore','saveStoreProduct','storeOrder','customerOrder','marketerOrder','manageMarketer','updateMarketerProfile','changeMarketerPassword','claimReferral','referralAccountStatus','referralVerifyNow','referralTelegramClick','referralSummary','referralAdminSummary','adStudy','marketAdStudy'].includes(action))message='خدمة CLOVS المنشورة أقدم من ملف الموقع. نزّل كود خدمة v30 من لوحة المدير وانشره كنسخة جديدة، ثم احفظ رابط /exec الجديد.';throw new Error(message);}return result;}catch(error){if(error.name==='AbortError')throw new Error('انتهت مهلة الخدمة. أعد المحاولة بنفس السلة؛ رقم الطلب محفوظ لمنع التكرار.');throw error;}finally{clearTimeout(timer);}
+      try{const response=await fetch(endpoint,{method:'POST',body:new URLSearchParams({payload:JSON.stringify({action,data,idToken,guestId})}),signal:controller.signal,redirect:'follow',credentials:'omit'});const result=await response.json();if(actor&&firebaseAuth.currentUser?.uid!==actor.uid)throw new Error('جلسة الحساب تغيرت');if(!result.success){let message=result.message||'تعذر تنفيذ الطلب';if(message==='طلب غير معروف'&&['saveStore','saveStoreProduct','storeOrder','customerOrder','marketerOrder','manageMarketer','updateMarketerProfile','changeMarketerPassword','claimReferral','referralAccountStatus','referralVerifyNow','referralTelegramClick','referralSummary','referralAdminSummary','adStudy','marketAdStudy','deviceRegistrationCheck','bindRegistrationDevice','referralBindOwnerSecurity'].includes(action))message='خدمة CLOVS المنشورة أقدم من ملف الموقع. نزّل كود خدمة v30 من لوحة المدير وانشره كنسخة جديدة، ثم احفظ رابط /exec الجديد.';throw new Error(message);}return result;}catch(error){if(error.name==='AbortError')throw new Error('انتهت مهلة الخدمة. أعد المحاولة بنفس السلة؛ رقم الطلب محفوظ لمنع التكرار.');throw error;}finally{clearTimeout(timer);}
     }
     async function clovsShippingLabelCanvas(order) {
       // Private label: keep PNG inside the protected order node, never on a public image host.
@@ -7983,7 +8459,7 @@ body.clovs-store-mode #modal-actions>.clovs-primary-button{background:#a15b38!im
     function renderClovsIntegrations(){if(appState.currentUser?.role!=='super_admin')return;const config=clovsV11.config;document.getElementById('view-clovs-integrations').innerHTML=`<div class="clovs-panel"><h2 class="text-2xl font-black">إعدادات الربط</h2><p>ربط خدمة الذكاء الاصطناعي وإشعارات تيليجرام.</p></div><form onsubmit="saveClovsIntegration(event)" class="clovs-panel space-y-4"><label class="clovs-label">رابط الخدمة<input id="clovs-endpoint" class="clovs-input" dir="ltr" placeholder="https://script.google.com/macros/s/.../exec" value="${escapeHtml(config.serviceUrl||'')}"></label><label class="clovs-label">عبارة الطلب في الإعلان<input id="clovs-shipping-message" class="clovs-input" maxlength="180" value="${escapeHtml(config.shippingMessage||'للطلب ابعتلنا على رسايل الصفحة أو سيب تعليق، وهنرد عليك في أسرع وقت.')}"></label><div class="flex flex-wrap gap-3"><button class="clovs-primary-button">حفظ الإعدادات</button><button class="clovs-soft-button" type="button" onclick="testClovsIntegration()">فحص الخدمة</button><button class="clovs-soft-button" type="button" onclick="clovsTestTelegram()">إرسال رسالة اختبار لتيليجرام</button><button class="clovs-soft-button" type="button" onclick="clovsDownloadBackend()"><i class="fa-solid fa-download"></i> تحميل خدمة CLOVS v30</button></div><p id="clovs-integration-status" role="status"></p></form><div class="clovs-panel"><h3>تشغيل استقبال الأوردرات</h3><p>يحتاج Apps Script إلى بيانات Firebase وTELEGRAM_BOT_TOKEN وTELEGRAM_CHAT_ID. نظام الدعوات v30 لا يحتاج بوت تأكيد. أضف TELEGRAM_GROUP_URL فقط لو عايز تغير رابط الجروب الافتراضي، ثم شغّل installClovsReferral() مرة واحدة لتركيب معالج المكافآت كل ساعة. للـAI أضف CLOUDFLARE_ACCOUNT_ID وCLOUDFLARE_API_TOKEN، ولدراسة السوق أضف مفتاح بحث واحد: SERPER_API_KEY أو BRAVE_SEARCH_API_KEY أو TAVILY_API_KEY.</p></div>`;}
     async function saveClovsIntegration(event){event.preventDefault();if(firebaseAuth.currentUser?.uid!==FIREBASE_ADMIN_UID)return;const serviceUrl=document.getElementById('clovs-endpoint').value.trim(),shippingMessage=document.getElementById('clovs-shipping-message').value.trim();if(!/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(serviceUrl)||!shippingMessage)return showToast('اكتب رابط /exec صحيح وعبارة الشحن','error');try{await setAndVerifyFirebase(firebaseDB.ref('siteSettings/clovsV11'),{serviceUrl,shippingMessage,version:29,updatedAt:Date.now()},s=>s&&s.serviceUrl===serviceUrl&&s.shippingMessage===shippingMessage,'إعدادات التحديث');clovsV11.config={serviceUrl,shippingMessage,version:29};showToast('تم حفظ الربط');}catch(e){showToast('تعذر حفظ الربط. راجع قواعد Firebase.','error');}}
     async function testClovsIntegration(){const el=document.getElementById('clovs-integration-status');el.textContent='جاري الاختبار...';try{const r=await clovsService('health');el.textContent=`الاتصال ناجح · تيليجرام: ${r.telegramReady?'يستقبل':'يحتاج ضبط'} · متابعة الطلبات: ${r.triggerInstalled?'مفعلة':'غير مفعلة؛ شغّل installClovs'} · AI: ${r.aiReady?'مفعّل':(r.aiMessage||'يحتاج إعداد')} · بحث السوق: ${r.marketSearchReady?'مفعّل عبر '+r.marketSearchProvider:'يحتاج Search API Key'}`;}catch(e){el.textContent=e.message;}}
-    function clovsDownloadBackend(){clovsDownload('CLOVS-v39-PRODUCTION-Code.gs',document.getElementById('clovs-backend-source').textContent);}
+    function clovsDownloadBackend(){clovsDownload('CLOVS-v42-PRODUCTION-Code.gs',document.getElementById('clovs-backend-source').textContent);}
     function clovsDownloadRules(){clovsDownload('CLOVS-v39-PRODUCTION-Firebase-Rules.json',document.getElementById('clovs-rules-source').textContent);}
 
     // v16 storefront, customer cart isolation and administrator tools.
@@ -8445,8 +8921,8 @@ body.clovs-store-mode #modal-actions>.clovs-primary-button{background:#a15b38!im
     function clovsRefDate(ts){return ts?new Date(Number(ts)).toLocaleString('ar-EG',{timeZone:'Africa/Cairo'}):'—';}
     function clovsRefRole(role){return role==='marketer'?'مسوق':role==='merchant'?'تاجر':'عميل';}
     async function clovsLoadReferralSummary(force=false){if(appState.currentUser?.role!=='marketer'||clovsReferral.loading||!clovsV11.config.serviceUrl)return;if(clovsReferral.summary&&!force)return;try{clovsReferral.loading=true;clovsReferral.summary=await clovsService('referralSummary',{},45000);}catch(e){showToast(e.message,'error');}finally{clovsReferral.loading=false;if(appState.currentView==='marketer-referrals')renderMarketerReferrals(false);}}
-    function renderMarketerReferrals(load=true){const c=document.getElementById('view-marketer-referrals');if(!c||appState.currentUser?.role!=='marketer')return;const s=clovsReferral.summary;if(!s){c.innerHTML=`<div class="ref-v25-hero"><span class="clovs-pill"><i class="fa-solid fa-user-plus"></i> برنامج دعوات CLOVS</span><h2 class="text-3xl font-black mt-3">رابطك الشخصي للدعوات</h2><p class="text-emerald-100 mt-2">جاري تجهيز كود الدعوة والإحصائيات...</p></div><div class="clovs-panel text-center py-10"><i class="fa-solid fa-circle-notch fa-spin text-2xl text-brand-600"></i></div>`;if(load)clovsLoadReferralSummary();return;}const link=clovsReferralLink(s.code),rows=(s.referrals||[]).map(r=>`<tr class="border-b border-slate-100 text-xs"><td class="py-3 px-3"><strong>${escapeHtml(r.name||'حساب CLOVS')}</strong><small class="block text-slate-400">@${escapeHtml(r.username||'—')} · ${clovsRefRole(r.role)}</small></td><td class="py-3 px-3">${clovsRefDate(r.registeredAt)}</td><td class="py-3 px-3">${(r.telegramClicked||r.telegramVerified)?'<span class="ref-v25-status ok"><i class="fa-solid fa-check"></i> فتح الجروب</span>':'<span class="ref-v25-status wait"><i class="fa-regular fa-clock"></i> لم يفتح الجروب</span>'}</td><td class="py-3 px-3">${r.signupRewardCredited?'<span class="ref-v25-status ok">+1 ج</span>':Date.now()>=Number(r.eligibleAfter)&&(r.telegramClicked||r.telegramVerified)?'<span class="ref-v25-status wait">قيد الاحتساب</span>':'<span class="ref-v25-status no">غير مكتمل</span>'}</td><td class="py-3 px-3 font-black text-brand-700">${Number(r.saleRewardCount)||0}</td><td class="py-3 px-3 font-black">${money(Number(r.saleRewardTotal)||0)} ج.م</td></tr>`).join('')||'<tr><td colspan="6" class="py-10 text-center text-slate-400">لسه مفيش تسجيلات من رابطك.</td></tr>';c.innerHTML=`<div class="ref-v25-hero"><div class="relative z-10"><span class="clovs-pill"><i class="fa-solid fa-link"></i> كودك: ${escapeHtml(s.code)}</span><h2 class="text-3xl font-black mt-3">حوّل دعوتك لمصدر أرباح إضافي</h2><p class="text-emerald-100 mt-2 max-w-2xl">1 جنيه بعد تسجيل الشخص ومرور 24 ساعة وفتح رابط جروب تيليجرام، و10 جنيه على كل أوردر يتم تسليمه بنجاح لو الشخص المُحال مسوق.</p><div class="ref-v25-linkbox mt-5 max-w-3xl"><input id="clovs-referral-link" readonly value="${escapeHtml(link)}"><button onclick="clovsCopyReferralLink()" class="clovs-soft-button"><i class="fa-regular fa-copy"></i> نسخ</button><button onclick="clovsShareReferralLink()" class="clovs-primary-button"><i class="fa-solid fa-share-nodes"></i> مشاركة</button></div><div class="ref-v27-message-card mt-4 max-w-3xl"><div class="ref-v27-message-head"><div><strong><i class="fa-solid fa-message"></i> رسالة دعوة جاهزة</strong><small>انسخها وابعتها مباشرة لأي شخص.</small></div><button onclick="clovsCopyReferralMessage()" class="clovs-soft-button"><i class="fa-regular fa-copy"></i> نسخ الرسالة</button></div><textarea id="clovs-referral-message" readonly>${escapeHtml(clovsReferralMessage(link))}</textarea></div></div></div><div class="ref-v25-grid"><div class="ref-v25-stat"><span>زيارات الرابط</span><strong>${s.visits||0}</strong></div><div class="ref-v25-stat"><span>الحسابات المسجلة</span><strong>${s.registrations||0}</strong></div><div class="ref-v25-stat"><span>مؤهلون لمكافأة التسجيل</span><strong>${s.qualified||0}</strong></div><div class="ref-v25-stat"><span>إجمالي مكافآت الدعوة</span><strong>${money(s.totalRewards||0)} ج</strong></div></div><div class="grid lg:grid-cols-3 gap-4"><div class="clovs-panel lg:col-span-2"><h3>قواعد الاحتساب</h3><div class="grid sm:grid-cols-2 gap-3 mt-4"><div class="ref-v25-rule"><i class="fa-solid fa-user-check"></i><div><strong>+1 جنيه للتسجيل المؤهل</strong><p>حساب جديد من رابطك + مرور 24 ساعة + فتح رابط جروب تيليجرام.</p></div></div><div class="ref-v25-rule"><i class="fa-solid fa-box-open"></i><div><strong>+10 جنيه لكل بيعة</strong><p>لكل أوردر للمسوق المُحال يتحول إلى «تم التسليم» بعد فتح رابط جروب تيليجرام.</p></div></div></div></div><div class="clovs-panel"><h3>تفاصيل أرباح الدعوة</h3><div class="mt-4 space-y-3 text-sm"><div class="flex justify-between"><span>مكافآت التسجيل</span><strong>${money(s.signupRewardTotal||0)} ج</strong></div><div class="flex justify-between"><span>مبيعات المحالين (${s.saleRewardCount||0})</span><strong>${money(s.saleRewardTotal||0)} ج</strong></div><div class="border-t pt-3 flex justify-between text-brand-700"><span class="font-black">الإجمالي</span><strong class="text-xl">${money(s.totalRewards||0)} ج</strong></div><small class="text-slate-400">المكافآت تدخل رصيدك العادي وتقدر تسحبها مع باقي الأرباح.</small></div></div></div><div class="clovs-panel"><div class="flex items-center justify-between gap-3 mb-4"><div><h3>الأشخاص المسجلون من رابطك</h3><p>الحالة والمكافآت تتحدث من السيرفر تلقائياً.</p></div><button class="clovs-soft-button" onclick="clovsLoadReferralSummary(true)"><i class="fa-solid fa-rotate"></i> تحديث</button></div><div class="overflow-x-auto"><table class="w-full text-right ref-v25-table"><thead><tr class="bg-slate-50 text-[11px] text-slate-500"><th class="p-3">الحساب</th><th class="p-3">التسجيل</th><th class="p-3">فتح تيليجرام</th><th class="p-3">مكافأة 1 ج</th><th class="p-3">المبيعات</th><th class="p-3">مكافآت البيع</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;}
-    async function renderReferralVerification(){const c=document.getElementById('view-referral-verification');if(!c||!appState.currentUser)return;c.innerHTML=`<div class="clovs-panel text-center py-10"><i class="fa-solid fa-circle-notch fa-spin text-2xl text-brand-600"></i><p class="mt-3">جاري مراجعة حالة الدعوة...</p></div>`;try{clovsReferral.accountStatus=await clovsService('referralAccountStatus',{},30000);const s=clovsReferral.accountStatus;if(!s.hasReferral){c.innerHTML=`<div class="clovs-panel text-center py-12"><i class="fa-solid fa-link-slash text-4xl text-slate-300"></i><h2 class="text-2xl font-black mt-4">الحساب مش مرتبط برابط دعوة</h2><p>الصفحة دي مخصصة للحسابات اللي سجلت لأول مرة من رابط مسوق.</p></div>`;return;}const hours=Math.ceil(Math.max(0,Number(s.remainingMs)||0)/3600000),group=s.telegramGroupUrl||'https://t.me/Clovs_Marketing_Team';c.innerHTML=`<div class="ref-v25-hero"><h2 class="text-3xl font-black">خطوة جروب تيليجرام</h2><p class="text-emerald-100 mt-2">مفيش بوت تأكيد ولا فحص عضوية. افتح جروب مسوقين CLOVS من الزر، وبعد مرور 24 ساعة تتفعل مكافأة التسجيل.</p></div><div class="ref-v25-tg-card max-w-3xl mx-auto"><div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between"><div><span class="ref-v25-status ${s.telegramClicked?'ok':'wait'}">${s.telegramClicked?'✅ تم فتح جروب تيليجرام':'⏳ افتح جروب تيليجرام'}</span><h3 class="text-xl font-black mt-3">${s.signupRewardCredited?'مكافأة التسجيل اتحسبت بنجاح':hours>0?`متبقي تقريباً ${hours} ساعة على شرط الـ24 ساعة`:'شرط الـ24 ساعة اكتمل'}</h3><p class="text-sm text-slate-500 mt-2">الشرط هنا يسجل ضغط زر الجروب فقط، ولا يتحقق من الانضمام الفعلي.</p></div><div class="flex flex-col gap-2 w-full sm:w-auto"><button type="button" class="clovs-primary-button" onclick="clovsOpenReferralTelegramGroup('${escapeHtml(group)}')"><i class="fa-brands fa-telegram"></i> فتح جروب مسوقين CLOVS</button>${s.telegramClicked?'<span class="text-xs text-emerald-700 font-black text-center">تم تسجيل الخطوة ✓</span>':''}</div></div></div>`;}catch(e){c.innerHTML=`<div class="clovs-panel"><h2 class="text-xl font-black">تعذر مراجعة الدعوة</h2><p>${escapeHtml(e.message)}</p></div>`;}}
+    function renderMarketerReferrals(load=true){const c=document.getElementById('view-marketer-referrals');if(!c||appState.currentUser?.role!=='marketer')return;const s=clovsReferral.summary;if(!s){c.innerHTML=`<div class="ref-v25-hero"><span class="clovs-pill"><i class="fa-solid fa-user-plus"></i> برنامج دعوات CLOVS</span><h2 class="text-3xl font-black mt-3">رابطك الشخصي للدعوات</h2><p class="text-emerald-100 mt-2">جاري تجهيز كود الدعوة والإحصائيات...</p></div><div class="clovs-panel text-center py-10"><i class="fa-solid fa-circle-notch fa-spin text-2xl text-brand-600"></i></div>`;if(load)clovsLoadReferralSummary();return;}const link=clovsReferralLink(s.code),rows=(s.referrals||[]).map(r=>`<tr class="border-b border-slate-100 text-xs"><td class="py-3 px-3"><strong>${escapeHtml(r.name||'حساب CLOVS')}</strong><small class="block text-slate-400">@${escapeHtml(r.username||'—')} · ${clovsRefRole(r.role)}</small></td><td class="py-3 px-3">${clovsRefDate(r.registeredAt)}</td><td class="py-3 px-3">${(r.telegramClicked||r.telegramVerified)?'<span class="ref-v25-status ok"><i class="fa-solid fa-check"></i> فتح الجروب</span>':'<span class="ref-v25-status wait"><i class="fa-regular fa-clock"></i> لم يفتح الجروب</span>'}</td><td class="py-3 px-3">${r.securityEligible===false?'<span class="ref-v25-status no"><i class="fa-solid fa-shield-halved"></i> غير مؤهل</span>':r.signupRewardCredited?'<span class="ref-v25-status ok">+1 ج</span>':Date.now()>=Number(r.eligibleAfter)&&(r.telegramClicked||r.telegramVerified)?'<span class="ref-v25-status wait">قيد الاحتساب</span>':'<span class="ref-v25-status no">غير مكتمل</span>'}</td><td class="py-3 px-3 font-black text-brand-700">${Number(r.saleRewardCount)||0}</td><td class="py-3 px-3 font-black">${money(Number(r.saleRewardTotal)||0)} ج.م</td></tr>`).join('')||'<tr><td colspan="6" class="py-10 text-center text-slate-400">لسه مفيش تسجيلات من رابطك.</td></tr>';c.innerHTML=`<div class="ref-v25-hero"><div class="relative z-10"><span class="clovs-pill"><i class="fa-solid fa-link"></i> كودك: ${escapeHtml(s.code)}</span><h2 class="text-3xl font-black mt-3">حوّل دعوتك لمصدر أرباح إضافي</h2><p class="text-emerald-100 mt-2 max-w-2xl">1 جنيه للحساب الجديد المؤهل من جهاز مختلف وIP مختلف بعد 24 ساعة وفتح جروب تيليجرام، و10 جنيه لكل أوردر مُسلّم للمسوق المُحال المؤهل.</p><div class="ref-v25-linkbox mt-5 max-w-3xl"><input id="clovs-referral-link" readonly value="${escapeHtml(link)}"><button onclick="clovsCopyReferralLink()" class="clovs-soft-button"><i class="fa-regular fa-copy"></i> نسخ</button><button onclick="clovsShareReferralLink()" class="clovs-primary-button"><i class="fa-solid fa-share-nodes"></i> مشاركة</button></div><div class="ref-v27-message-card mt-4 max-w-3xl"><div class="ref-v27-message-head"><div><strong><i class="fa-solid fa-message"></i> رسالة دعوة جاهزة</strong><small>انسخها وابعتها مباشرة لأي شخص.</small></div><button onclick="clovsCopyReferralMessage()" class="clovs-soft-button"><i class="fa-regular fa-copy"></i> نسخ الرسالة</button></div><textarea id="clovs-referral-message" readonly>${escapeHtml(clovsReferralMessage(link))}</textarea></div></div></div><div class="ref-v25-grid"><div class="ref-v25-stat"><span>زيارات الرابط</span><strong>${s.visits||0}</strong></div><div class="ref-v25-stat"><span>الحسابات المسجلة</span><strong>${s.registrations||0}</strong></div><div class="ref-v25-stat"><span>مؤهلون لمكافأة التسجيل</span><strong>${s.qualified||0}</strong></div><div class="ref-v25-stat"><span>إجمالي مكافآت الدعوة</span><strong>${money(s.totalRewards||0)} ج</strong></div></div><div class="grid lg:grid-cols-3 gap-4"><div class="clovs-panel lg:col-span-2"><h3>قواعد الاحتساب</h3><div class="grid sm:grid-cols-2 gap-3 mt-4"><div class="ref-v25-rule"><i class="fa-solid fa-user-check"></i><div><strong>+1 جنيه للتسجيل المؤهل</strong><p>حساب جديد من رابطك + جهاز مختلف + IP مختلف + مرور 24 ساعة + فتح رابط جروب تيليجرام.</p></div></div><div class="ref-v25-rule"><i class="fa-solid fa-box-open"></i><div><strong>+10 جنيه لكل بيعة</strong><p>لكل أوردر للمسوق المُحال يتحول إلى «تم التسليم» بعد فتح رابط جروب تيليجرام.</p></div></div></div></div><div class="clovs-panel"><h3>تفاصيل أرباح الدعوة</h3><div class="mt-4 space-y-3 text-sm"><div class="flex justify-between"><span>مكافآت التسجيل</span><strong>${money(s.signupRewardTotal||0)} ج</strong></div><div class="flex justify-between"><span>مبيعات المحالين (${s.saleRewardCount||0})</span><strong>${money(s.saleRewardTotal||0)} ج</strong></div><div class="border-t pt-3 flex justify-between text-brand-700"><span class="font-black">الإجمالي</span><strong class="text-xl">${money(s.totalRewards||0)} ج</strong></div><small class="text-slate-400">المكافآت تدخل رصيدك العادي وتقدر تسحبها مع باقي الأرباح.</small></div></div></div><div class="clovs-panel"><div class="flex items-center justify-between gap-3 mb-4"><div><h3>الأشخاص المسجلون من رابطك</h3><p>الحالة والمكافآت تتحدث من السيرفر تلقائياً.</p></div><button class="clovs-soft-button" onclick="clovsLoadReferralSummary(true)"><i class="fa-solid fa-rotate"></i> تحديث</button></div><div class="overflow-x-auto"><table class="w-full text-right ref-v25-table"><thead><tr class="bg-slate-50 text-[11px] text-slate-500"><th class="p-3">الحساب</th><th class="p-3">التسجيل</th><th class="p-3">فتح تيليجرام</th><th class="p-3">مكافأة 1 ج</th><th class="p-3">المبيعات</th><th class="p-3">مكافآت البيع</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;}
+    async function renderReferralVerification(){const c=document.getElementById('view-referral-verification');if(!c||!appState.currentUser)return;c.innerHTML=`<div class="clovs-panel text-center py-10"><i class="fa-solid fa-circle-notch fa-spin text-2xl text-brand-600"></i><p class="mt-3">جاري مراجعة حالة الدعوة...</p></div>`;try{clovsReferral.accountStatus=await clovsService('referralAccountStatus',{},30000);const s=clovsReferral.accountStatus;if(!s.hasReferral){c.innerHTML=`<div class="clovs-panel text-center py-12"><i class="fa-solid fa-link-slash text-4xl text-slate-300"></i><h2 class="text-2xl font-black mt-4">الحساب مش مرتبط برابط دعوة</h2><p>الصفحة دي مخصصة للحسابات اللي سجلت لأول مرة من رابط مسوق.</p></div>`;return;}const hours=Math.ceil(Math.max(0,Number(s.remainingMs)||0)/3600000),group=s.telegramGroupUrl||'https://t.me/Clovs_Marketing_Team';c.innerHTML=`<div class="ref-v25-hero"><h2 class="text-3xl font-black">خطوة جروب تيليجرام</h2><p class="text-emerald-100 mt-2">مفيش بوت تأكيد عضوية. الدعوة لازم تكون من جهاز وIP مختلفين، وبعد فتح الجروب ومرور 24 ساعة تتفعل المكافأة.</p></div><div class="ref-v25-tg-card max-w-3xl mx-auto"><div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between"><div><span class="ref-v25-status ${s.telegramClicked?'ok':'wait'}">${s.telegramClicked?'✅ تم فتح جروب تيليجرام':'⏳ افتح جروب تيليجرام'}</span><h3 class="text-xl font-black mt-3">${s.signupRewardCredited?'مكافأة التسجيل اتحسبت بنجاح':hours>0?`متبقي تقريباً ${hours} ساعة على شرط الـ24 ساعة`:'شرط الـ24 ساعة اكتمل'}</h3><p class="text-sm text-slate-500 mt-2">الشرط هنا يسجل ضغط زر الجروب فقط، ولا يتحقق من الانضمام الفعلي.</p></div><div class="flex flex-col gap-2 w-full sm:w-auto"><button type="button" class="clovs-primary-button" onclick="clovsOpenReferralTelegramGroup('${escapeHtml(group)}')"><i class="fa-brands fa-telegram"></i> فتح جروب مسوقين CLOVS</button>${s.telegramClicked?'<span class="text-xs text-emerald-700 font-black text-center">تم تسجيل الخطوة ✓</span>':''}</div></div></div>`;}catch(e){c.innerHTML=`<div class="clovs-panel"><h2 class="text-xl font-black">تعذر مراجعة الدعوة</h2><p>${escapeHtml(e.message)}</p></div>`;}}
     async function clovsReferralVerifyNow(){try{const r=await clovsService('referralTelegramClick',{},30000);clovsReferral.accountStatus=r;showToast('تم تسجيل خطوة تيليجرام');renderReferralVerification();}catch(e){showToast(e.message,'error');}}
     async function clovsLoadAdminReferrals(force=false){if(!directAdminAllowed()||clovsReferral.adminLoading||!clovsV11.config.serviceUrl)return;if(clovsReferral.adminSummary&&!force)return;try{clovsReferral.adminLoading=true;clovsReferral.adminSummary=await clovsService('referralAdminSummary',{},60000);}catch(e){showToast(e.message,'error');}finally{clovsReferral.adminLoading=false;if(appState.currentView==='admin-referrals')renderAdminReferrals(false);}}
     function renderAdminReferrals(load=true){const c=document.getElementById('view-admin-referrals');if(!c||!directAdminAllowed())return;const s=clovsReferral.adminSummary;if(!s){c.innerHTML=`<div class="admin-v22-page-head"><div><h2>نظام الدعوات</h2><p>مراقبة التسجيلات ومكافآت الإحالة من السيرفر.</p></div></div><div class="clovs-panel text-center py-10"><i class="fa-solid fa-circle-notch fa-spin text-2xl text-brand-600"></i></div>`;if(load)clovsLoadAdminReferrals();return;}const rows=(s.top||[]).map(x=>`<tr class="border-b border-slate-100 text-xs"><td class="p-3"><strong>${escapeHtml(x.name||'مسوق')}</strong><small class="block text-slate-400">@${escapeHtml(x.username||'—')}</small></td><td class="p-3">${x.visits||0}</td><td class="p-3">${x.registrations||0}</td><td class="p-3">${x.telegramClicked||x.telegramVerified||0}</td><td class="p-3">${x.qualified||0}</td><td class="p-3">${x.saleRewardCount||0}</td><td class="p-3 font-black text-brand-700">${money(x.rewards||0)} ج</td></tr>`).join('')||'<tr><td colspan="7" class="p-10 text-center text-slate-400">لا توجد دعوات حتى الآن.</td></tr>';c.innerHTML=`<div class="admin-v22-page-head"><div><h2>نظام الدعوات</h2><p>إحصائيات مركزية لمكافآت 1 جنيه و10 جنيه وفتح رابط جروب تيليجرام.</p></div><button class="admin-v22-back" onclick="clovsLoadAdminReferrals(true)"><i class="fa-solid fa-rotate"></i> تحديث</button></div><div class="ref-v25-grid"><div class="ref-v25-stat"><span>زيارات الروابط</span><strong>${s.visits||0}</strong></div><div class="ref-v25-stat"><span>التسجيلات</span><strong>${s.registrations||0}</strong></div><div class="ref-v25-stat"><span>مؤهلون لـ1 جنيه</span><strong>${s.qualified||0}</strong></div><div class="ref-v25-stat"><span>إجمالي المكافآت</span><strong>${money(s.totalRewards||0)} ج</strong></div></div><div class="clovs-panel"><div class="overflow-x-auto"><table class="w-full text-right ref-v25-table"><thead><tr class="bg-slate-50 text-[11px] text-slate-500"><th class="p-3">المسوق</th><th class="p-3">زيارات</th><th class="p-3">تسجيلات</th><th class="p-3">فتح تيليجرام</th><th class="p-3">مؤهل</th><th class="p-3">مبيعات إحالة</th><th class="p-3">مكافآت</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;}
@@ -8473,11 +8949,11 @@ body.clovs-store-mode #modal-actions>.clovs-primary-button{background:#a15b38!im
   function renderPaidAdsPlanner(){if(appState.currentUser?.role!=='marketer')return;clovsPaidAdsStoreInputs();const c=document.getElementById('view-paid-ads');if(!c)return;const s=clovsPaidAdsV29,p=s.product;c.innerHTML=`<div class="ads28-hero"><div class="relative z-10"><span class="clovs-pill"><i class="fa-solid fa-earth-africa"></i> CLOVS Market Intelligence</span><h2 class="mt-3">دراسة المنتج من السوق المصري الخارجي</h2><p>Amazon Egypt + إشارات إعلانات Meta + المصادر الرقمية المصرية. الدراسة لا تستخدم مبيعات CLOVS نهائيًا، وكل نتيجة بتظهر معها حدود الدقة والمصادر.</p></div></div><div class="ads28-grid"><aside class="ads28-panel ads28-sticky space-y-4"><div><h3>إعداد البحث</h3><p>اختيار منتج CLOVS هنا مجرد تعريف للمنتج؛ مش هنقرأ أوردراته.</p></div><button onclick="clovsPaidAdsPickProduct()" class="clovs-add-button w-full" ${s.busy?'disabled':''}><i class="fa-solid fa-box-open"></i> ${p?'تغيير المنتج':'اختيار المنتج'}</button>${p?`<div class="ads28-product"><img src="${clovs29Esc(safeImageUrl(productMainImage(p)))}" alt="${clovs29Esc(p.name)}"><div><strong>${clovs29Esc(p.name)}</strong><small>${clovs29Esc(p.category||'')} · ${clovs29Esc(p.id)}</small></div></div>`:'<div class="clovs-product-empty"><i class="fa-solid fa-earth-africa"></i><p>اختار المنتج اللي عايز تدرس سوقه.</p></div>'}<label class="clovs-label">سعر البيع المخطط<input id="ads29-price" type="number" min="1" max="1000000" step="1" class="clovs-input" value="${clovs29Esc(s.sellingPrice)}" oninput="clovsPaidAdsStoreInputs();clovsPaidAdsV29.result=null" placeholder="مثال: 399" ${s.busy?'disabled':''}></label><label class="clovs-label">كلمة البحث الرئيسية<input id="ads29-keyword" class="clovs-input" value="${clovs29Esc(s.keyword||p?.name||'')}" oninput="clovsPaidAdsStoreInputs();clovsPaidAdsV29.result=null" placeholder="اسم المنتج الشائع في السوق" ${s.busy?'disabled':''}></label><label class="clovs-label">رابط Amazon Egypt للمنتج أو أقرب منافس <small class="text-slate-400">اختياري</small><input id="ads29-amazon" type="url" dir="ltr" class="clovs-input" value="${clovs29Esc(s.amazonUrl)}" oninput="clovsPaidAdsStoreInputs();clovsPaidAdsV29.result=null" placeholder="https://www.amazon.eg/..." ${s.busy?'disabled':''}></label><label class="clovs-label">كلمة البحث في Meta Ads <small class="text-slate-400">اختياري</small><input id="ads29-meta" class="clovs-input" value="${clovs29Esc(s.metaKeyword||p?.name||'')}" oninput="clovsPaidAdsStoreInputs();clovsPaidAdsV29.result=null" placeholder="اسم المنتج أو المنافس" ${s.busy?'disabled':''}></label><button onclick="clovsRunPaidAdsStudy()" class="clovs-primary-button w-full" ${s.busy||!p?'disabled':''}><i class="fa-solid fa-satellite-dish ${s.busy?'fa-spin':''}"></i> ${s.busy?'بنبحث في السوق الخارجي...':'اعمل دراسة السوق بالـAI'}</button><div class="ads28-note"><strong>الدقة:</strong> مبيعات المنافسين الدقيقة على Facebook/Amazon ليست عامة. النظام يستخدم BSR/Best Sellers والمراجعات والأسعار ونشاط الإعلانات ومصادر السوق كإشارات، ويمنع AI من تحويلها لأرقام مبيعات مختلقة.</div></aside><main class="min-w-0"><div id="ads28-results">${s.busy?'<div class="ads28-empty"><i class="fa-solid fa-satellite-dish fa-spin"></i><h3>بنبحث في السوق</h3><p class="mt-2">Amazon Egypt، نتائج السوق المصري، وإشارات Meta ثم تحليل AI بالمصادر.</p></div>':clovsPaidAdsPlanResultHTML(s.result)}</div></main></div>`;}
   function renderClovsIntegrations(){if(appState.currentUser?.role!=='super_admin')return;const config=clovsV11.config;document.getElementById('view-clovs-integrations').innerHTML=`<div class="clovs-panel"><h2 class="text-2xl font-black">إعدادات الربط</h2><p>ربط خدمة الذكاء الاصطناعي، تيليجرام، والبحث الخارجي لدراسة السوق.</p></div><form onsubmit="saveClovsIntegration(event)" class="clovs-panel space-y-4"><label class="clovs-label">رابط الخدمة<input id="clovs-endpoint" class="clovs-input" dir="ltr" placeholder="https://script.google.com/macros/s/.../exec" value="${clovs29Esc(config.serviceUrl||'')}"></label><label class="clovs-label">عبارة الطلب في الإعلان<input id="clovs-shipping-message" class="clovs-input" maxlength="180" value="${clovs29Esc(config.shippingMessage||'للطلب ابعتلنا على رسايل الصفحة أو سيب تعليق، وهنرد عليك في أسرع وقت.')}"></label><div class="flex flex-wrap gap-3"><button class="clovs-primary-button">حفظ الإعدادات</button><button class="clovs-soft-button" type="button" onclick="testClovsIntegration()">فحص الخدمة</button><button class="clovs-soft-button" type="button" onclick="clovsTestTelegram()">اختبار تيليجرام</button><button class="clovs-soft-button" type="button" onclick="clovsDownloadBackend()"><i class="fa-solid fa-download"></i> تحميل خدمة CLOVS v29</button></div><p id="clovs-integration-status" role="status"></p></form><div class="clovs-panel"><h3>تشغيل Market Intelligence</h3><p>في Apps Script → Script Properties أضف واحدًا فقط: <b>SERPER_API_KEY</b> أو <b>BRAVE_SEARCH_API_KEY</b> أو <b>TAVILY_API_KEY</b>. Cloudflare AI يفسّر الأدلة، ومزود البحث هو اللي يجيب النتائج الحالية من الويب. من غير Search API الصفحة لن تختلق دراسة.</p></div>`;}
   async function testClovsIntegration(){const el=document.getElementById('clovs-integration-status');el.textContent='جاري الاختبار...';try{const r=await clovsService('health');el.textContent=`الاتصال ناجح · AI: ${r.aiReady?'مفعّل':'يحتاج إعداد'} · Market Search: ${r.marketSearchReady?('مفعّل ('+r.marketSearchProvider+')'):'غير مفعّل'} · تيليجرام: ${r.telegramReady?'يستقبل':'يحتاج ضبط'}`;}catch(e){el.textContent=e.message;}}
-  function clovsDownloadBackend(){clovsDownload('CLOVS-v39-PRODUCTION-Code.gs',document.getElementById('clovs-backend-source').textContent);}
+  function clovsDownloadBackend(){clovsDownload('CLOVS-v42-PRODUCTION-Code.gs',document.getElementById('clovs-backend-source').textContent);}
 </script>
 
 <script id="clovs-backend-source" type="text/plain">
-/* CLOVS v39 PRODUCTION — Merchant order labels + merchant-aware notifications + Click-Only Referrals + Cloudflare AI + External Market Intelligence.
+/* CLOVS v42 PRODUCTION — Merchant order labels + merchant-aware notifications + Click-Only Referrals + Cloudflare AI + External Market Intelligence.
 Paste this whole file into Apps Script Code.gs. Keep every secret in Script Properties only.
 
 Required core properties:
@@ -8490,7 +8966,7 @@ Required core properties:
 Referral program:
   TELEGRAM_GROUP_URL (optional; defaults to https://t.me/Clovs_Marketing_Team)
   No referral bot or Telegram membership verification is required in v30.
-  Referral qualification = registered from link + 24 hours + clicked the Telegram group button.
+  Referral qualification = new account + unique device + different public IP + 24 hours + clicked Telegram group button.
 
 External market research: configure ONE search provider:
   SERPER_API_KEY  OR  BRAVE_SEARCH_API_KEY  OR  TAVILY_API_KEY
@@ -8518,7 +8994,7 @@ C_GOVERNORATES.forEach(gov=>{C_DEFAULT_SHIPPING[gov]=(gov==='القاهرة'||go
 const C_OWNER = 'zAeUYXEN3jS18kBC3QXZOVcedk12';
 function cProp(k) { return PropertiesService.getScriptProperties().getProperty(k) || ''; }
 function cJSON(v) { return ContentService.createTextOutput(JSON.stringify(v)).setMimeType(ContentService.MimeType.JSON); }
-function doGet() { const marketProvider=cMarketSearchProvider(); return cJSON({success:true,service:'CLOVS v39 Production',version:39,aiProvider:'cloudflare',marketSearchReady:!!marketProvider,marketSearchProvider:marketProvider||'',plans:{beginner:8,intermediate:20,pro:60},aiConfigured:!!(cProp('CLOUDFLARE_ACCOUNT_ID') && cProp('CLOUDFLARE_API_TOKEN'))}); }
+function doGet() { const marketProvider=cMarketSearchProvider(); return cJSON({success:true,service:'CLOVS v42 Production',version:42,aiProvider:'cloudflare',marketSearchReady:!!marketProvider,marketSearchProvider:marketProvider||'',plans:{beginner:8,intermediate:20,pro:60},aiConfigured:!!(cProp('CLOUDFLARE_ACCOUNT_ID') && cProp('CLOUDFLARE_API_TOKEN'))}); }
 function cFetch(url, options) {
   const r = UrlFetchApp.fetch(url, Object.assign({muteHttpExceptions:true}, options || {}));
   const code = r.getResponseCode(); let j = {}; try { j = JSON.parse(r.getContentText()); } catch (_) {}
@@ -8565,13 +9041,91 @@ function cActor(token) {
   if(anonymous)return {uid:uid,profile:null,role:'guest',admin:false,owner:false,customer:false,guest:true};
   throw new Error('الحساب غير متاح');
 }
+
+// ================= CLOVS DEVICE / REFERRAL ANTI-FRAUD v42 =================
+function cRegistrationActor(token) {
+  if (!token || String(token).length > 6000) throw new Error('سجّل الدخول أولاً');
+  const response = cFetch('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key='+C_WEB_KEY,{method:'post',contentType:'application/json',payload:JSON.stringify({idToken:String(token)})});
+  const user = response.users && response.users[0]; if (!user || user.disabled) throw new Error('جلسة الحساب غير صالحة');
+  const uid=cKey(user.localId);
+  if(uid===C_OWNER)return {uid:uid,profile:null,role:'super_admin',admin:true,owner:true,customer:false};
+  const marketer=cDB('marketerProfiles/'+uid); if(marketer&&marketer.role==='marketer')return {uid:uid,profile:marketer,role:'marketer',admin:false,owner:false,customer:false};
+  const merchant=cDB('merchantProfiles/'+uid); if(merchant&&merchant.role==='merchant')return {uid:uid,profile:merchant,role:'merchant',admin:false,owner:false,customer:false};
+  const customer=cDB('customerProfiles/'+uid); if(customer&&customer.role==='customer')return {uid:uid,profile:customer,role:'customer',admin:false,owner:false,customer:true};
+  throw new Error('أكمل إنشاء الحساب أولاً');
+}
+function cSha256Hex(value){
+  const bytes=Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256,String(value||''),Utilities.Charset.UTF_8);
+  return bytes.map(b=>('0'+((b<0?b+256:b).toString(16))).slice(-2)).join('');
+}
+function cSecuritySalt(){
+  const props=PropertiesService.getScriptProperties();let salt=props.getProperty('CLOVS_DEVICE_SECURITY_SALT')||'';
+  if(!salt){salt=(Utilities.getUuid()+Utilities.getUuid()+Utilities.getUuid()).replace(/-/g,'');props.setProperty('CLOVS_DEVICE_SECURITY_SALT',salt);}
+  return salt;
+}
+function cPrivateHash(kind,value){return cSha256Hex(cSecuritySalt()+'|'+String(kind||'x')+'|'+String(value||''));}
+function cClientDigest(value,label){const v=String(value||'').trim().toLowerCase();if(!/^[a-f0-9]{64}$/.test(v))throw new Error((label||'معرّف الجهاز')+' غير صالح');return v;}
+function cClientIp(value){const v=String(value||'').trim().toLowerCase();if(!v)return '';if(v.length>64||!/^[0-9a-f:.]+$/i.test(v))throw new Error('عنوان الشبكة غير صالح');return v;}
+function cDeviceProof(data){
+  data=data||{};const rawDevice=cClientDigest(data.deviceHash,'معرّف الجهاز'),rawFingerprint=cClientDigest(data.fingerprintHash,'بصمة الجهاز'),ip=cClientIp(data.ip);
+  return {deviceKey:cPrivateHash('device',rawDevice),fingerprintKey:cPrivateHash('fingerprint',rawFingerprint),ipHash:ip?cPrivateHash('ip',ip):''};
+}
+function cSecurityIndexUid(value){return typeof value==='string'?value:String(value&&value.uid||'');}
+function cDeviceRegistrationCheck(data){
+  const p=cDeviceProof(data),d=cSecurityIndexUid(cDB('accountSecurity/deviceIndex/'+p.deviceKey)),f=cSecurityIndexUid(cDB('accountSecurity/fingerprintIndex/'+p.fingerprintKey));
+  if(d||f)return {success:true,allowed:false,reason:'device-used',message:'لا يمكن إنشاء أكثر من حساب CLOVS من نفس الجهاز.'};
+  return {success:true,allowed:true,ipDetected:!!p.ipHash};
+}
+function cBindRegistrationDevice(actor,data){
+  if(!actor||!actor.uid||!['marketer','customer','merchant'].includes(actor.role))throw new Error('الحساب غير صالح لربط الجهاز');
+  const uid=cKey(actor.uid),p=cDeviceProof(data),d=cSecurityIndexUid(cDB('accountSecurity/deviceIndex/'+p.deviceKey)),f=cSecurityIndexUid(cDB('accountSecurity/fingerprintIndex/'+p.fingerprintKey));
+  if((d&&d!==uid)||(f&&f!==uid))throw new Error('هذا الجهاز مرتبط بحساب CLOVS آخر بالفعل');
+  const now=Date.now(),patch={};
+  patch['accountSecurity/deviceIndex/'+p.deviceKey]={uid:uid,boundAt:now};
+  patch['accountSecurity/fingerprintIndex/'+p.fingerprintKey]={uid:uid,boundAt:now};
+  patch['accountSecurity/byUid/'+uid]={deviceKey:p.deviceKey,fingerprintKey:p.fingerprintKey,ipHash:p.ipHash||'',boundAt:now,updatedAt:now};
+  cDB('','patch',patch);return {success:true,bound:true,ipDetected:!!p.ipHash};
+}
+function cReferralBindOwnerSecurity(actor,data){
+  if(!actor||actor.role!=='marketer'||!actor.uid)throw new Error('هذه الخطوة للمسوقين فقط');
+  const uid=cKey(actor.uid),p=cDeviceProof(data),now=Date.now();
+  cDB('referralOwnerSecurity/'+uid,'put',{deviceKey:p.deviceKey,fingerprintKey:p.fingerprintKey,ipHash:p.ipHash||'',updatedAt:now});
+  return {success:true,bound:true,ipDetected:!!p.ipHash};
+}
+function cReferralSecurityReasonText(reason){
+  const map={same_device:'نفس الجهاز مستخدم بالفعل',same_ip:'نفس عنوان الشبكة مستخدم بالفعل',duplicate_ip:'عنوان الشبكة احتُسب لدعوة أخرى',ip_unavailable:'تعذر التحقق من عنوان الشبكة'};
+  return map[String(reason||'')]||'';
+}
+function cReferralSecurityEvaluate(actor,referrer,data){
+  const uid=cKey(actor.uid),refUid=cKey(referrer);let sec=cDB('accountSecurity/byUid/'+uid);
+  if(!sec){cBindRegistrationDevice(actor,data||{});sec=cDB('accountSecurity/byUid/'+uid)||{};}
+  const owner=cDB('referralOwnerSecurity/'+refUid)||{};
+  let eligible=true,reason='';
+  if(!sec.ipHash){eligible=false;reason='ip_unavailable';}
+  if(eligible&&owner.deviceKey&&sec.deviceKey&&owner.deviceKey===sec.deviceKey){eligible=false;reason='same_device';}
+  if(eligible&&owner.fingerprintKey&&sec.fingerprintKey&&owner.fingerprintKey===sec.fingerprintKey){eligible=false;reason='same_device';}
+  if(eligible&&owner.ipHash&&sec.ipHash&&owner.ipHash===sec.ipHash){eligible=false;reason='same_ip';}
+  const ipPath=sec.ipHash?'referralAntiFraud/byReferrer/'+refUid+'/ip/'+sec.ipHash:'';
+  const priorIp=ipPath?cSecurityIndexUid(cDB(ipPath)):'';
+  if(eligible&&priorIp&&priorIp!==uid){eligible=false;reason='duplicate_ip';}
+  const now=Date.now(),patch={};
+  if(eligible){
+    patch['referralAntiFraud/byReferrer/'+refUid+'/device/'+sec.deviceKey]={uid:uid,at:now};
+    if(sec.fingerprintKey)patch['referralAntiFraud/byReferrer/'+refUid+'/fingerprint/'+sec.fingerprintKey]={uid:uid,at:now};
+    if(ipPath)patch[ipPath]={uid:uid,at:now};
+  }else patch['referralAntiFraud/rejected/'+refUid+'/'+uid]={reason:reason,at:now};
+  cDB('','patch',patch);
+  return {eligible:eligible,reason:reason,message:cReferralSecurityReasonText(reason)};
+}
+// ================= END CLOVS DEVICE / REFERRAL ANTI-FRAUD v42 =================
+
 function cLocked(fn) { const lock = LockService.getScriptLock(); if (!lock.tryLock(25000)) throw new Error('الخدمة مشغولة، حاول مجدداً'); try { return fn(); } finally { lock.releaseLock(); } }
 function doPost(e) {
   try {
     if (Number(e.contentLength) > 3000000) throw new Error('حجم الطلب كبير');
     const input = JSON.parse((e.parameter && e.parameter.payload) || (e.postData && e.postData.contents) || '{}');
-    const publicReferralVisit = input.action === 'referralVisit';
-    const actor = input.idToken ? cActor(input.idToken) : (input.action === 'storeOrder' ? cPublicStoreGuest(input.guestId) : publicReferralVisit ? {uid:'',profile:null,role:'public',admin:false,owner:false,customer:false,guest:true,public:true} : cActor('')), data = input.data || {};
+    const publicAction = input.action === 'referralVisit' || input.action === 'deviceRegistrationCheck';
+    const actor = input.idToken ? (input.action==='bindRegistrationDevice'?cRegistrationActor(input.idToken):cActor(input.idToken)) : (input.action === 'storeOrder' ? cPublicStoreGuest(input.guestId) : publicAction ? {uid:'',profile:null,role:'public',admin:false,owner:false,customer:false,guest:true,public:true} : cActor('')), data = input.data || {};
     switch (input.action) {
       case 'health': {
         if (!actor.owner) throw new Error('ليس لديك صلاحية');
@@ -8583,7 +9137,7 @@ function doPost(e) {
           try { const textModel=cCloudflareModelName('text'),imageModel=cCloudflareModelName('image'),textModels=cCloudflareModels(textModel),imageModels=cCloudflareModels(imageModel);aiReady=!!(textModels&&textModels.success===true&&Array.isArray(textModels.result)&&textModels.result.length&&imageModels&&imageModels.success===true&&Array.isArray(imageModels.result)&&imageModels.result.length);aiMessage=aiReady?'تم التحقق من موديل النص والصور وصلاحية Cloudflare Read':'الموديل غير موجود أو غير متاح للحساب'; }
           catch(error) { aiMessage=String(error.message||'تعذر التحقق من Cloudflare').slice(0,150); }
         }
-        const marketProvider=cMarketSearchProvider(); return cJSON({success:true,version:30,aiProvider:'cloudflare',telegramReady:telegramReady,aiReady:aiReady,aiMessage:aiMessage,marketSearchReady:!!marketProvider,marketSearchProvider:marketProvider||'',aiTextModel:cProp('CLOUDFLARE_TEXT_MODEL')||'@cf/zai-org/glm-4.7-flash',aiImageModel:cProp('CLOUDFLARE_IMAGE_MODEL')||'@cf/black-forest-labs/flux-2-klein-4b',triggerInstalled:ScriptApp.getProjectTriggers().some(t=>t.getHandlerFunction()==='pollClovsOrders'),plans:{beginner:{limit:8,minDelivered:0},intermediate:{limit:20,minDelivered:60},pro:{limit:60,minDelivered:250}}});
+        const marketProvider=cMarketSearchProvider(); return cJSON({success:true,version:42,aiProvider:'cloudflare',telegramReady:telegramReady,aiReady:aiReady,aiMessage:aiMessage,marketSearchReady:!!marketProvider,marketSearchProvider:marketProvider||'',aiTextModel:cProp('CLOUDFLARE_TEXT_MODEL')||'@cf/zai-org/glm-4.7-flash',aiImageModel:cProp('CLOUDFLARE_IMAGE_MODEL')||'@cf/black-forest-labs/flux-2-klein-4b',triggerInstalled:ScriptApp.getProjectTriggers().some(t=>t.getHandlerFunction()==='pollClovsOrders'),plans:{beginner:{limit:8,minDelivered:0},intermediate:{limit:20,minDelivered:60},pro:{limit:60,minDelivered:250}}});
       }
       case 'saveStore': return cJSON(cLocked(()=>cSaveStore(actor,data)));
       case 'saveStoreProduct': return cJSON(cLocked(()=>cSaveStoreProduct(actor,data)));
@@ -8607,6 +9161,9 @@ function doPost(e) {
         if (!order || (!actor.admin && order.marketerUid !== actor.uid && order.customerUid !== actor.uid)) throw new Error('الأوردر غير متاح');
         return cJSON(cLocked(()=>{cNotifyOrder(key,order); return {success:true};}));
       }
+      case 'deviceRegistrationCheck': return cJSON(cLocked(()=>cDeviceRegistrationCheck(data)));
+      case 'bindRegistrationDevice': return cJSON(cLocked(()=>cBindRegistrationDevice(actor,data)));
+      case 'referralBindOwnerSecurity': if(actor.role!=='marketer')throw new Error('هذه الخطوة للمسوقين فقط'); return cJSON(cLocked(()=>cReferralBindOwnerSecurity(actor,data)));
       case 'referralVisit': return cJSON(cLocked(()=>cReferralVisit(data)));
       case 'claimReferral': return cJSON(cLocked(()=>cClaimReferral(actor,data)));
       case 'referralAccountStatus': return cJSON(cLocked(()=>cReferralAccountStatus(actor)));
@@ -8845,11 +9402,11 @@ function cClaimReferral(actor,data){
   const existing=cDB('referralsByReferred/'+actor.uid);
   if(existing){if(existing.referrerUid!==referrer)throw new Error('الحساب مرتبط بدعوة أخرى بالفعل');return Object.assign({success:true,already:true},cReferralPublicStatus(existing),{telegramGroupUrl:cRefGroupUrl()});}
   const createdAt=Number(actor.profile&&actor.profile.createdAt)||cRefNow();if(cRefNow()-createdAt>24*60*60*1000)throw new Error('رابط الدعوة يربط الحسابات الجديدة خلال أول 24 ساعة فقط');
-  const now=cRefNow(),rec={referrerUid:referrer,referredUid:actor.uid,referredRole:actor.role,name:String(actor.profile&&actor.profile.name||'').slice(0,100),username:String(actor.profile&&actor.profile.username||'').slice(0,40),code:code,registeredAt:createdAt,claimedAt:now,eligibleAfter:createdAt+C_REF_QUALIFY_MS,telegramClicked:false,telegramClickedAt:0,signupRewardCredited:false,saleRewardCount:0,saleRewardTotal:0};
+  const security=cReferralSecurityEvaluate(actor,referrer,data||{}),now=cRefNow(),rec={referrerUid:referrer,referredUid:actor.uid,referredRole:actor.role,name:String(actor.profile&&actor.profile.name||'').slice(0,100),username:String(actor.profile&&actor.profile.username||'').slice(0,40),code:code,registeredAt:createdAt,claimedAt:now,eligibleAfter:createdAt+C_REF_QUALIFY_MS,telegramClicked:false,telegramClickedAt:0,signupRewardCredited:false,saleRewardCount:0,saleRewardTotal:0,securityEligible:security.eligible!==false,securityReason:security.reason||''};
   const patch={};patch['referralsByReferred/'+actor.uid]=rec;patch['referralsByMarketer/'+referrer+'/'+actor.uid]=rec;cDB('','patch',patch);
-  return Object.assign({success:true,already:false},cReferralPublicStatus(rec),{telegramGroupUrl:cRefGroupUrl()});
+  return Object.assign({success:true,already:false},cReferralPublicStatus(rec),{telegramGroupUrl:cRefGroupUrl(),securityMessage:security.message||''});
 }
-function cReferralPublicStatus(rec){const clicked=cReferralClicked(rec);return {hasReferral:!!rec,referrerUid:rec?rec.referrerUid:'',registeredAt:Number(rec&&rec.registeredAt)||0,eligibleAfter:Number(rec&&rec.eligibleAfter)||0,telegramClicked:clicked,telegramClickedAt:Number(rec&&(rec.telegramClickedAt||rec.telegramVerifiedAt))||0,telegramVerified:clicked,signupRewardCredited:!!(rec&&rec.signupRewardCredited),saleRewardCount:Number(rec&&rec.saleRewardCount)||0};}
+function cReferralPublicStatus(rec){const clicked=cReferralClicked(rec),securityEligible=!(rec&&rec.securityEligible===false);return {hasReferral:!!rec,referrerUid:rec?rec.referrerUid:'',registeredAt:Number(rec&&rec.registeredAt)||0,eligibleAfter:Number(rec&&rec.eligibleAfter)||0,telegramClicked:clicked,telegramClickedAt:Number(rec&&(rec.telegramClickedAt||rec.telegramVerifiedAt))||0,telegramVerified:clicked,signupRewardCredited:!!(rec&&rec.signupRewardCredited),saleRewardCount:Number(rec&&rec.saleRewardCount)||0,securityEligible:securityEligible,securityReason:String(rec&&rec.securityReason||'')};}
 function cReferralAccountStatus(actor){if(!actor||!actor.uid||!['marketer','customer','merchant'].includes(actor.role))throw new Error('سجّل الدخول أولاً');cProcessReferralForUid(actor.uid);const rec=cDB('referralsByReferred/'+actor.uid);if(!rec)return {success:true,hasReferral:false};return Object.assign({success:true},cReferralPublicStatus(rec),{telegramGroupUrl:cRefGroupUrl(),remainingMs:Math.max(0,(Number(rec.eligibleAfter)||0)-cRefNow())});}
 function cReferralTelegramClick(actor){
   if(!actor||!actor.uid||!['marketer','customer','merchant'].includes(actor.role))throw new Error('سجّل الدخول أولاً');
@@ -8869,7 +9426,7 @@ function cReferralCredit(referrerUid,key,amount,meta){referrerUid=cKey(referrerU
 function cReferralReverseCredit(referrerUid,key){referrerUid=cKey(referrerUid);key=String(key||'').replace(/[^A-Za-z0-9_-]/g,'_').slice(0,120);const p=cDB('marketerProfiles/'+referrerUid),old=((p&&p._finance||{}).referralCredits||{})[key];if(!p||!old||old.active!==true)return false;const amount=cMoney(old.amount||0),patch={};patch['marketerProfiles/'+referrerUid+'/balance']=cMoney((Number(p.balance)||0)-amount);patch['marketerProfiles/'+referrerUid+'/_finance/referralCredits/'+key+'/active']=false;patch['marketerProfiles/'+referrerUid+'/_finance/referralCredits/'+key+'/reversedAt']=cRefNow();cDB('','patch',patch);return true;}
 function cReferralHandleOrderStatus(orderKey,order,status){
   const referredUid=String(order&&order.marketerUid||'');if(!/^[A-Za-z0-9_-]{1,128}$/.test(referredUid))return;
-  const rec=cDB('referralsByReferred/'+referredUid);if(!rec||rec.referredRole!=='marketer')return;
+  const rec=cDB('referralsByReferred/'+referredUid);if(!rec||rec.referredRole!=='marketer'||rec.securityEligible===false)return;
   const ledgerKey='sale_'+cKey(orderKey),pending='referralPendingSales/'+referredUid+'/'+cKey(orderKey);
   if(status==='delivered'){
     if(!cReferralClicked(rec)){cDB(pending,'put',{orderKey:orderKey,createdAt:cRefNow()});return;}
@@ -8882,12 +9439,12 @@ function cReferralHandleOrderStatus(orderKey,order,status){
 }
 function cProcessReferralForUid(uid){
   uid=cKey(uid);let rec=cDB('referralsByReferred/'+uid);if(!rec)return false;
-  const clicked=cReferralClicked(rec);
-  if(clicked&&cRefNow()>=(Number(rec.eligibleAfter)||0)&&!rec.signupRewardCredited){
+  const clicked=cReferralClicked(rec),securityEligible=rec.securityEligible!==false;
+  if(clicked&&securityEligible&&cRefNow()>=(Number(rec.eligibleAfter)||0)&&!rec.signupRewardCredited){
     const r=cReferralCredit(rec.referrerUid,'signup_'+uid,C_REF_SIGNUP_REWARD,{type:'signup',referredUid:uid});
     if(r.credited||r.idempotent){const now=cRefNow(),patch={};patch['referralsByReferred/'+uid+'/signupRewardCredited']=true;patch['referralsByReferred/'+uid+'/signupRewardCreditedAt']=now;patch['referralsByMarketer/'+rec.referrerUid+'/'+uid+'/signupRewardCredited']=true;patch['referralsByMarketer/'+rec.referrerUid+'/'+uid+'/signupRewardCreditedAt']=now;cDB('','patch',patch);rec=cDB('referralsByReferred/'+uid)||rec;}
   }
-  if(clicked){const pending=cDB('referralPendingSales/'+uid)||{};Object.keys(pending).slice(0,100).forEach(orderKey=>{const order=cDB('orders/'+orderKey);if(order&&order.status==='delivered')cReferralHandleOrderStatus(orderKey,order,'delivered');else cDB('referralPendingSales/'+uid+'/'+orderKey,'delete');});}
+  if(clicked&&securityEligible){const pending=cDB('referralPendingSales/'+uid)||{};Object.keys(pending).slice(0,100).forEach(orderKey=>{const order=cDB('orders/'+orderKey);if(order&&order.status==='delivered')cReferralHandleOrderStatus(orderKey,order,'delivered');else cDB('referralPendingSales/'+uid+'/'+orderKey,'delete');});}
   return true;
 }
 function cProcessReferralRewards(){const all=cDB('referralsByReferred')||{},uids=Object.keys(all).slice(0,1000);uids.forEach(uid=>{try{cProcessReferralForUid(uid);}catch(e){console.log('[Referral process '+uid+'] '+e.message);}});return {success:true,processed:uids.length};}
@@ -8895,7 +9452,7 @@ function processClovsReferralRewards(){return cLocked(()=>cProcessReferralReward
 function cReferralSummary(actor){
   const uid=cKey(actor.uid),code=cEnsureReferralCode(uid),refs0=cDB('referralsByMarketer/'+uid)||{};Object.keys(refs0).slice(0,300).forEach(rid=>{try{cProcessReferralForUid(rid);}catch(_){}});
   const refs=cDB('referralsByMarketer/'+uid)||{},visits=Object.keys(cDB('referralVisits/'+uid)||{}).length,list=Object.values(refs).sort((a,b)=>(Number(b.registeredAt)||0)-(Number(a.registeredAt)||0)).slice(0,300),qualified=list.filter(r=>r.signupRewardCredited).length,telegramClicked=list.filter(cReferralClicked).length,saleCount=list.reduce((n,r)=>n+(Number(r.saleRewardCount)||0),0),signupRewardTotal=cMoney(qualified*C_REF_SIGNUP_REWARD),saleRewardTotal=cMoney(list.reduce((n,r)=>n+(Number(r.saleRewardTotal)||0),0));
-  return {success:true,code:code,visits:visits,registrations:list.length,telegramClicked:telegramClicked,telegramVerified:telegramClicked,qualified:qualified,signupRewardTotal:signupRewardTotal,saleRewardCount:saleCount,saleRewardTotal:saleRewardTotal,totalRewards:cMoney(signupRewardTotal+saleRewardTotal),balance:Number((cDB('marketerProfiles/'+uid)||{}).balance)||0,telegramGroupUrl:cRefGroupUrl(),referrals:list.map(r=>({referredUid:r.referredUid,name:r.name||'',username:r.username||'',role:r.referredRole||'',registeredAt:Number(r.registeredAt)||0,eligibleAfter:Number(r.eligibleAfter)||0,telegramClicked:cReferralClicked(r),telegramVerified:cReferralClicked(r),signupRewardCredited:!!r.signupRewardCredited,saleRewardCount:Number(r.saleRewardCount)||0,saleRewardTotal:Number(r.saleRewardTotal)||0}))};
+  return {success:true,code:code,visits:visits,registrations:list.length,telegramClicked:telegramClicked,telegramVerified:telegramClicked,qualified:qualified,signupRewardTotal:signupRewardTotal,saleRewardCount:saleCount,saleRewardTotal:saleRewardTotal,totalRewards:cMoney(signupRewardTotal+saleRewardTotal),balance:Number((cDB('marketerProfiles/'+uid)||{}).balance)||0,telegramGroupUrl:cRefGroupUrl(),referrals:list.map(r=>({referredUid:r.referredUid,name:r.name||'',username:r.username||'',role:r.referredRole||'',registeredAt:Number(r.registeredAt)||0,eligibleAfter:Number(r.eligibleAfter)||0,telegramClicked:cReferralClicked(r),telegramVerified:cReferralClicked(r),signupRewardCredited:!!r.signupRewardCredited,saleRewardCount:Number(r.saleRewardCount)||0,saleRewardTotal:Number(r.saleRewardTotal)||0,securityEligible:r.securityEligible!==false,securityReason:String(r.securityReason||'')}))};
 }
 function cReferralAdminSummary(){
   cProcessReferralRewards();const all=cDB('referralsByMarketer')||{},rows=[];let registrations=0,qualified=0,clicked=0,sales=0,rewards=0,visits=0;
@@ -9425,6 +9982,7 @@ function cReserveAIProduct(actor,id) {
     return info;
   });
 }
+
 </script>
 <script id="clovs-rules-source" type="application/json">
 {
@@ -9956,8 +10514,8 @@ function cReserveAIProduct(actor,id) {
     const s=clovsReferral.summary;
     if(!s){ c.innerHTML=`<div class="ref-v25-hero"><span class="clovs-pill"><i class="fa-solid fa-user-plus"></i> برنامج دعوات CLOVS</span><h2 class="text-3xl font-black mt-3">رابطك الشخصي للدعوات</h2><p class="text-emerald-100 mt-2">جاري تجهيز كود الدعوة والإحصائيات...</p></div><div class="clovs-panel text-center py-10"><i class="fa-solid fa-circle-notch fa-spin text-2xl text-brand-600"></i></div>`; if(load)clovsLoadReferralSummary(); return; }
     const link=clovsReferralLink(s.code);
-    const rows=(s.referrals||[]).map(r=>`<tr class="border-b border-slate-100 text-xs"><td class="py-3 px-3"><strong>${escapeHtml(r.name||'حساب CLOVS')}</strong><small class="block text-slate-400">@${escapeHtml(r.username||'—')} · ${clovsRefRole(r.role)}</small></td><td class="py-3 px-3">${clovsRefDate(r.registeredAt)}</td><td class="py-3 px-3">${(r.telegramClicked||r.telegramVerified)?'<span class="ref-v25-status ok"><i class="fa-solid fa-check"></i> فتح الجروب</span>':'<span class="ref-v25-status wait"><i class="fa-regular fa-clock"></i> لم يفتح الجروب</span>'}</td><td class="py-3 px-3">${r.signupRewardCredited?'<span class="ref-v25-status ok">+1 ج</span>':Date.now()>=Number(r.eligibleAfter)&&(r.telegramClicked||r.telegramVerified)?'<span class="ref-v25-status wait">قيد الاحتساب</span>':'<span class="ref-v25-status no">غير مكتمل</span>'}</td><td class="py-3 px-3 font-black text-brand-700">${Number(r.saleRewardCount)||0}</td><td class="py-3 px-3 font-black">${money(Number(r.saleRewardTotal)||0)} ج.م</td></tr>`).join('')||'<tr><td colspan="6" class="py-10 text-center text-slate-400">لسه مفيش تسجيلات من رابطك.</td></tr>';
-    c.innerHTML=`<div class="ref-v25-hero"><div class="relative z-10"><span class="clovs-pill"><i class="fa-solid fa-link"></i> كودك: ${escapeHtml(s.code)}</span><h2 class="text-3xl font-black mt-3">حوّل دعوتك لمصدر أرباح إضافي</h2><p class="text-emerald-100 mt-2 max-w-2xl">1 جنيه بعد تسجيل الشخص ومرور 24 ساعة وفتح رابط جروب تيليجرام، و10 جنيه على كل أوردر يتم تسليمه بنجاح لو الشخص المُحال مسوق.</p><div class="ref-v25-linkbox mt-5 max-w-3xl"><input id="clovs-referral-link" readonly value="${escapeHtml(link)}"><button onclick="clovsCopyReferralLink()" class="clovs-soft-button"><i class="fa-regular fa-copy"></i> نسخ</button><button onclick="clovsShareReferralLink()" class="clovs-primary-button"><i class="fa-solid fa-share-nodes"></i> مشاركة</button></div><div class="ref-v27-message-card mt-4 max-w-3xl"><div class="ref-v27-message-head"><div><strong><i class="fa-solid fa-message"></i> رسالة دعوة جاهزة</strong><small>انسخها وابعتها مباشرة لأي شخص.</small></div><button onclick="clovsCopyReferralMessage()" class="clovs-soft-button"><i class="fa-regular fa-copy"></i> نسخ الرسالة</button></div><textarea id="clovs-referral-message" readonly>${escapeHtml(clovsReferralMessage(link))}</textarea></div></div></div><div class="ref-v25-grid"><div class="ref-v25-stat"><span>زيارات الرابط</span><strong>${s.visits||0}</strong></div><div class="ref-v25-stat"><span>الحسابات المسجلة</span><strong>${s.registrations||0}</strong></div><div class="ref-v25-stat"><span>مؤهلون لمكافأة التسجيل</span><strong>${s.qualified||0}</strong></div><div class="ref-v25-stat"><span>إجمالي مكافآت الدعوة</span><strong>${money(s.totalRewards||0)} ج</strong></div></div>${clovsReferralGrowthTreeHTML(s)}<div class="grid lg:grid-cols-3 gap-4"><div class="clovs-panel lg:col-span-2"><h3>قواعد الاحتساب</h3><div class="grid sm:grid-cols-2 gap-3 mt-4"><div class="ref-v25-rule"><i class="fa-solid fa-user-check"></i><div><strong>+1 جنيه للتسجيل المؤهل</strong><p>حساب جديد من رابطك + مرور 24 ساعة + فتح رابط جروب تيليجرام.</p></div></div><div class="ref-v25-rule"><i class="fa-solid fa-box-open"></i><div><strong>+10 جنيه لكل بيعة</strong><p>لكل أوردر للمسوق المُحال يتحول إلى «تم التسليم» بعد فتح رابط جروب تيليجرام.</p></div></div></div></div><div class="clovs-panel"><h3>تفاصيل أرباح الدعوة</h3><div class="mt-4 space-y-3 text-sm"><div class="flex justify-between"><span>مكافآت التسجيل</span><strong>${money(s.signupRewardTotal||0)} ج</strong></div><div class="flex justify-between"><span>مبيعات المحالين (${s.saleRewardCount||0})</span><strong>${money(s.saleRewardTotal||0)} ج</strong></div><div class="border-t pt-3 flex justify-between text-brand-700"><span class="font-black">الإجمالي</span><strong class="text-xl">${money(s.totalRewards||0)} ج</strong></div><small class="text-slate-400">المكافآت تدخل رصيدك العادي وتقدر تسحبها مع باقي الأرباح.</small></div></div></div><div class="clovs-panel"><div class="flex items-center justify-between gap-3 mb-4"><div><h3>الأشخاص المسجلون من رابطك</h3><p>الحالة والمكافآت تتحدث من السيرفر تلقائياً.</p></div><button class="clovs-soft-button" onclick="clovsLoadReferralSummary(true)"><i class="fa-solid fa-rotate"></i> تحديث</button></div><div class="overflow-x-auto"><table class="w-full text-right ref-v25-table"><thead><tr class="bg-slate-50 text-[11px] text-slate-500"><th class="p-3">الحساب</th><th class="p-3">التسجيل</th><th class="p-3">تيليجرام</th><th class="p-3">مكافأة 1 ج</th><th class="p-3">المبيعات</th><th class="p-3">مكافآت البيع</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+    const rows=(s.referrals||[]).map(r=>`<tr class="border-b border-slate-100 text-xs"><td class="py-3 px-3"><strong>${escapeHtml(r.name||'حساب CLOVS')}</strong><small class="block text-slate-400">@${escapeHtml(r.username||'—')} · ${clovsRefRole(r.role)}</small></td><td class="py-3 px-3">${clovsRefDate(r.registeredAt)}</td><td class="py-3 px-3">${(r.telegramClicked||r.telegramVerified)?'<span class="ref-v25-status ok"><i class="fa-solid fa-check"></i> فتح الجروب</span>':'<span class="ref-v25-status wait"><i class="fa-regular fa-clock"></i> لم يفتح الجروب</span>'}</td><td class="py-3 px-3">${r.securityEligible===false?'<span class="ref-v25-status no"><i class="fa-solid fa-shield-halved"></i> غير مؤهل</span>':r.signupRewardCredited?'<span class="ref-v25-status ok">+1 ج</span>':Date.now()>=Number(r.eligibleAfter)&&(r.telegramClicked||r.telegramVerified)?'<span class="ref-v25-status wait">قيد الاحتساب</span>':'<span class="ref-v25-status no">غير مكتمل</span>'}</td><td class="py-3 px-3 font-black text-brand-700">${Number(r.saleRewardCount)||0}</td><td class="py-3 px-3 font-black">${money(Number(r.saleRewardTotal)||0)} ج.م</td></tr>`).join('')||'<tr><td colspan="6" class="py-10 text-center text-slate-400">لسه مفيش تسجيلات من رابطك.</td></tr>';
+    c.innerHTML=`<div class="ref-v25-hero"><div class="relative z-10"><span class="clovs-pill"><i class="fa-solid fa-link"></i> كودك: ${escapeHtml(s.code)}</span><h2 class="text-3xl font-black mt-3">حوّل دعوتك لمصدر أرباح إضافي</h2><p class="text-emerald-100 mt-2 max-w-2xl">1 جنيه للحساب الجديد المؤهل من جهاز مختلف وIP مختلف بعد 24 ساعة وفتح جروب تيليجرام، و10 جنيه لكل أوردر مُسلّم للمسوق المُحال المؤهل.</p><div class="ref-v25-linkbox mt-5 max-w-3xl"><input id="clovs-referral-link" readonly value="${escapeHtml(link)}"><button onclick="clovsCopyReferralLink()" class="clovs-soft-button"><i class="fa-regular fa-copy"></i> نسخ</button><button onclick="clovsShareReferralLink()" class="clovs-primary-button"><i class="fa-solid fa-share-nodes"></i> مشاركة</button></div><div class="ref-v27-message-card mt-4 max-w-3xl"><div class="ref-v27-message-head"><div><strong><i class="fa-solid fa-message"></i> رسالة دعوة جاهزة</strong><small>انسخها وابعتها مباشرة لأي شخص.</small></div><button onclick="clovsCopyReferralMessage()" class="clovs-soft-button"><i class="fa-regular fa-copy"></i> نسخ الرسالة</button></div><textarea id="clovs-referral-message" readonly>${escapeHtml(clovsReferralMessage(link))}</textarea></div></div></div><div class="ref-v25-grid"><div class="ref-v25-stat"><span>زيارات الرابط</span><strong>${s.visits||0}</strong></div><div class="ref-v25-stat"><span>الحسابات المسجلة</span><strong>${s.registrations||0}</strong></div><div class="ref-v25-stat"><span>مؤهلون لمكافأة التسجيل</span><strong>${s.qualified||0}</strong></div><div class="ref-v25-stat"><span>إجمالي مكافآت الدعوة</span><strong>${money(s.totalRewards||0)} ج</strong></div></div>${clovsReferralGrowthTreeHTML(s)}<div class="grid lg:grid-cols-3 gap-4"><div class="clovs-panel lg:col-span-2"><h3>قواعد الاحتساب</h3><div class="grid sm:grid-cols-2 gap-3 mt-4"><div class="ref-v25-rule"><i class="fa-solid fa-user-check"></i><div><strong>+1 جنيه للتسجيل المؤهل</strong><p>حساب جديد من رابطك + جهاز مختلف + IP مختلف + مرور 24 ساعة + فتح رابط جروب تيليجرام.</p></div></div><div class="ref-v25-rule"><i class="fa-solid fa-box-open"></i><div><strong>+10 جنيه لكل بيعة</strong><p>لكل أوردر للمسوق المُحال يتحول إلى «تم التسليم» بعد فتح رابط جروب تيليجرام.</p></div></div></div></div><div class="clovs-panel"><h3>تفاصيل أرباح الدعوة</h3><div class="mt-4 space-y-3 text-sm"><div class="flex justify-between"><span>مكافآت التسجيل</span><strong>${money(s.signupRewardTotal||0)} ج</strong></div><div class="flex justify-between"><span>مبيعات المحالين (${s.saleRewardCount||0})</span><strong>${money(s.saleRewardTotal||0)} ج</strong></div><div class="border-t pt-3 flex justify-between text-brand-700"><span class="font-black">الإجمالي</span><strong class="text-xl">${money(s.totalRewards||0)} ج</strong></div><small class="text-slate-400">المكافآت تدخل رصيدك العادي وتقدر تسحبها مع باقي الأرباح.</small></div></div></div><div class="clovs-panel"><div class="flex items-center justify-between gap-3 mb-4"><div><h3>الأشخاص المسجلون من رابطك</h3><p>الحالة والمكافآت تتحدث من السيرفر تلقائياً.</p></div><button class="clovs-soft-button" onclick="clovsLoadReferralSummary(true)"><i class="fa-solid fa-rotate"></i> تحديث</button></div><div class="overflow-x-auto"><table class="w-full text-right ref-v25-table"><thead><tr class="bg-slate-50 text-[11px] text-slate-500"><th class="p-3">الحساب</th><th class="p-3">التسجيل</th><th class="p-3">تيليجرام</th><th class="p-3">مكافأة 1 ج</th><th class="p-3">المبيعات</th><th class="p-3">مكافآت البيع</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
   }
   (function clovsV26Boot(){
     let started=false; function startOnce(){ if(started) return; started=true; clovsSetRobotLine(window.__clovsRobotTips[0]); setInterval(()=>clovsCycleRobotTip(false),6500); const search=document.getElementById('home-search'); if(search){ search.addEventListener('focus',()=>clovsSetRobotLine('اكتب اسم المنتج أو الفئة، وأنا هوجّهك بسرعة للنتيجة المناسبة.')); search.addEventListener('input',()=>{ if(search.value.trim().length>2) clovsSetRobotLine(`تمام، هدور على: ${search.value.trim()}`); }); } }
@@ -10186,5 +10744,139 @@ function cReserveAIProduct(actor,id) {
   }
   requestAnimationFrame(frame);
 })();
-</script>\n</body>
+</script>\n
+<script id="clovs-v42-security-runtime">
+(function(){
+  'use strict';
+  let clovsV42IpCache=undefined,clovsV42OwnerBindPromise=null;
+
+  function clovsV42FallbackHash(text){
+    const s=String(text||'');let a=0x811c9dc5,b=0x9e3779b9,c=0x85ebca6b,d=0xc2b2ae35;
+    for(let i=0;i<s.length;i++){const x=s.charCodeAt(i);a=Math.imul(a^x,16777619);b=Math.imul(b^x,2246822519);c=Math.imul(c^x,3266489917);d=Math.imul(d^x,668265263);}
+    const p=n=>(n>>>0).toString(16).padStart(8,'0');return (p(a)+p(b)+p(c)+p(d)+p(a^c)+p(b^d)+p(a^b)+p(c^d)).slice(0,64);
+  }
+  async function clovsV42Sha256(text){
+    try{if(globalThis.crypto?.subtle){const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(String(text||'')));return Array.from(new Uint8Array(buf),b=>b.toString(16).padStart(2,'0')).join('');}}catch(_){}
+    return clovsV42FallbackHash(text);
+  }
+  function clovsV42CookieSeed(){try{const m=document.cookie.match(/(?:^|;\s*)clovs_device_v42=([A-Za-z0-9_-]{16,100})/);return m?m[1]:'';}catch(_){return '';}}
+  function clovsV42DeviceSeed(){
+    let seed='';try{seed=String(localStorage.getItem('clovs_device_v42')||'');}catch(_){}
+    if(!/^[A-Za-z0-9_-]{16,100}$/.test(seed))seed=clovsV42CookieSeed();
+    if(!/^[A-Za-z0-9_-]{16,100}$/.test(seed)){seed=('d_'+String(globalThis.crypto?.randomUUID?.()||Date.now()+'_'+Math.random().toString(36).slice(2))).replace(/[^A-Za-z0-9_-]/g,'').slice(0,96);}
+    try{localStorage.setItem('clovs_device_v42',seed);}catch(_){}
+    try{document.cookie='clovs_device_v42='+seed+'; Max-Age=31536000; Path=/; SameSite=Lax; Secure';}catch(_){}
+    return seed;
+  }
+  function clovsV42CanvasSignature(){
+    try{const c=document.createElement('canvas');c.width=220;c.height=48;const x=c.getContext('2d');x.textBaseline='top';x.font='15px Arial';x.fillStyle='#17a673';x.fillRect(4,4,31,19);x.fillStyle='#123';x.fillText('CLOVS-42-جهاز',42,7);x.globalCompositeOperation='multiply';x.fillStyle='rgba(30,180,120,.45)';x.beginPath();x.arc(176,22,15,0,Math.PI*2);x.fill();return c.toDataURL().slice(-420);}catch(_){return 'canvas-na';}
+  }
+  function clovsV42WebglSignature(){
+    try{const c=document.createElement('canvas'),g=c.getContext('webgl')||c.getContext('experimental-webgl');if(!g)return 'webgl-na';const ext=g.getExtension('WEBGL_debug_renderer_info');return [g.getParameter(g.VENDOR),g.getParameter(g.RENDERER),ext?g.getParameter(ext.UNMASKED_VENDOR_WEBGL):'',ext?g.getParameter(ext.UNMASKED_RENDERER_WEBGL):''].join('|').slice(0,500);}catch(_){return 'webgl-na';}
+  }
+  function clovsV42FingerprintSource(){
+    let tz='';try{tz=Intl.DateTimeFormat().resolvedOptions().timeZone||'';}catch(_){}
+    const sc=globalThis.screen||{};
+    return [navigator.platform||'',navigator.language||'',Array.from(navigator.languages||[]).join(','),tz,sc.width||0,sc.height||0,sc.availWidth||0,sc.availHeight||0,sc.colorDepth||0,navigator.hardwareConcurrency||0,navigator.deviceMemory||0,navigator.maxTouchPoints||0,clovsV42CanvasSignature(),clovsV42WebglSignature()].join('||');
+  }
+  async function clovsV42PublicIp(){
+    if(clovsV42IpCache!==undefined)return clovsV42IpCache;
+    const endpoints=['https://api64.ipify.org?format=json','https://api.ipify.org?format=json'];
+    for(const url of endpoints){
+      const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),2800);
+      try{const r=await fetch(url,{method:'GET',cache:'no-store',credentials:'omit',signal:controller.signal});const j=await r.json();const ip=String(j&&j.ip||'').trim();if(ip&&ip.length<=64&&/^[0-9a-f:.]+$/i.test(ip)){clearTimeout(timer);clovsV42IpCache=ip;return ip;}}catch(_){}finally{clearTimeout(timer);}
+    }
+    clovsV42IpCache='';return '';
+  }
+  async function clovsBuildDeviceProof(includeIp=true){
+    const [deviceHash,fingerprintHash,ip]=await Promise.all([clovsV42Sha256(clovsV42DeviceSeed()),clovsV42Sha256(clovsV42FingerprintSource()),includeIp?clovsV42PublicIp():Promise.resolve('')]);
+    return {deviceHash,fingerprintHash,ip:String(ip||'')};
+  }
+  globalThis.clovsBuildDeviceProof=clovsBuildDeviceProof;
+
+  // Registration override: one new CLOVS account per device (best-effort browser/device fingerprint + persistent first-party id).
+  globalThis.handleRegister=async function(e){
+    e.preventDefault();
+    const name=document.getElementById('reg-name').value.trim(),phone=document.getElementById('reg-phone').value.trim(),username=document.getElementById('reg-username').value.trim(),email=document.getElementById('reg-email').value.trim().toLowerCase(),password=document.getElementById('reg-password').value,role=document.getElementById('reg-role').value,usernameKey=username.toLowerCase();
+    if(!['customer','marketer','merchant'].includes(role)||!name||name.length>100||!/^01[0-9]{9}$/.test(phone)||!email||!/^[a-z0-9_]{3,24}$/.test(usernameKey)){showToast('أدخل بيانات صحيحة واختر نوع الحساب واسم مستخدم من 3 إلى 24 حرفاً إنجليزياً أو رقماً.','error');return;}
+    if(password.trim().length<8){showToast('كلمة المرور لازم تكون 8 أحرف أو أرقام على الأقل.','error');document.getElementById('reg-password').focus();return;}
+    if(appState.usersList.some(user=>user.email?.toLowerCase()===email)){showToast('البريد الإلكتروني مستخدم مسبقاً.','error');return;}
+    if(!clovsV11.config.serviceUrl){showToast('خدمة التحقق من الجهاز غير جاهزة. حدّث الصفحة وتأكد من ربط Apps Script.','error');return;}
+
+    let deviceProof;
+    try{
+      deviceProof=await clovsBuildDeviceProof(true);
+      const gate=await clovsReferralPublicService('deviceRegistrationCheck',deviceProof,25000);
+      if(gate.allowed===false){showToast(gate.message||'لا يمكن إنشاء أكثر من حساب من نفس الجهاز.','error');return;}
+    }catch(error){console.error('[CLOVS v42 device precheck]',error);showToast(error.message||'تعذر التحقق من الجهاز. حاول مرة أخرى.','error');return;}
+
+    const isMarketer=role==='marketer',isMerchant=role==='merchant',button=e.target.querySelector('button[type="submit"]');
+    button.disabled=true;button.innerText='جاري إنشاء الحساب...';marketerRegistrationInProgress=true;
+    let authUser=null,usernameReserved=false,profileSaved=false,registrationCommitted=false,cleanupFailed=false;
+    const usernameRef=(isMarketer?marketerUsernamesRef:isMerchant?merchantUsernamesRef:customerUsernamesRef).child(usernameKey),profileRef=isMarketer?marketerProfilesRef:isMerchant?merchantProfilesRef:customerProfilesRef;
+    try{
+      const credential=await firebaseAuth.createUserWithEmailAndPassword(email,password);authUser=credential.user;
+      const result=await usernameRef.transaction(current=>current==null?authUser.uid:undefined,undefined,false);
+      if(!result.committed){const conflict=new Error('username-taken');conflict.code='username-taken';throw conflict;}
+      usernameReserved=true;
+      const profile=isMarketer?{name,phone,email,username,usernameKey,role:'marketer',status:'approved',balance:0,payoutDetails:'',createdAt:firebase.database.ServerValue.TIMESTAMP}:isMerchant?{name,phone,email,username,usernameKey,role:'merchant',status:'pending',penaltyBalance:0,platformFeeRate:.20,createdAt:firebase.database.ServerValue.TIMESTAMP}:{name,phone,email,username,usernameKey,role:'customer',status:'active',createdAt:firebase.database.ServerValue.TIMESTAMP};
+      await setAndVerifyFirebase(profileRef.child(authUser.uid),profile,saved=>saved&&saved.role===role&&saved.email===email&&saved.usernameKey===usernameKey&&saved.status===(isMarketer?'approved':isMerchant?'pending':'active'),isMarketer?'حساب المسوق':isMerchant?'حساب التاجر':'حساب العميل');
+      profileSaved=true;
+      await clovsService('bindRegistrationDevice',deviceProof,30000);
+      registrationCommitted=true;
+      if(isMarketer)setFirebaseMarketerSession(authUser,profile);else if(isMerchant){await firebaseAuth.signOut();}else setFirebaseCustomerSession(authUser,profile);
+      e.target.reset();document.getElementById('reg-role').value='customer';
+      if(isMerchant){showToast('تم إرسال طلب حساب التاجر للإدارة. هتقدر تدخل بعد الموافقة.','info');switchView('auth');}
+      else{showToast(isMarketer?'تم إنشاء حساب المسوق وتفعيله بنجاح!':'تم إنشاء حساب العميل بنجاح!');switchView('home');}
+    }catch(error){
+      console.error('[CLOVS v42 registration]',error);
+      if(authUser&&!registrationCommitted){
+        if(profileSaved){try{await profileRef.child(authUser.uid).remove();profileSaved=false;}catch(cleanupError){cleanupFailed=true;console.error('[CLOVS v42 profile rollback]',cleanupError);}}
+        if(usernameReserved){try{await usernameRef.transaction(current=>current===authUser.uid?null:undefined,undefined,false);}catch(cleanupError){cleanupFailed=true;console.error('[CLOVS v42 username rollback]',cleanupError);}}
+        try{await authUser.delete();}catch(cleanupError){cleanupFailed=true;console.error('[CLOVS v42 auth rollback]',cleanupError);try{if(firebaseAuth.currentUser?.uid===authUser.uid)await firebaseAuth.signOut();}catch(_){}}
+      }
+      const raw=String(error.message||'');
+      const message=cleanupFailed?'تعذر إكمال التسجيل؛ تواصل مع إدارة الموقع لاستعادة البريد أو اسم المستخدم.':/الجهاز مرتبط|أكثر من حساب.*الجهاز/.test(raw)?'مينفعش إنشاء أكتر من حساب CLOVS من نفس الجهاز.':error.code==='auth/email-already-in-use'?'هذا البريد الإلكتروني مسجل بالفعل. سجل الدخول أو استخدم بريداً آخر.':error.code==='username-taken'?'اسم المستخدم مستخدم بالفعل. اختر اسماً آخر.':error.code==='auth/weak-password'?'كلمة المرور غير مقبولة. استخدم 8 أحرف أو أرقام على الأقل.':raw||'تعذر إنشاء الحساب.';
+      showToast(message,'error');
+    }finally{marketerRegistrationInProgress=false;button.disabled=false;button.innerText='إنشاء الحساب الآن';}
+  };
+
+  async function clovsV42BindReferralOwnerSecurity(){
+    if(appState.currentUser?.role!=='marketer'||!clovsV11.config.serviceUrl)return;
+    if(clovsV42OwnerBindPromise)return clovsV42OwnerBindPromise;
+    clovsV42OwnerBindPromise=(async()=>{try{const proof=await clovsBuildDeviceProof(true);return await clovsService('referralBindOwnerSecurity',proof,25000);}catch(error){console.warn('[CLOVS v42 referral owner security]',error.message);return null;}})();
+    return clovsV42OwnerBindPromise;
+  }
+  const clovsV42OriginalLoadReferralSummary=globalThis.clovsLoadReferralSummary;
+  if(typeof clovsV42OriginalLoadReferralSummary==='function')globalThis.clovsLoadReferralSummary=async function(force=false){await clovsV42BindReferralOwnerSecurity();return clovsV42OriginalLoadReferralSummary(force);};
+
+  globalThis.clovsMaybeClaimCapturedReferral=async function(){
+    const code=clovsReferralStoredCode(),user=appState.currentUser;
+    if(!code||!user||!['customer','marketer','merchant'].includes(user.role)||clovsReferral.claimBusy||!clovsV11.config.serviceUrl)return;
+    try{
+      clovsReferral.claimBusy=true;const proof=await clovsBuildDeviceProof(true);const r=await clovsService('claimReferral',Object.assign({code},proof),30000);
+      localStorage.setItem('clovs_ref_locked_v25','1');clovsReferral.accountStatus=r;updateSidebarContent();
+      if(r.securityEligible===false){showToast('الدعوة لن تُحتسب: '+(r.securityMessage||'الجهاز أو الـIP غير مؤهل.'),'error');return;}
+      if(!r.telegramClicked&&r.telegramGroupUrl&&!sessionStorage.getItem('clovs_ref_tg_prompt_v30')){sessionStorage.setItem('clovs_ref_tg_prompt_v30','1');openModal('أكمل خطوة تيليجرام','عشان الدعوة تتحسب، لازم الحساب يكون من جهاز وIP مختلفين، وبعدها افتح جروب CLOVS من الزر وانتظر شرط الـ24 ساعة.','fa-paper-plane',`<button type="button" onclick="clovsOpenReferralTelegramGroup('${escapeHtml(r.telegramGroupUrl)}')" class="clovs-primary-button w-full"><i class="fa-brands fa-telegram"></i> فتح جروب مسوقين CLOVS</button><button class="clovs-soft-button w-full mt-2" onclick="closeModal();switchView('referral-verification')">متابعة حالة الدعوة</button>`);}
+    }catch(e){if(/دعوة أخرى|لنفسك|غير موجود/.test(e.message||''))localStorage.setItem('clovs_ref_locked_v25','1');console.warn('[CLOVS referral claim v42]',e.message);}
+    finally{clovsReferral.claimBusy=false;}
+  };
+
+  const clovsV42OriginalReferralVerification=globalThis.renderReferralVerification;
+  if(typeof clovsV42OriginalReferralVerification==='function')globalThis.renderReferralVerification=async function(){
+    const c=document.getElementById('view-referral-verification');if(!c||!appState.currentUser)return;
+    try{
+      clovsReferral.accountStatus=await clovsService('referralAccountStatus',{},30000);const s=clovsReferral.accountStatus;
+      if(s.hasReferral&&s.securityEligible===false){const labels={same_device:'نفس الجهاز مستخدم للحساب الداعي',same_ip:'نفس الـIP مستخدم للحساب الداعي',duplicate_ip:'الـIP اتحسب قبل كده مع دعوة أخرى',ip_unavailable:'تعذر التحقق من الـIP وقت التسجيل'};c.innerHTML=`<div class="ref-v25-hero"><h2 class="text-3xl font-black">حالة الدعوة</h2><p class="text-emerald-100 mt-2">نظام الحماية يمنع تكرار الحسابات والدعوات الوهمية.</p></div><div class="clovs-panel text-center py-10"><i class="fa-solid fa-shield-halved text-4xl text-amber-500"></i><h3 class="text-xl font-black mt-4">الدعوة غير مؤهلة للمكافآت</h3><p class="text-slate-500 mt-2">${escapeHtml(labels[s.securityReason]||'الجهاز أو عنوان الشبكة غير مؤهل للاحتساب.')}</p></div>`;return;}
+    }catch(_){}
+    return clovsV42OriginalReferralVerification();
+  };
+
+  // Bind older existing accounts to the first device they use after v42. A conflict never blocks login; it only prevents future duplicate registrations from claiming the device.
+  try{firebaseAuth.onAuthStateChanged(user=>{clovsV42OwnerBindPromise=null;if(!user)return;setTimeout(async()=>{try{if(firebaseAuth.currentUser?.uid!==user.uid||!appState.currentUser||appState.currentUser.uid!==user.uid||!['customer','marketer','merchant'].includes(appState.currentUser.role))return;const proof=await clovsBuildDeviceProof(true);await clovsService('bindRegistrationDevice',proof,25000);}catch(error){console.warn('[CLOVS v42 soft device bind]',error.message);}},1400);});}catch(_){}
+
+})();
+</script>
+
+</body>
 </html>
