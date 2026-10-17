@@ -948,6 +948,12 @@ body.clovs-store-mode #modal-actions>.clovs-primary-button{background:#a15b38!im
   .ads29-source-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.ads29-source{display:block;background:#f8fafc;border:1px solid #e5e7eb;border-radius:16px;padding:12px;transition:.2s}.ads29-source:hover{transform:translateY(-2px);border-color:#86efac;background:#f7fff9}.ads29-source strong{display:block;font-size:11px;font-weight:950;color:#0f172a}.ads29-source small{display:block;font-size:9px;color:#64748b;margin-top:5px;direction:ltr;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ads29-source p{font-size:10px!important;margin-top:7px!important;line-height:1.7!important}.ads29-signal-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.ads29-signal{border:1px solid #e5ece8;border-radius:20px;padding:15px;background:linear-gradient(145deg,#fff,#f8fbfa)}.ads29-signal h4{font-size:14px;font-weight:950}.ads29-signal .state{display:inline-flex;margin-top:8px;padding:6px 9px;border-radius:999px;background:#ecfdf5;color:#047857;font-size:10px;font-weight:900}.ads29-score{width:88px;height:88px;border-radius:999px;display:grid;place-items:center;background:conic-gradient(#059669 var(--score),#e5e7eb 0);position:relative}.ads29-score:after{content:"";position:absolute;inset:8px;border-radius:999px;background:#fff}.ads29-score strong{position:relative;z-index:1;font-size:20px;font-weight:950;color:#065f46}.ads29-source-tag{display:inline-flex;gap:6px;align-items:center;border-radius:999px;background:#eef2ff;color:#4338ca;padding:6px 9px;font-size:9px;font-weight:900}.ads29-proof{border-right:3px solid #10b981;padding-right:10px}.ads29-limit{border-right-color:#f59e0b}.dark-mode .ads29-source,.dark-mode .ads29-signal{background:#111d2f;border-color:#334155}.dark-mode .ads29-source strong,.dark-mode .ads29-signal h4{color:#f1f5f9}.dark-mode .ads29-score:after{background:#172234}.dark-mode .ads29-score{background:conic-gradient(#34d399 var(--score),#334155 0)}.dark-mode .ads29-score strong{color:#86efac}@media(max-width:800px){.ads29-signal-grid,.ads29-source-grid{grid-template-columns:1fr}}
 </style>
 
+
+<style id="clovs-v34-search-neon-fix">
+.home-shop-search{position:relative!important;display:flex!important;align-items:center!important;gap:12px!important;max-width:840px!important;margin-inline:auto!important;padding:7px 9px 7px 15px!important;border:2px solid transparent!important;border-radius:999px!important;background:linear-gradient(#fff,#fff) padding-box,linear-gradient(90deg,#064e3b,#10b981,#bbf7d0,#10b981,#064e3b,#10b981) border-box!important;background-size:100% 100%,320% 100%!important;box-shadow:0 12px 32px -24px rgba(3,47,34,.55),0 0 14px rgba(16,185,129,.16)!important;animation:clovsV34Neon 2.2s linear infinite!important;overflow:hidden!important}
+.home-shop-search::before,.home-shop-search::after{content:none!important;display:none!important}.home-shop-search>*{position:relative!important;z-index:1!important}.home-shop-search .fa-magnifying-glass{width:auto!important;height:auto!important;display:inline-block!important;background:none!important;box-shadow:none!important;border-radius:0!important}.home-shop-search input{flex:1!important;min-width:0!important;background:transparent!important;outline:0!important;padding:10px 0!important}.home-shop-search button{border-radius:999px!important;padding-inline:22px!important}@keyframes clovsV34Neon{from{background-position:0 0,0% 50%}to{background-position:0 0,320% 50%}}body.dark-mode .home-shop-search{background:linear-gradient(#172234,#172234) padding-box,linear-gradient(90deg,#065f46,#10b981,#bbf7d0,#10b981,#065f46,#10b981) border-box!important}@media(max-width:639px){.home-shop-search{margin:0!important;width:100%!important;border-radius:16px!important;padding:5px 6px!important}.home-shop-search input{font-size:12px!important}.home-shop-search button{padding:9px 14px!important;font-size:11px!important}}
+</style>
+
 </head>
 
 <body class="firebase-booting bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col selection:bg-brand-500 selection:text-white">
@@ -2674,140 +2680,71 @@ body.clovs-store-mode #modal-actions>.clovs-primary-button{background:#a15b38!im
       });
     }
 
-
-    // v31 auth repair: resolve the signed-in account without failing the whole site on one denied RTDB read.
-    function clovsFirebaseErrorCode(error) {
-      return String(error?.code || error?.message || 'unknown').replace(/^Error:\s*/,'').slice(0,120);
-    }
-
-    async function clovsResolveOwnAccountDirect(authUser, forceRefresh=false) {
-      if (!authUser) return {resolved:false, errors:[]};
-      if (authUser.uid === FIREBASE_ADMIN_UID) return {resolved:true, role:'super_admin', profile:null, source:'owner'};
-      if (forceRefresh) {
-        try { await authUser.getIdToken(true); } catch (_) {}
-      }
-      const requests = [
-        ['marketer', marketerProfilesRef.child(authUser.uid)],
-        ['merchant', merchantProfilesRef.child(authUser.uid)],
-        ['customer', customerProfilesRef.child(authUser.uid)],
-        ['staff', staffRolesRef.child(authUser.uid)]
-      ];
-      const settled = await Promise.allSettled(requests.map(([,ref])=>ref.once('value')));
-      const values = {}, errors=[];
-      settled.forEach((result,index)=>{
-        const type=requests[index][0];
-        if(result.status==='fulfilled') values[type]=result.value.val();
-        else errors.push({type,code:clovsFirebaseErrorCode(result.reason)});
-      });
-      const marketer=values.marketer;
-      if(marketer){
-        if(marketer.role!=='marketer' || marketer.status!=='approved') return {resolved:true,role:'marketer',profile:marketer,inactive:true,source:'rtdb',errors};
-        return {resolved:true,role:'marketer',profile:marketer,source:'rtdb',errors};
-      }
-      const merchant=values.merchant;
-      if(merchant){
-        if(merchant.role!=='merchant' || merchant.status!=='approved') return {resolved:true,role:'merchant',profile:merchant,inactive:true,source:'rtdb',errors};
-        return {resolved:true,role:'merchant',profile:merchant,source:'rtdb',errors};
-      }
-      const customer=values.customer;
-      if(customer){
-        if(customer.role!=='customer' || customer.status!=='active') return {resolved:true,role:'customer',profile:customer,inactive:true,source:'rtdb',errors};
-        return {resolved:true,role:'customer',profile:customer,source:'rtdb',errors};
-      }
-      if(values.staff==='admin') return {resolved:true,role:'admin',profile:null,source:'rtdb',errors};
-      return {resolved:false,errors};
-    }
-
-    async function clovsResolveServiceUrlForAuth(timeoutMs=2800) {
-      if (/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(String(clovsV11?.config?.serviceUrl||''))) return clovsV11.config.serviceUrl;
-      try {
-        const cached=localStorage.getItem('clovs_service_url_v31')||localStorage.getItem('clovs_service_url_v30')||'';
-        if(/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(cached)) { clovsV11.config.serviceUrl=cached; return cached; }
-      } catch(_) {}
-      try {
-        const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),timeoutMs);
-        const response=await fetch(`${firebaseConfig.databaseURL}/siteSettings/clovsV11/serviceUrl.json`,{signal:controller.signal,cache:'no-store'});
-        clearTimeout(timer);
-        if(response.ok){
-          const value=await response.json();
-          if(/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(String(value||''))){
-            clovsV11.config.serviceUrl=String(value);
-            try{localStorage.setItem('clovs_service_url_v31',String(value));}catch(_){}
-            return String(value);
-          }
-        }
-      } catch(_) {}
-      return '';
-    }
-
-    async function clovsResolveOwnAccountBackend(authUser) {
-      const endpoint=await clovsResolveServiceUrlForAuth();
-      if(!endpoint) return null;
-      try {
-        const result=await clovsService('accountSession',{},18000);
-        if(!result || result.uid!==authUser.uid || !['super_admin','admin','marketer','merchant','customer'].includes(result.role)) return null;
-        return {resolved:true,role:result.role,profile:result.profile||null,source:'backend',errors:[]};
-      } catch(error) {
-        console.warn('[CLOVS v31] backend account fallback failed:', error);
-        return null;
-      }
-    }
-
-    async function clovsResolveAuthenticatedAccount(authUser) {
-      let direct=await clovsResolveOwnAccountDirect(authUser,false);
-      if(direct.resolved) return direct;
-      const permissionProblem=(direct.errors||[]).some(e=>/permission|denied|auth|token/i.test(e.code));
-      if(permissionProblem){
-        direct=await clovsResolveOwnAccountDirect(authUser,true);
-        if(direct.resolved) return direct;
-      }
-      const backend=await clovsResolveOwnAccountBackend(authUser);
-      if(backend) return backend;
-      return direct;
-    }
-
-    function clovsStartResolvedSession(authUser,resolved) {
-      if(!resolved?.resolved) return false;
-      if(resolved.inactive) return false;
-      if(resolved.role==='marketer') return setFirebaseMarketerSession(authUser,resolved.profile||{});
-      if(resolved.role==='merchant') return setFirebaseMerchantSession(authUser,resolved.profile||{});
-      if(resolved.role==='customer') return setFirebaseCustomerSession(authUser,resolved.profile||{});
-      if(['admin','super_admin'].includes(resolved.role)) {
-        const ok=setFirebaseStaffSession(authUser,resolved.role);
-        if(!ok) return false;
-        if(resolved.role==='super_admin') startStaffRolesSync(); else watchCurrentStaffRole(authUser);
-        startMarketerProfilesSync(); startMerchantProfilesSync();
-        return true;
-      }
-      return false;
-    }
-
     firebaseAuth.onAuthStateChanged(async (authUser) => {
       try {
       if (authUser) {
         if (authUser.isAnonymous) { appState.currentUser=null; updateHeaderAuthUI(); return; }
         if (marketerRegistrationInProgress || marketerLoginInProgress) return;
         try {
-          const resolved=await clovsResolveAuthenticatedAccount(authUser);
-          if(firebaseAuth.currentUser?.uid!==authUser.uid) return;
-          if(resolved?.inactive){
+          if (authUser.uid !== FIREBASE_ADMIN_UID) {
+            let profile = null;
+            try {
+              const snapshot = await marketerProfilesRef.child(authUser.uid).once('value');
+              profile = snapshot.val();
+            } catch (error) {
+              // Staff accounts need not have access to marketer profile records.
+              console.info('[Clovs Firebase] no marketer profile for staff account');
+            }
+            if (firebaseAuth.currentUser?.uid !== authUser.uid) return;
+            if (profile && profile.status !== 'approved') {
+              await firebaseAuth.signOut();
+              showToast('حساب المسوق غير مفعل حالياً.', 'error');
+              return;
+            }
+            if (profile && setFirebaseMarketerSession(authUser, profile)) return;
+
+            try {
+              const merchantSnap = await merchantProfilesRef.child(authUser.uid).once('value');
+              const merchantProfile = merchantSnap.val();
+              if (merchantProfile && merchantProfile.status !== 'approved') {
+                await firebaseAuth.signOut(); showToast('حساب التاجر غير متاح حالياً.', 'error'); return;
+              }
+              if (merchantProfile && setFirebaseMerchantSession(authUser, merchantProfile)) return;
+            } catch (error) {
+              console.info('[Clovs Firebase] no merchant profile for this account');
+            }
+
+            try {
+              const customerSnap = await customerProfilesRef.child(authUser.uid).once('value');
+              const customerProfile = customerSnap.val();
+              if (customerProfile && customerProfile.status !== 'active') {
+                await firebaseAuth.signOut();
+                showToast('حساب العميل غير متاح حالياً.', 'error');
+                return;
+              }
+              if (customerProfile && setFirebaseCustomerSession(authUser, customerProfile)) return;
+            } catch (error) {
+              console.info('[Clovs Firebase] no customer profile for staff account');
+            }
+          }
+          const role = await getFirebaseStaffRole(authUser);
+          if (firebaseAuth.currentUser?.uid !== authUser.uid) return;
+          if (!role) {
             await firebaseAuth.signOut();
-            const label=resolved.role==='marketer'?'المسوق':resolved.role==='merchant'?'التاجر':'العميل';
-            showToast(`حساب ${label} غير متاح حالياً.`, 'error');
+            showToast('هذا الحساب غير مسجل كعميل أو مسوق أو تاجر أو كعضو في فريق الموقع', 'error');
             return;
           }
-          if(resolved?.resolved && clovsStartResolvedSession(authUser,resolved)){
-            if(resolved.source==='backend') console.info('[CLOVS v31] account restored through backend fallback');
-            return;
+          setFirebaseStaffSession(authUser, role);
+          if (role === 'super_admin') {
+            startStaffRolesSync();
+            // Legacy image migration is no longer auto-started: it used to compete with storefront reads and slow the site.
+            // Run migration only from a dedicated maintenance action when needed.
           }
-          const errors=(resolved?.errors||[]).map(e=>`${e.type}:${e.code}`).join(' | ');
-          if(errors) console.error('[CLOVS v31] account lookup diagnostics:', errors);
-          await firebaseAuth.signOut();
-          showToast(errors ? 'تعذر قراءة ملف الحساب من Firebase. تم إنهاء الجلسة القديمة؛ سجّل الدخول من جديد.' : 'هذا الحساب غير مسجل كعميل أو مسوق أو تاجر أو كعضو في فريق الموقع', 'error');
+          else watchCurrentStaffRole(authUser);
+          if (role === 'super_admin' || role === 'admin') { startMarketerProfilesSync(); startMerchantProfilesSync(); }
         } catch (error) {
-          console.error('[CLOVS v31] account resolver failed:', error);
-          const code=clovsFirebaseErrorCode(error);
-          showToast(`تعذر التحقق من الحساب (${code}). جرّب تسجيل الدخول من جديد.`, 'error');
+          console.error('[Clovs Firebase] account role lookup failed:', error);
+          showToast('تعذر التحقق من الحساب. راجع اتصال Firebase وقواعد قاعدة البيانات.', 'error');
           firebaseBootError('auth', error);
         }
       } else {
@@ -7019,6 +6956,16 @@ body.clovs-store-mode #modal-actions>.clovs-primary-button{background:#a15b38!im
       } catch (_) { return ''; }
     }
 
+    function escapeHtml(value) {
+      return String(value ?? '').replace(/[&<>"']/g, ch => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' })[ch]);
+    }
+
+    function safeImageUrl(value, fallback = PRODUCT_PLACEHOLDER) {
+      const url = String(value || '').trim();
+      return /^https:\/\/[^\s]+$/i.test(url) || /^data:image\/(?:png|jpeg|webp|gif|avif);base64,[a-z0-9+/=]+$/i.test(url) || /^assets\/(?:previews|slides)\/[A-Za-z0-9_-]+\.webp$/.test(url)
+        ? url : fallback;
+    }
+
     function safeWhatsAppUrl(value) {
       try {
         const url = new URL(String(value || ''));
@@ -7590,7 +7537,7 @@ body.clovs-store-mode #modal-actions>.clovs-primary-button{background:#a15b38!im
       const best=CLOVS_BADGES.filter(b=>done>=b.n).at(-1), tenure=clovsTenure(user?.createdAt).badge;      return `<div class="clovs-account-mini"><div class="clovs-avatar">${publicInfo.avatarUrl?`<img src="${escapeHtml(safeImageUrl(publicInfo.avatarUrl))}" alt="صورة المسوق">`:escapeHtml((user?.name||'م').charAt(0))}</div><div><strong>${escapeHtml(user?.name||'')}</strong><p>${escapeHtml(tenure.name)}${best?` · ${escapeHtml(best.name)}`:''}</p></div><button onclick="switchView('marketer-profile')" class="clovs-soft-button">ملفي ومستواي <i class="fa-solid fa-arrow-left"></i></button></div>`;
     }
     function startClovsV11Sync() {
-      firebaseDB.ref('siteSettings/clovsV11').on('value',snap=>{clovsV11.config=snap.val()||{};try{if(clovsV11.config.serviceUrl)localStorage.setItem('clovs_service_url_v31',clovsV11.config.serviceUrl);}catch(_){}if(!clovsV11.config.shippingMessage||/بنجهز.*للشحن|متابعة التوصيل/.test(clovsV11.config.shippingMessage))clovsV11.config.shippingMessage='للطلب ابعتلنا على رسايل الصفحة أو سيب تعليق، وهنرد عليك في أسرع وقت.';clovsFlushReferralVisit();clovsMaybeClaimCapturedReferral();clovsRefreshReferralAccountStatus();if(appState.currentView==='marketer-dashboard')renderMarketerDashboard();if(appState.currentView==='marketer-referrals')renderMarketerReferrals();},()=>{});
+      firebaseDB.ref('siteSettings/clovsV11').on('value',snap=>{clovsV11.config=snap.val()||{};if(!clovsV11.config.shippingMessage||/بنجهز.*للشحن|متابعة التوصيل/.test(clovsV11.config.shippingMessage))clovsV11.config.shippingMessage='للطلب ابعتلنا على رسايل الصفحة أو سيب تعليق، وهنرد عليك في أسرع وقت.';clovsFlushReferralVisit();clovsMaybeClaimCapturedReferral();clovsRefreshReferralAccountStatus();if(appState.currentView==='marketer-dashboard')renderMarketerDashboard();if(appState.currentView==='marketer-referrals')renderMarketerReferrals();},()=>{});
       firebaseDB.ref('marketerPublicProfiles').on('value',snap=>{clovsV11.publicProfiles=snap.val()||{};updateHeaderAuthUI();if(appState.currentView==='marketer-profile')renderMarketerProfile();if(appState.currentView==='marketer-dashboard')renderMarketerDashboard();if(appState.currentView==='top-marketers')renderTopMarketersView();},()=>{});
     }
     function clovsRefreshIdentity() {
@@ -7699,11 +7646,11 @@ body.clovs-store-mode #modal-actions>.clovs-primary-button{background:#a15b38!im
     function clovsRenderStudioResults(){const s=clovsV11.studio,el=document.getElementById('studio-results');if(!el||!s.hook)return;el.innerHTML=`<div class="clovs-panel"><div class="flex justify-between items-center gap-3"><h3>الإعلان الجاهز</h3><span class="clovs-pill">${['ai','cloudflare'].includes(s.source)?'بالذكاء الاصطناعي':'صياغة CLOVS'}</span></div><label class="clovs-label mt-3">الهوك<input id="studio-hook" class="clovs-input" value="${escapeHtml(s.hook)}" oninput="clovsV11.studio.hook=this.value"></label><label class="clovs-label mt-3">الوصف<textarea id="studio-description" class="clovs-input" rows="12" oninput="clovsV11.studio.description=this.value">${escapeHtml(s.description)}</textarea></label><label class="clovs-label mt-3">السعر بالجنيه<input id="studio-result-price" class="clovs-input" type="number" min="0.01" step="0.01" value="${escapeHtml(s.price)}" oninput="clovsV11.studio.price=this.value"></label><p class="clovs-policy mt-3">زر النسخ يجمع الهوك والوصف والسعر في نص واحد جاهز للنشر.</p><button onclick="clovsCopyAd()" class="clovs-primary-button mt-3"><i class="fa-regular fa-copy"></i> نسخ الإعلان والسعر</button></div>`;}
     async function clovsCopyAd(){const s=clovsV11.studio;const currentPrice=document.getElementById('studio-result-price');if(currentPrice)s.price=currentPrice.value;const text=[s.hook,s.description,'🔥 السعر: '+money(Number(s.price))+' جنيه فقط!','📩 للطلب: سيب تعليق تحت البوست أو ابعتلنا رسالة على الصفحة، وهنرد عليك في أسرع وقت.'].filter(Boolean).join('\n\n');try{await navigator.clipboard.writeText(text);showToast('تم نسخ الإعلان');}catch(e){openModal('انسخ الإعلان','');const area=document.createElement('textarea');area.className='clovs-input';area.rows=12;area.value=text;document.getElementById('modal-message').replaceChildren(area);area.select();}}
     function clovsRenderStudioImages(){const s=clovsV11.studio,el=document.getElementById('studio-images');if(!el)return;el.innerHTML=s.images.map((url,i)=>url?`<div class="clovs-image-card"><img src="${escapeHtml(safeImageUrl(url))}" alt="صورة إعلانية ${i+1} للمنتج"><div><strong>${['خلفية بيضاء','أثناء الاستخدام','في مكان الاستخدام','صورة إعلانية'][i]}</strong><button onclick="clovsSaveAdImage(${i})" class="clovs-soft-button">تحميل الصورة</button></div></div>`:'').join('');}
-    function renderClovsIntegrations(){if(appState.currentUser?.role!=='super_admin')return;const config=clovsV11.config;document.getElementById('view-clovs-integrations').innerHTML=`<div class="clovs-panel"><h2 class="text-2xl font-black">إعدادات الربط</h2><p>ربط خدمة الذكاء الاصطناعي وإشعارات تيليجرام.</p></div><form onsubmit="saveClovsIntegration(event)" class="clovs-panel space-y-4"><label class="clovs-label">رابط الخدمة<input id="clovs-endpoint" class="clovs-input" dir="ltr" placeholder="https://script.google.com/macros/s/.../exec" value="${escapeHtml(config.serviceUrl||'')}"></label><label class="clovs-label">عبارة الطلب في الإعلان<input id="clovs-shipping-message" class="clovs-input" maxlength="180" value="${escapeHtml(config.shippingMessage||'للطلب ابعتلنا على رسايل الصفحة أو سيب تعليق، وهنرد عليك في أسرع وقت.')}"></label><div class="flex flex-wrap gap-3"><button class="clovs-primary-button">حفظ الإعدادات</button><button class="clovs-soft-button" type="button" onclick="testClovsIntegration()">فحص الخدمة</button><button class="clovs-soft-button" type="button" onclick="clovsTestTelegram()">إرسال رسالة اختبار لتيليجرام</button><button class="clovs-soft-button" type="button" onclick="clovsDownloadBackend()"><i class="fa-solid fa-download"></i> تحميل خدمة CLOVS v31</button></div><p id="clovs-integration-status" role="status"></p></form><div class="clovs-panel"><h3>تشغيل استقبال الأوردرات</h3><p>يحتاج Apps Script إلى بيانات Firebase وTELEGRAM_BOT_TOKEN وTELEGRAM_CHAT_ID. نظام الدعوات v30 لا يحتاج بوت تأكيد. أضف TELEGRAM_GROUP_URL فقط لو عايز تغير رابط الجروب الافتراضي، ثم شغّل installClovsReferral() مرة واحدة لتركيب معالج المكافآت كل ساعة. للـAI أضف CLOUDFLARE_ACCOUNT_ID وCLOUDFLARE_API_TOKEN، ولدراسة السوق أضف مفتاح بحث واحد: SERPER_API_KEY أو BRAVE_SEARCH_API_KEY أو TAVILY_API_KEY.</p></div>`;}
-    async function saveClovsIntegration(event){event.preventDefault();if(firebaseAuth.currentUser?.uid!==FIREBASE_ADMIN_UID)return;const serviceUrl=document.getElementById('clovs-endpoint').value.trim(),shippingMessage=document.getElementById('clovs-shipping-message').value.trim();if(!/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(serviceUrl)||!shippingMessage)return showToast('اكتب رابط /exec صحيح وعبارة الشحن','error');try{await setAndVerifyFirebase(firebaseDB.ref('siteSettings/clovsV11'),{serviceUrl,shippingMessage,version:31,updatedAt:Date.now()},s=>s&&s.serviceUrl===serviceUrl&&s.shippingMessage===shippingMessage,'إعدادات التحديث');clovsV11.config={serviceUrl,shippingMessage,version:31};try{localStorage.setItem('clovs_service_url_v31',serviceUrl);}catch(_){};showToast('تم حفظ الربط');}catch(e){showToast('تعذر حفظ الربط. راجع قواعد Firebase.','error');}}
+    function renderClovsIntegrations(){if(appState.currentUser?.role!=='super_admin')return;const config=clovsV11.config;document.getElementById('view-clovs-integrations').innerHTML=`<div class="clovs-panel"><h2 class="text-2xl font-black">إعدادات الربط</h2><p>ربط خدمة الذكاء الاصطناعي وإشعارات تيليجرام.</p></div><form onsubmit="saveClovsIntegration(event)" class="clovs-panel space-y-4"><label class="clovs-label">رابط الخدمة<input id="clovs-endpoint" class="clovs-input" dir="ltr" placeholder="https://script.google.com/macros/s/.../exec" value="${escapeHtml(config.serviceUrl||'')}"></label><label class="clovs-label">عبارة الطلب في الإعلان<input id="clovs-shipping-message" class="clovs-input" maxlength="180" value="${escapeHtml(config.shippingMessage||'للطلب ابعتلنا على رسايل الصفحة أو سيب تعليق، وهنرد عليك في أسرع وقت.')}"></label><div class="flex flex-wrap gap-3"><button class="clovs-primary-button">حفظ الإعدادات</button><button class="clovs-soft-button" type="button" onclick="testClovsIntegration()">فحص الخدمة</button><button class="clovs-soft-button" type="button" onclick="clovsTestTelegram()">إرسال رسالة اختبار لتيليجرام</button><button class="clovs-soft-button" type="button" onclick="clovsDownloadBackend()"><i class="fa-solid fa-download"></i> تحميل خدمة CLOVS v30</button></div><p id="clovs-integration-status" role="status"></p></form><div class="clovs-panel"><h3>تشغيل استقبال الأوردرات</h3><p>يحتاج Apps Script إلى بيانات Firebase وTELEGRAM_BOT_TOKEN وTELEGRAM_CHAT_ID. نظام الدعوات v30 لا يحتاج بوت تأكيد. أضف TELEGRAM_GROUP_URL فقط لو عايز تغير رابط الجروب الافتراضي، ثم شغّل installClovsReferral() مرة واحدة لتركيب معالج المكافآت كل ساعة. للـAI أضف CLOUDFLARE_ACCOUNT_ID وCLOUDFLARE_API_TOKEN، ولدراسة السوق أضف مفتاح بحث واحد: SERPER_API_KEY أو BRAVE_SEARCH_API_KEY أو TAVILY_API_KEY.</p></div>`;}
+    async function saveClovsIntegration(event){event.preventDefault();if(firebaseAuth.currentUser?.uid!==FIREBASE_ADMIN_UID)return;const serviceUrl=document.getElementById('clovs-endpoint').value.trim(),shippingMessage=document.getElementById('clovs-shipping-message').value.trim();if(!/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(serviceUrl)||!shippingMessage)return showToast('اكتب رابط /exec صحيح وعبارة الشحن','error');try{await setAndVerifyFirebase(firebaseDB.ref('siteSettings/clovsV11'),{serviceUrl,shippingMessage,version:29,updatedAt:Date.now()},s=>s&&s.serviceUrl===serviceUrl&&s.shippingMessage===shippingMessage,'إعدادات التحديث');clovsV11.config={serviceUrl,shippingMessage,version:29};showToast('تم حفظ الربط');}catch(e){showToast('تعذر حفظ الربط. راجع قواعد Firebase.','error');}}
     async function testClovsIntegration(){const el=document.getElementById('clovs-integration-status');el.textContent='جاري الاختبار...';try{const r=await clovsService('health');el.textContent=`الاتصال ناجح · تيليجرام: ${r.telegramReady?'يستقبل':'يحتاج ضبط'} · متابعة الطلبات: ${r.triggerInstalled?'مفعلة':'غير مفعلة؛ شغّل installClovs'} · AI: ${r.aiReady?'مفعّل':(r.aiMessage||'يحتاج إعداد')} · بحث السوق: ${r.marketSearchReady?'مفعّل عبر '+r.marketSearchProvider:'يحتاج Search API Key'}`;}catch(e){el.textContent=e.message;}}
-    function clovsDownloadBackend(){clovsDownload('CLOVS-v31-PRODUCTION-Code.gs',document.getElementById('clovs-backend-source').textContent);}
-    function clovsDownloadRules(){clovsDownload('CLOVS-v31-PRODUCTION-Firebase-Rules.json',document.getElementById('clovs-rules-source').textContent);}
+    function clovsDownloadBackend(){clovsDownload('CLOVS-v28-Service-Ads-Intelligence.gs',document.getElementById('clovs-backend-source').textContent);}
+    function clovsDownloadRules(){clovsDownload('CLOVS-v17-Firebase-rules.json',document.getElementById('clovs-rules-source').textContent);}
 
     // v16 storefront, customer cart isolation and administrator tools.
     let clovsAuthResolved=false, clovsInviteShown=false, clovsInvitePreviousFocus=null;
@@ -8105,13 +8052,13 @@ body.clovs-store-mode #modal-actions>.clovs-primary-button{background:#a15b38!im
   function clovsPaidAdsPlanResultHTML(r){if(!r)return '<div class="ads28-empty"><i class="fa-solid fa-earth-africa"></i><h3>اختار منتج واعمل دراسة السوق</h3><p class="mt-2">هنبحث خارج CLOVS في Amazon Egypt، إشارات Meta، والسوق المصري. أوردرات CLOVS مش داخلة في الدراسة.</p></div>';const p=r.plan||{},amazon=p.amazon||{},meta=p.meta||{},egypt=p.egypt||{},aud=p.audience||{},camp=p.campaign||{},budget=p.budget||{},creative=p.creatives||{},copy=p.copy||{},testing=p.testing||{},sources=r.sources||[];const conf=clovsPaidAdsConfidenceLabel(p.confidence);const score=Math.max(0,Math.min(100,Number(p.marketScore)||0));return `<div class="space-y-4"><div class="flex flex-wrap items-center justify-between gap-4"><div><span class="ads28-data-label real"><i class="fa-solid fa-globe"></i> بحث خارجي حيّ · بدون مبيعات CLOVS</span><h2 class="text-2xl font-black mt-2">دراسة سوق: ${clovs29Esc(r.product?.name||'المنتج')}</h2><p class="text-xs text-slate-500 mt-1">مزود البحث: ${clovs29Esc(r.research?.provider||'—')} · كلمة البحث: ${clovs29Esc(r.research?.keyword||'—')}</p></div><div class="flex items-center gap-3"><div class="ads29-score" style="--score:${score}%"><strong>${score}</strong></div><span class="ads28-confidence ${conf.cls}"><i class="fa-solid fa-signal"></i>${conf.text}</span></div></div><div class="ads28-note"><strong>مهم:</strong> الدرجة ${score}/100 تقييم AI لقوة الفرصة من الأدلة العامة، وليست نسبة نجاح مضمونة أو رقم مبيعات.</div><div class="ads29-signal-grid"><div class="ads29-signal"><h4><i class="fa-brands fa-amazon ml-1"></i> Amazon Egypt</h4><span class="state">الطلب: ${clovs29State(amazon.demandLevel)}</span><p class="mt-3">${clovs29Esc(amazon.salesSignal||amazon.rationale||'')}</p><p class="mt-2"><strong>السعر المرصود:</strong> ${clovs29Esc(amazon.priceRange||'غير محسوم')}</p><p><strong>المنافسة:</strong> ${clovs29Esc(amazon.competition||'غير محسومة')}</p>${clovs29EvidenceLinks(amazon.evidenceIds,sources)}</div><div class="ads29-signal"><h4><i class="fa-brands fa-facebook ml-1"></i> Meta / Facebook</h4><span class="state">نشاط الإعلانات: ${clovs29State(meta.activityLevel)}</span><p class="mt-3">${clovs29Esc(meta.rationale||'')}</p><p class="mt-2"><strong>الاستمرارية:</strong> ${clovs29Esc(meta.longevity||'غير محسومة')}</p>${clovs29List(meta.creativePatterns,'fa-bullhorn')}${clovs29EvidenceLinks(meta.evidenceIds,sources)}</div><div class="ads29-signal"><h4><i class="fa-solid fa-flag ml-1"></i> السوق المصري</h4><span class="state">ملاءمة السوق: ${clovs29State(egypt.fitLevel)}</span><p class="mt-3">${clovs29Esc(egypt.rationale||'')}</p>${clovs29List(egypt.platformPriority,'fa-mobile-screen')}${clovs29List(egypt.audienceContext,'fa-chart-simple')}${clovs29EvidenceLinks(egypt.evidenceIds,sources)}</div></div><section class="ads28-section"><div class="ads28-section-head"><div><h3>الجمهور المقترح</h3><p>ده استنتاج تسويقي من السوق والمصادر، مش ديموغرافيا مبيعات سرية.</p></div><span class="ads28-data-label ai"><i class="fa-solid fa-brain"></i> AI inference</span></div><div class="ads28-econ"><div><span>العمر</span><strong>${Number(aud.ageMin)||18}–${Number(aud.ageMax)||65}</strong></div><div><span>الجنس</span><strong>${clovs29Esc(aud.gender||'الكل')}</strong></div><div><span>السعر المقترح للمقارنة</span><strong>${clovs29Esc(amazon.priceRange||'راجع السوق')}</strong></div></div><p class="mt-3">${clovs29Esc(aud.rationale||'')}</p><div class="ads28-chip-wrap mt-3">${(aud.interests||[]).map(x=>`<span class="ads28-chip">${clovs29Esc(x)}</span>`).join('')}${(aud.locations||[]).map(x=>`<span class="ads28-chip location">${clovs29Esc(x)}</span>`).join('')}</div>${clovs29EvidenceLinks(aud.evidenceIds,sources)}</section><section class="ads28-section"><div class="ads28-section-head"><div><h3>إعداد الحملة والاختبار</h3><p>${clovs29Esc(p.summary||'')}</p></div><span class="ads28-data-label ai"><i class="fa-solid fa-flask"></i> خطة اختبار</span></div><div class="ads28-econ"><div><span>ميزانية يومية اختبارية</span><strong>${clovsPaidAdsMoney(budget.dailyMin)}–${clovsPaidAdsMoney(budget.dailyMax)} ج</strong></div><div><span>مدة الاختبار</span><strong>${Number(budget.testDays)||3} أيام</strong></div><div><span>الهدف</span><strong class="text-sm">${clovs29Esc(camp.objective||'Sales')}</strong></div></div><div class="ads28-note mt-3">${clovs29Esc(budget.reason||'ميزانية اختبار وليست متوسط CPA مؤكد للسوق.')}</div><div class="grid md:grid-cols-2 gap-3 mt-4"><div class="ads28-list-item"><i class="fa-solid fa-layer-group"></i><span><strong>Structure:</strong> ${clovs29Esc(camp.structure||'—')}</span></div><div class="ads28-list-item"><i class="fa-solid fa-mobile-screen"></i><span><strong>Placements:</strong> ${clovs29Esc(camp.placements||'—')}</span></div></div></section><section class="ads28-section"><h3>الكرياتيف والنسخ المقترحة</h3><div class="grid md:grid-cols-2 gap-4 mt-3"><div><p class="font-black text-xs mb-2">زوايا الإعلان</p>${clovs29List(creative.angles,'fa-video')}</div><div><p class="font-black text-xs mb-2">الفورمات</p>${clovs29List(creative.formats,'fa-photo-film')}</div><div><p class="font-black text-xs mb-2">Hooks</p>${clovs29List(copy.hooks,'fa-bolt')}</div><div><p class="font-black text-xs mb-2">Headlines</p>${clovs29List(copy.headlines,'fa-heading')}</div></div></section><section class="ads28-section"><h3>خطة الاختبار</h3>${clovs29List(testing.steps,'fa-flask')}</section><section class="ads28-section"><div class="ads28-section-head"><div><h3>المصادر التي بُنيت عليها الدراسة</h3><p>افتحها وراجعها بنفسك؛ كل ادعاء دقيق لازم يكون قابل للتتبع.</p></div><span class="ads28-data-label real"><i class="fa-solid fa-link"></i>${sources.length} مصدر</span></div>${clovs29SourcesHTML(sources)}</section>${(p.warnings||[]).length?`<section class="ads28-section"><h3>حدود الدراسة</h3>${clovs29List(p.warnings,'fa-triangle-exclamation')}</section>`:''}</div>`;}
   async function clovsRunPaidAdsStudy(){if(clovsPaidAdsV29.busy||!clovsPaidAdsV29.product)return;clovsPaidAdsStoreInputs();const price=Number(clovsPaidAdsV29.sellingPrice);if(!Number.isFinite(price)||price<=0)return showToast('اكتب سعر البيع','error');try{clovsPaidAdsV29.busy=true;clovsPaidAdsV29.result=null;renderPaidAdsPlanner();const r=await clovsService('marketAdStudy',{productId:clovsPaidAdsV29.product.id,sellingPrice:price,keyword:clovsPaidAdsV29.keyword,amazonUrl:clovsPaidAdsV29.amazonUrl,metaKeyword:clovsPaidAdsV29.metaKeyword},180000);clovsPaidAdsV29.result=r;if(r.usage)clovsV11.aiUsage={...r.usage,loaded:true};renderPaidAdsPlanner();showToast('دراسة السوق الخارجية جاهزة');}catch(e){clovsPaidAdsV29.result=null;renderPaidAdsPlanner();showToast(e.message,'error');}finally{clovsPaidAdsV29.busy=false;renderPaidAdsPlanner();}}
   function renderPaidAdsPlanner(){if(appState.currentUser?.role!=='marketer')return;clovsPaidAdsStoreInputs();const c=document.getElementById('view-paid-ads');if(!c)return;const s=clovsPaidAdsV29,p=s.product;c.innerHTML=`<div class="ads28-hero"><div class="relative z-10"><span class="clovs-pill"><i class="fa-solid fa-earth-africa"></i> CLOVS Market Intelligence</span><h2 class="mt-3">دراسة المنتج من السوق المصري الخارجي</h2><p>Amazon Egypt + إشارات إعلانات Meta + المصادر الرقمية المصرية. الدراسة لا تستخدم مبيعات CLOVS نهائيًا، وكل نتيجة بتظهر معها حدود الدقة والمصادر.</p></div></div><div class="ads28-grid"><aside class="ads28-panel ads28-sticky space-y-4"><div><h3>إعداد البحث</h3><p>اختيار منتج CLOVS هنا مجرد تعريف للمنتج؛ مش هنقرأ أوردراته.</p></div><button onclick="clovsPaidAdsPickProduct()" class="clovs-add-button w-full" ${s.busy?'disabled':''}><i class="fa-solid fa-box-open"></i> ${p?'تغيير المنتج':'اختيار المنتج'}</button>${p?`<div class="ads28-product"><img src="${clovs29Esc(safeImageUrl(productMainImage(p)))}" alt="${clovs29Esc(p.name)}"><div><strong>${clovs29Esc(p.name)}</strong><small>${clovs29Esc(p.category||'')} · ${clovs29Esc(p.id)}</small></div></div>`:'<div class="clovs-product-empty"><i class="fa-solid fa-earth-africa"></i><p>اختار المنتج اللي عايز تدرس سوقه.</p></div>'}<label class="clovs-label">سعر البيع المخطط<input id="ads29-price" type="number" min="1" max="1000000" step="1" class="clovs-input" value="${clovs29Esc(s.sellingPrice)}" oninput="clovsPaidAdsStoreInputs();clovsPaidAdsV29.result=null" placeholder="مثال: 399" ${s.busy?'disabled':''}></label><label class="clovs-label">كلمة البحث الرئيسية<input id="ads29-keyword" class="clovs-input" value="${clovs29Esc(s.keyword||p?.name||'')}" oninput="clovsPaidAdsStoreInputs();clovsPaidAdsV29.result=null" placeholder="اسم المنتج الشائع في السوق" ${s.busy?'disabled':''}></label><label class="clovs-label">رابط Amazon Egypt للمنتج أو أقرب منافس <small class="text-slate-400">اختياري</small><input id="ads29-amazon" type="url" dir="ltr" class="clovs-input" value="${clovs29Esc(s.amazonUrl)}" oninput="clovsPaidAdsStoreInputs();clovsPaidAdsV29.result=null" placeholder="https://www.amazon.eg/..." ${s.busy?'disabled':''}></label><label class="clovs-label">كلمة البحث في Meta Ads <small class="text-slate-400">اختياري</small><input id="ads29-meta" class="clovs-input" value="${clovs29Esc(s.metaKeyword||p?.name||'')}" oninput="clovsPaidAdsStoreInputs();clovsPaidAdsV29.result=null" placeholder="اسم المنتج أو المنافس" ${s.busy?'disabled':''}></label><button onclick="clovsRunPaidAdsStudy()" class="clovs-primary-button w-full" ${s.busy||!p?'disabled':''}><i class="fa-solid fa-satellite-dish ${s.busy?'fa-spin':''}"></i> ${s.busy?'بنبحث في السوق الخارجي...':'اعمل دراسة السوق بالـAI'}</button><div class="ads28-note"><strong>الدقة:</strong> مبيعات المنافسين الدقيقة على Facebook/Amazon ليست عامة. النظام يستخدم BSR/Best Sellers والمراجعات والأسعار ونشاط الإعلانات ومصادر السوق كإشارات، ويمنع AI من تحويلها لأرقام مبيعات مختلقة.</div></aside><main class="min-w-0"><div id="ads28-results">${s.busy?'<div class="ads28-empty"><i class="fa-solid fa-satellite-dish fa-spin"></i><h3>بنبحث في السوق</h3><p class="mt-2">Amazon Egypt، نتائج السوق المصري، وإشارات Meta ثم تحليل AI بالمصادر.</p></div>':clovsPaidAdsPlanResultHTML(s.result)}</div></main></div>`;}
-  function renderClovsIntegrations(){if(appState.currentUser?.role!=='super_admin')return;const config=clovsV11.config;document.getElementById('view-clovs-integrations').innerHTML=`<div class="clovs-panel"><h2 class="text-2xl font-black">إعدادات الربط</h2><p>ربط خدمة الذكاء الاصطناعي، تيليجرام، والبحث الخارجي لدراسة السوق.</p></div><form onsubmit="saveClovsIntegration(event)" class="clovs-panel space-y-4"><label class="clovs-label">رابط الخدمة<input id="clovs-endpoint" class="clovs-input" dir="ltr" placeholder="https://script.google.com/macros/s/.../exec" value="${clovs29Esc(config.serviceUrl||'')}"></label><label class="clovs-label">عبارة الطلب في الإعلان<input id="clovs-shipping-message" class="clovs-input" maxlength="180" value="${clovs29Esc(config.shippingMessage||'للطلب ابعتلنا على رسايل الصفحة أو سيب تعليق، وهنرد عليك في أسرع وقت.')}"></label><div class="flex flex-wrap gap-3"><button class="clovs-primary-button">حفظ الإعدادات</button><button class="clovs-soft-button" type="button" onclick="testClovsIntegration()">فحص الخدمة</button><button class="clovs-soft-button" type="button" onclick="clovsTestTelegram()">اختبار تيليجرام</button><button class="clovs-soft-button" type="button" onclick="clovsDownloadBackend()"><i class="fa-solid fa-download"></i> تحميل خدمة CLOVS v31</button></div><p id="clovs-integration-status" role="status"></p></form><div class="clovs-panel"><h3>تشغيل Market Intelligence</h3><p>في Apps Script → Script Properties أضف واحدًا فقط: <b>SERPER_API_KEY</b> أو <b>BRAVE_SEARCH_API_KEY</b> أو <b>TAVILY_API_KEY</b>. Cloudflare AI يفسّر الأدلة، ومزود البحث هو اللي يجيب النتائج الحالية من الويب. من غير Search API الصفحة لن تختلق دراسة.</p></div>`;}
+  function renderClovsIntegrations(){if(appState.currentUser?.role!=='super_admin')return;const config=clovsV11.config;document.getElementById('view-clovs-integrations').innerHTML=`<div class="clovs-panel"><h2 class="text-2xl font-black">إعدادات الربط</h2><p>ربط خدمة الذكاء الاصطناعي، تيليجرام، والبحث الخارجي لدراسة السوق.</p></div><form onsubmit="saveClovsIntegration(event)" class="clovs-panel space-y-4"><label class="clovs-label">رابط الخدمة<input id="clovs-endpoint" class="clovs-input" dir="ltr" placeholder="https://script.google.com/macros/s/.../exec" value="${clovs29Esc(config.serviceUrl||'')}"></label><label class="clovs-label">عبارة الطلب في الإعلان<input id="clovs-shipping-message" class="clovs-input" maxlength="180" value="${clovs29Esc(config.shippingMessage||'للطلب ابعتلنا على رسايل الصفحة أو سيب تعليق، وهنرد عليك في أسرع وقت.')}"></label><div class="flex flex-wrap gap-3"><button class="clovs-primary-button">حفظ الإعدادات</button><button class="clovs-soft-button" type="button" onclick="testClovsIntegration()">فحص الخدمة</button><button class="clovs-soft-button" type="button" onclick="clovsTestTelegram()">اختبار تيليجرام</button><button class="clovs-soft-button" type="button" onclick="clovsDownloadBackend()"><i class="fa-solid fa-download"></i> تحميل خدمة CLOVS v29</button></div><p id="clovs-integration-status" role="status"></p></form><div class="clovs-panel"><h3>تشغيل Market Intelligence</h3><p>في Apps Script → Script Properties أضف واحدًا فقط: <b>SERPER_API_KEY</b> أو <b>BRAVE_SEARCH_API_KEY</b> أو <b>TAVILY_API_KEY</b>. Cloudflare AI يفسّر الأدلة، ومزود البحث هو اللي يجيب النتائج الحالية من الويب. من غير Search API الصفحة لن تختلق دراسة.</p></div>`;}
   async function testClovsIntegration(){const el=document.getElementById('clovs-integration-status');el.textContent='جاري الاختبار...';try{const r=await clovsService('health');el.textContent=`الاتصال ناجح · AI: ${r.aiReady?'مفعّل':'يحتاج إعداد'} · Market Search: ${r.marketSearchReady?('مفعّل ('+r.marketSearchProvider+')'):'غير مفعّل'} · تيليجرام: ${r.telegramReady?'يستقبل':'يحتاج ضبط'}`;}catch(e){el.textContent=e.message;}}
   function clovsDownloadBackend(){clovsDownload('CLOVS-v29-Backend-Market-Intelligence.gs',document.getElementById('clovs-backend-source').textContent);}
 </script>
 
 <script id="clovs-backend-source" type="text/plain">
-/* CLOVS v31 PRODUCTION — Merchants + Click-Only Referrals + Cloudflare AI + External Market Intelligence.
+/* CLOVS v30 PRODUCTION — Merchants + Click-Only Referrals + Cloudflare AI + External Market Intelligence.
 Paste this whole file into Apps Script Code.gs. Keep every secret in Script Properties only.
 
 Required core properties:
@@ -8152,7 +8099,7 @@ C_GOVERNORATES.forEach(gov=>{C_DEFAULT_SHIPPING[gov]=(gov==='القاهرة'||go
 const C_OWNER = 'zAeUYXEN3jS18kBC3QXZOVcedk12';
 function cProp(k) { return PropertiesService.getScriptProperties().getProperty(k) || ''; }
 function cJSON(v) { return ContentService.createTextOutput(JSON.stringify(v)).setMimeType(ContentService.MimeType.JSON); }
-function doGet() { const marketProvider=cMarketSearchProvider(); return cJSON({success:true,service:'CLOVS v31 Production',version:31,aiProvider:'cloudflare',marketSearchReady:!!marketProvider,marketSearchProvider:marketProvider||'',plans:{beginner:8,intermediate:20,pro:60},aiConfigured:!!(cProp('CLOUDFLARE_ACCOUNT_ID') && cProp('CLOUDFLARE_API_TOKEN'))}); }
+function doGet() { const marketProvider=cMarketSearchProvider(); return cJSON({success:true,service:'CLOVS v30 Production',version:30,aiProvider:'cloudflare',marketSearchReady:!!marketProvider,marketSearchProvider:marketProvider||'',plans:{beginner:8,intermediate:20,pro:60},aiConfigured:!!(cProp('CLOUDFLARE_ACCOUNT_ID') && cProp('CLOUDFLARE_API_TOKEN'))}); }
 function cFetch(url, options) {
   const r = UrlFetchApp.fetch(url, Object.assign({muteHttpExceptions:true}, options || {}));
   const code = r.getResponseCode(); let j = {}; try { j = JSON.parse(r.getContentText()); } catch (_) {}
@@ -8199,18 +8146,6 @@ function cActor(token) {
   if(anonymous)return {uid:uid,profile:null,role:'guest',admin:false,owner:false,customer:false,guest:true};
   throw new Error('الحساب غير متاح');
 }
-function cAccountSession(actor) {
-  if (!actor || !actor.uid || actor.guest || actor.public) throw new Error('جلسة الحساب غير متاحة');
-  const raw = actor.profile && typeof actor.profile === 'object' ? actor.profile : {};
-  const profile = {};
-  ['name','phone','email','username','usernameKey','role','status','balance','payoutDetails','createdAt','passwordChangedAt','penaltyBalance','platformFeeRate','protectedFromDeletion','protected','keepAccount'].forEach(k=>{
-    if (raw[k] !== undefined && raw[k] !== null) profile[k] = raw[k];
-  });
-  if (actor.role === 'marketer') { profile.role='marketer'; profile.status=profile.status||'approved'; profile.balance=Number(profile.balance)||0; }
-  if (actor.role === 'merchant') { profile.role='merchant'; profile.status=profile.status||'approved'; profile.penaltyBalance=Number(profile.penaltyBalance)||0; }
-  if (actor.role === 'customer') { profile.role='customer'; profile.status=profile.status||'active'; }
-  return {success:true,uid:actor.uid,role:actor.role,profile:profile};
-}
 function cLocked(fn) { const lock = LockService.getScriptLock(); if (!lock.tryLock(25000)) throw new Error('الخدمة مشغولة، حاول مجدداً'); try { return fn(); } finally { lock.releaseLock(); } }
 function doPost(e) {
   try {
@@ -8229,9 +8164,8 @@ function doPost(e) {
           try { const textModel=cCloudflareModelName('text'),imageModel=cCloudflareModelName('image'),textModels=cCloudflareModels(textModel),imageModels=cCloudflareModels(imageModel);aiReady=!!(textModels&&textModels.success===true&&Array.isArray(textModels.result)&&textModels.result.length&&imageModels&&imageModels.success===true&&Array.isArray(imageModels.result)&&imageModels.result.length);aiMessage=aiReady?'تم التحقق من موديل النص والصور وصلاحية Cloudflare Read':'الموديل غير موجود أو غير متاح للحساب'; }
           catch(error) { aiMessage=String(error.message||'تعذر التحقق من Cloudflare').slice(0,150); }
         }
-        const marketProvider=cMarketSearchProvider(); return cJSON({success:true,version:31,aiProvider:'cloudflare',telegramReady:telegramReady,aiReady:aiReady,aiMessage:aiMessage,marketSearchReady:!!marketProvider,marketSearchProvider:marketProvider||'',aiTextModel:cProp('CLOUDFLARE_TEXT_MODEL')||'@cf/zai-org/glm-4.7-flash',aiImageModel:cProp('CLOUDFLARE_IMAGE_MODEL')||'@cf/black-forest-labs/flux-2-klein-4b',triggerInstalled:ScriptApp.getProjectTriggers().some(t=>t.getHandlerFunction()==='pollClovsOrders'),plans:{beginner:{limit:8,minDelivered:0},intermediate:{limit:20,minDelivered:60},pro:{limit:60,minDelivered:250}}});
+        const marketProvider=cMarketSearchProvider(); return cJSON({success:true,version:30,aiProvider:'cloudflare',telegramReady:telegramReady,aiReady:aiReady,aiMessage:aiMessage,marketSearchReady:!!marketProvider,marketSearchProvider:marketProvider||'',aiTextModel:cProp('CLOUDFLARE_TEXT_MODEL')||'@cf/zai-org/glm-4.7-flash',aiImageModel:cProp('CLOUDFLARE_IMAGE_MODEL')||'@cf/black-forest-labs/flux-2-klein-4b',triggerInstalled:ScriptApp.getProjectTriggers().some(t=>t.getHandlerFunction()==='pollClovsOrders'),plans:{beginner:{limit:8,minDelivered:0},intermediate:{limit:20,minDelivered:60},pro:{limit:60,minDelivered:250}}});
       }
-      case 'accountSession': return cJSON(cAccountSession(actor));
       case 'saveStore': return cJSON(cLocked(()=>cSaveStore(actor,data)));
       case 'saveStoreProduct': return cJSON(cLocked(()=>cSaveStoreProduct(actor,data)));
       case 'testTelegram': return cJSON(cTestTelegram(actor));
@@ -9048,7 +8982,6 @@ function cReserveAIProduct(actor,id) {
     return info;
   });
 }
-
 </script>
 <script id="clovs-rules-source" type="application/json">
 {
@@ -9182,7 +9115,7 @@ function cReserveAIProduct(actor,id) {
       ".read": "auth != null && auth.uid === 'zAeUYXEN3jS18kBC3QXZOVcedk12'",
       ".write": "auth != null && auth.uid === 'zAeUYXEN3jS18kBC3QXZOVcedk12'",
       "$uid": {
-        ".read": "auth != null && (auth.uid === $uid || auth.uid === 'zAeUYXEN3jS18kBC3QXZOVcedk12' || root.child('staffRoles').child(auth.uid).val() === 'admin')",
+        ".read": "auth != null && auth.uid === $uid",
         ".validate": "newData.val() === 'admin'"
       }
     },
@@ -9196,7 +9129,7 @@ function cReserveAIProduct(actor,id) {
     "marketerProfiles": {
       ".read": "auth != null && (auth.uid === 'zAeUYXEN3jS18kBC3QXZOVcedk12' || root.child('staffRoles').child(auth.uid).val() === 'admin')",
       "$uid": {
-        ".read": "auth != null && (auth.uid === $uid || auth.uid === 'zAeUYXEN3jS18kBC3QXZOVcedk12' || root.child('staffRoles').child(auth.uid).val() === 'admin')",
+        ".read": "auth != null && auth.uid === $uid || (auth != null && (auth.uid === 'zAeUYXEN3jS18kBC3QXZOVcedk12' || root.child('staffRoles').child(auth.uid).val() === 'admin'))",
         ".write": "auth != null && auth.uid === $uid && !data.exists() && newData.exists() && newData.child('role').val() === 'marketer' && newData.child('status').val() === 'approved' && newData.child('balance').val() === 0 && !newData.child('_finance').exists() && root.child('marketerUsernames').child(newData.child('usernameKey').val()).val() === auth.uid && !root.child('deletedMarketerAccounts').child($uid).exists()",
         ".validate": "newData.hasChildren(['name','phone','email','username','usernameKey','role','status','balance','createdAt'])",
         "name": {
@@ -9626,5 +9559,6 @@ function cReserveAIProduct(actor,id) {
     if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',run,{once:true});else run();
   })();
 </script>
+<script id="clovs-v34-build-marker">console.info('[CLOVS BUILD] v34-core-repair-2026-10-17');document.documentElement.dataset.clovsBuild='v34-core-repair-2026-10-17';</script>
 </body>
 </html>
