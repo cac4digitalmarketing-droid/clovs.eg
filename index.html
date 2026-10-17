@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+<!-- CLOVS v39 production repair: parser-safe neon + merchant order notifications 2026-10-17 -->
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="clovs-build" content="2026-10-16-v24-premium-mobile-dashboard">
@@ -977,6 +979,114 @@ body.clovs-store-mode #modal-actions>.clovs-primary-button{background:#a15b38!im
   @media(prefers-reduced-motion:reduce){.product-card,.product-card .product-photo{transition:none!important}.product-card:hover{transform:none!important}}
 </style>
 
+
+<style id="clovs-v36-google-green-neon">
+  /* Google/Gemini-like travelling glow, but CLOVS green only. */
+  .home-shop-search,
+  .home-shop-search.clovs-neon-search{
+    position:relative!important;
+    isolation:isolate!important;
+    overflow:hidden!important;
+    border:0!important;
+    padding:7px 9px 7px 15px!important;
+    border-radius:999px!important;
+    background:transparent!important;
+    box-shadow:0 10px 28px -22px rgba(15,23,42,.42), 0 0 0 1px rgba(5,150,105,.12)!important;
+    animation:none!important;
+  }
+  .home-shop-search::before,
+  .home-shop-search.clovs-neon-search::before{
+    content:""!important;
+    display:block!important;
+    position:absolute!important;
+    z-index:0!important;
+    width:180%!important;
+    aspect-ratio:1/1!important;
+    left:50%!important;
+    top:50%!important;
+    transform:translate(-50%,-50%) rotate(0deg)!important;
+    transform-origin:center!important;
+    background:conic-gradient(
+      from 0deg,
+      transparent 0deg 214deg,
+      rgba(6,78,59,.08) 224deg,
+      #047857 238deg,
+      #10b981 252deg,
+      #6ee7b7 266deg,
+      #dcfce7 274deg,
+      #34d399 282deg,
+      #059669 298deg,
+      rgba(4,120,87,.12) 312deg,
+      transparent 326deg 360deg
+    )!important;
+    opacity:.96!important;
+    animation:clovsV36GoogleGreenOrbit 3.15s linear infinite!important;
+    pointer-events:none!important;
+  }
+  .home-shop-search::after,
+  .home-shop-search.clovs-neon-search::after{
+    content:""!important;
+    display:block!important;
+    position:absolute!important;
+    z-index:0!important;
+    inset:2px!important;
+    border-radius:calc(999px - 2px)!important;
+    background:rgba(255,255,255,.985)!important;
+    box-shadow:inset 0 0 0 1px rgba(15,23,42,.035)!important;
+    pointer-events:none!important;
+  }
+  .home-shop-search > *, .home-shop-search.clovs-neon-search > *{position:relative!important;z-index:2!important}
+  .home-shop-search:focus-within{box-shadow:0 15px 38px -25px rgba(4,120,87,.52),0 0 18px rgba(16,185,129,.22)!important}
+  .home-shop-search:focus-within::before{animation-duration:1.85s!important;filter:saturate(1.14) brightness(1.07)}
+  @keyframes clovsV36GoogleGreenOrbit{
+    to{transform:translate(-50%,-50%) rotate(360deg)}
+  }
+  body.dark-mode .home-shop-search::after,
+  body.dark-mode .home-shop-search.clovs-neon-search::after{background:#172234!important;box-shadow:inset 0 0 0 1px rgba(148,163,184,.12)!important}
+  @media(max-width:639px){
+    .home-shop-search,.home-shop-search.clovs-neon-search{border-radius:16px!important;padding:5px 6px!important}
+    .home-shop-search::after,.home-shop-search.clovs-neon-search::after{border-radius:14px!important}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .home-shop-search::before,.home-shop-search.clovs-neon-search::before{animation-duration:8s!important}
+  }
+
+  /* Slider editor polish */
+  .clovs-slide-editor-grid{display:grid;grid-template-columns:1fr;gap:12px;text-align:right}
+  .clovs-slide-editor-grid label{font-size:11px;font-weight:900;color:#475569;display:grid;gap:6px}
+  .clovs-slide-editor-grid input,.clovs-slide-editor-grid textarea{width:100%;border:1px solid #dbe4df;background:#f8fafc;border-radius:14px;padding:11px 12px;outline:0;font:700 12px Cairo,sans-serif;color:#0f172a}
+  .clovs-slide-editor-grid textarea{min-height:88px;resize:vertical;line-height:1.8}
+  .clovs-slide-editor-grid input:focus,.clovs-slide-editor-grid textarea:focus{border-color:#10b981;box-shadow:0 0 0 3px rgba(16,185,129,.10)}
+  .clovs-slide-preview{width:100%;height:160px;border-radius:18px;object-fit:cover;background:#0f172a;border:1px solid #dbe4df}
+  body.dark-mode .clovs-slide-editor-grid label{color:#cbd5e1}
+  body.dark-mode .clovs-slide-editor-grid input,body.dark-mode .clovs-slide-editor-grid textarea{background:#111d2f;border-color:#334155;color:#f1f5f9}
+</style>
+
+
+<style id="clovs-v38-visible-neon-and-merchant-orders">
+  /* v38: real DOM neon track so it cannot disappear behind the search background. */
+  .home-shop-search.clovs-neon-search{position:relative!important;overflow:visible!important;isolation:isolate!important}
+  .home-shop-search.clovs-neon-search::before{display:none!important}
+  .home-shop-search.clovs-neon-search::after{inset:0!important;border-radius:inherit!important;z-index:0!important;background:rgba(255,255,255,.985)!important}
+  .home-shop-search.clovs-neon-search>i,.home-shop-search.clovs-neon-search>input,.home-shop-search.clovs-neon-search>button{position:relative!important;z-index:3!important}
+  .clovs-v38-neon-orbit{
+    --clovs-v38-angle:0deg;
+    position:absolute!important;inset:-1.75px!important;border-radius:inherit!important;padding:1.6px!important;z-index:2!important;pointer-events:none!important;
+    background:conic-gradient(from var(--clovs-v38-angle),transparent 0 70%,rgba(5,150,105,.05) 74%,rgba(16,185,129,.35) 78%,#047857 81%,#10b981 84%,#86efac 86.5%,#ecfdf5 88%,#86efac 89.5%,#10b981 92%,rgba(4,120,87,.38) 95%,transparent 98% 100%)!important;
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0)!important;
+    -webkit-mask-composite:xor!important;mask-composite:exclude!important;
+    filter:drop-shadow(0 0 2px rgba(16,185,129,.90)) drop-shadow(0 0 7px rgba(16,185,129,.48))!important;
+    opacity:1!important;will-change:background!important;
+  }
+  .home-shop-search.clovs-neon-search:focus-within .clovs-v38-neon-orbit{padding:1.9px!important;filter:drop-shadow(0 0 3px rgba(16,185,129,1)) drop-shadow(0 0 11px rgba(16,185,129,.62))!important}
+  body.dark-mode .home-shop-search.clovs-neon-search::after{background:#172234!important}
+  .clovs-order-merchant-list{display:flex;flex-wrap:wrap;gap:5px;min-width:120px}.clovs-order-merchant-chip{display:inline-flex;align-items:center;gap:5px;padding:5px 8px;border-radius:999px;background:#ecfdf5;border:1px solid #bbf7d0;color:#047857;font-size:10px;font-weight:900;white-space:nowrap}
+  .clovs-merchant-order-alert{display:flex;align-items:center;gap:13px;padding:15px 17px;margin-bottom:16px;border:1px solid #86efac;background:linear-gradient(135deg,#ecfdf5,#f0fdf4);border-radius:18px;color:#065f46;box-shadow:0 14px 35px -30px rgba(5,150,105,.75)}
+  .clovs-merchant-order-alert>span{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:#059669;color:#fff;box-shadow:0 8px 20px -12px #047857}.clovs-merchant-order-alert strong{font-size:13px;font-weight:950}.clovs-merchant-order-alert p{font-size:11px;margin-top:3px;line-height:1.7;color:#3f6d5d}
+  body.dark-mode .clovs-order-merchant-chip{background:#15352d;border-color:#285848;color:#a7f3d0}body.dark-mode .clovs-merchant-order-alert{background:linear-gradient(135deg,#123126,#152d27);border-color:#285848;color:#d1fae5}body.dark-mode .clovs-merchant-order-alert p{color:#9bc8b8}
+  @media(max-width:639px){.clovs-v38-neon-orbit{inset:-1.4px!important;padding:1.45px!important}.clovs-order-merchant-list{min-width:96px}.clovs-merchant-order-alert{padding:12px 13px;border-radius:15px}}
+</style>
+
 </head>
 
 <body class="firebase-booting bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col selection:bg-brand-500 selection:text-white">
@@ -1163,7 +1273,7 @@ body.clovs-store-mode #modal-actions>.clovs-primary-button{background:#a15b38!im
           <span id="cart-badge" class="absolute -top-1.5 -right-1.5 min-w-[20px] h-5 px-1 rounded-full bg-action-500 text-white text-[10px] font-black flex items-center justify-center shadow-md">0</span>
         </button>
 
-        <button id="admin-order-bell" onclick="switchView('admin-orders')" class="hidden relative p-2.5 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition" title="الأوردرات الجديدة" aria-label="الأوردرات الجديدة">
+        <button id="admin-order-bell" onclick="clovsOpenOrderBell()" class="hidden relative p-2.5 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition" title="الأوردرات الجديدة" aria-label="الأوردرات الجديدة">
           <i class="fa-solid fa-bell text-brand-600 text-base sm:text-lg"></i>
           <span id="admin-order-badge" class="hidden absolute -top-1.5 -right-1.5 min-w-[20px] h-5 px-1 rounded-full bg-rose-500 text-white text-[10px] font-black items-center justify-center shadow-md"></span>
         </button>
@@ -1187,7 +1297,7 @@ body.clovs-store-mode #modal-actions>.clovs-primary-button{background:#a15b38!im
     
     <!-- VIEW 1: HOME PAGE -->
     <div id="view-home" class="app-view space-y-10 fade-in">
-      <form class="home-shop-search clovs-neon-search" onsubmit="clovsHomeSearch(event)"><i class="fa-solid fa-magnifying-glass text-brand-600"></i><input id="home-search" placeholder="بتدور على إيه النهارده؟" aria-label="ابحث عن منتج"><button class="clovs-primary-button" type="submit">بحث</button></form>
+      <form class="home-shop-search clovs-neon-search" onsubmit="clovsHomeSearch(event)"><span class="clovs-v38-neon-orbit" aria-hidden="true"></span><i class="fa-solid fa-magnifying-glass text-brand-600"></i><input id="home-search" placeholder="بتدور على إيه النهارده؟" aria-label="ابحث عن منتج"><button class="clovs-primary-button" type="submit">بحث</button></form>
       <div id="home-category-strip" class="home-category-strip" aria-label="تسوق حسب القسم"></div>
       <div id="home-hero" class="relative rounded-3xl overflow-hidden shadow-2xl bg-slate-900 min-h-[400px] sm:min-h-[460px] flex items-center">
         <div id="slider-container" class="absolute inset-0 w-full h-full" style="background:linear-gradient(135deg,#064e3b,#0f172a)"></div>
@@ -1996,6 +2106,7 @@ body.clovs-store-mode #modal-actions>.clovs-primary-button{background:#a15b38!im
         date:new Date(now).toLocaleDateString('ar-EG', { timeZone:'Africa/Cairo' }),
         items,
         merchantUids:Object.fromEntries([...new Set(items.map(i=>i.merchantUid).filter(Boolean))].map(uid=>[uid,true])),
+        merchantNames:Object.fromEntries([...new Set(items.map(i=>i.merchantUid).filter(Boolean))].map(mid=>{const item=items.find(i=>i.merchantUid===mid);const local=String(item?.product?.merchantName||'').trim();const profile=appState.usersList.find(u=>u.firebaseMerchant&&u.uid===mid);return [mid,(local||String(profile?.name||'').trim()||'تاجر CLOVS').slice(0,100)];})),
         customer:{ name:customerName, phone, address, governorate, alternatePhone, landmark, notes },
         marketerPageName:String(clovsV11.publicProfiles[uid]?.pageName||'').slice(0,80),
         shippingRate,
@@ -2482,14 +2593,25 @@ body.clovs-store-mode #modal-actions>.clovs-primary-button{background:#a15b38!im
       }, error => { console.error('[Clovs Firebase] marketer list read failed:', error); firebaseBootError('marketerProfiles', error); });
     }
 
+    function clovsOrderSeenStorageKey(role,uid){
+      return role==='merchant'?`clovs_merchant_orders_seen_${uid}`:`clovs_orders_seen_${uid}`;
+    }
+    function clovsOpenOrderBell(){
+      const role=appState.currentUser?.role;
+      if(role==='merchant') switchView('merchant-dashboard');
+      else if(role==='admin'||role==='super_admin') switchView('admin-orders');
+    }
     function updateAdminOrderBadge() {
       const bell = document.getElementById('admin-order-bell');
       const badge = document.getElementById('admin-order-badge');
       if (!bell || !badge) return;
-      const isAdmin = ['admin', 'super_admin'].includes(appState.currentUser?.role);
-      bell.classList.toggle('hidden', !isAdmin);
-      if (!isAdmin) return;
-      const seen = Number(localStorage.getItem(`clovs_orders_seen_${firebaseAuth.currentUser?.uid}`) || 0);
+      const role=appState.currentUser?.role, isAdmin=role==='admin'||role==='super_admin', isMerchant=role==='merchant';
+      bell.classList.toggle('hidden', !(isAdmin||isMerchant));
+      if (!(isAdmin||isMerchant)) return;
+      bell.title=isMerchant?'أوردرات منتجاتك الجديدة':'الأوردرات الجديدة';
+      bell.setAttribute('aria-label',bell.title);
+      const uid=firebaseAuth.currentUser?.uid||'';
+      const seen = Number(localStorage.getItem(clovsOrderSeenStorageKey(role,uid)) || 0);
       const count = appState.orders.filter(order => Number(order.createdAt) > seen).length;
       badge.textContent = count > 99 ? '99+' : String(count);
       badge.classList.toggle('hidden', count === 0);
@@ -2497,9 +2619,11 @@ body.clovs-store-mode #modal-actions>.clovs-primary-button{background:#a15b38!im
     }
 
     function markAdminOrdersSeen() {
-      if (!['admin', 'super_admin'].includes(appState.currentUser?.role)) return;
+      const role=appState.currentUser?.role;
+      if (!['admin','super_admin','merchant'].includes(role)) return;
+      const uid=firebaseAuth.currentUser?.uid;if(!uid)return;
       const latest = Math.max(Date.now(), ...appState.orders.map(order => Number(order.createdAt) || 0));
-      localStorage.setItem(`clovs_orders_seen_${firebaseAuth.currentUser.uid}`, String(latest));
+      localStorage.setItem(clovsOrderSeenStorageKey(role,uid), String(latest));
       updateAdminOrderBadge();
     }
 
@@ -2531,9 +2655,19 @@ body.clovs-store-mode #modal-actions>.clovs-primary-button{background:#a15b38!im
           raw=Object.fromEntries(Object.entries(raw).map(([key,row])=>[key,{id:row?.orderId||`ORD-${key}`,status:row?.status||'pending',createdAt:Number(row?.createdAt)||0,updatedAt:Number(row?.updatedAt)||0,merchantPartGross:Number(row?.gross)||0,merchantPartItemCount:Number(row?.itemCount)||0,merchantUid:authUser.uid}]))
         }
         const keys = new Set(Object.keys(raw));
-        if (isAdmin && knownOrderKeys) {
+        if ((isAdmin || isMerchant) && knownOrderKeys) {
           const incoming = [...keys].filter(key => !knownOrderKeys.has(key));
-          if (incoming.length) showToast(`وصل ${incoming.length} أوردر جديد إلى لوحة الإدارة`);
+          if (incoming.length) {
+            if (isMerchant) {
+              showToast(`🔔 وصل ${incoming.length} أوردر جديد يحتوي على منتجاتك`);
+              if (window.Notification && Notification.permission === 'granted' && document.hidden) {
+                try { new Notification('CLOVS · أوردر جديد', { body:`وصل ${incoming.length} أوردر جديد لمنتجاتك. افتح لوحة التاجر للمراجعة.` }); } catch (_) {}
+              }
+            } else {
+              const names=[...new Set(incoming.flatMap(key=>clovsOrderMerchantNames(raw[key]).filter(name=>name!=='CLOVS')))];
+              showToast(`وصل ${incoming.length} أوردر جديد${names.length?' · التاجر: '+names.slice(0,3).join(' + '):''}`);
+            }
+          }
         }
         knownOrderKeys = keys;
         appState.orders = Object.entries(raw).map(([firebaseKey, order]) => ({
@@ -3190,11 +3324,22 @@ body.clovs-store-mode #modal-actions>.clovs-primary-button{background:#a15b38!im
       }, error => { console.error('[Clovs Firebase] branding read failed:', error); firebaseBootError('branding', error); });
       slidesRef.on('value', (snapshot) => {
         const applySlides = raw => {
-          if (raw !== null && raw !== undefined) { const list=Array.isArray(raw)?raw:Object.values(raw);if(list.length){appState.slides=list;if(appState.currentView==='home')renderSlider();} }
+          if (raw === null || raw === undefined) return false;
+          const list = Array.isArray(raw) ? raw.filter(Boolean) : Object.values(raw || {}).filter(Boolean);
+          if (!list.length) return false;
+          appState.slides = list;
+          try { localStorage.setItem('clovs_canonical_slides_seen_v36','1'); } catch(_) {}
+          if (appState.currentView === 'home') renderSlider();
+          return true;
         };
-        const data=snapshot.val();
-        if(data===null || (Array.isArray(data)&&!data.length)) firebaseDB.ref('slides').once('value').then(s=>applySlides(s.val())).catch(()=>{});
-        else applySlides(data);
+        const data = snapshot.val();
+        if (!applySlides(data)) {
+          let canonicalSeen = false;
+          try { canonicalSeen = localStorage.getItem('clovs_canonical_slides_seen_v36') === '1'; } catch(_) {}
+          // Legacy root /slides is only a one-time compatibility fallback. Once canonical slides exist,
+          // stale legacy records are never allowed to resurrect deleted slides.
+          if (!canonicalSeen) firebaseDB.ref('slides').once('value').then(s=>applySlides(s.val())).catch(()=>{});
+        }
         appState.currentSlideIdx = Math.min(appState.currentSlideIdx, appState.slides.length - 1);
         if (appState.currentView === 'home') renderSlider();
         if (appState.currentView === 'super-customizer') renderSuperCustomizerView();
@@ -3264,18 +3409,37 @@ body.clovs-store-mode #modal-actions>.clovs-primary-button{background:#a15b38!im
     }
 
     async function firebaseDeleteProduct(productId) {
-      const ref = productsRef.child(productId);
-      if(appState.currentUser?.role==='merchant'){const current=await ref.once('value');if(!current.exists()||current.val()?.merchantUid!==appState.currentUser.uid)throw new Error('لا يمكنك حذف منتج تاجر آخر');}
-      await ref.remove();
-      const snapshot = await readFirebaseValueWithRetry(ref);
-      if (snapshot.exists()) throw new Error('فشل التحقق من حذف المنتج');
-      try {
-        await productCatalogRef.child(productId).remove();
-        const indexCheck = await readFirebaseValueWithRetry(productCatalogRef.child(productId));
-        if (indexCheck.exists()) throw new Error('تعذر حذف المنتج من فهرس الكتالوج');
-      } catch (error) {
-        console.error('[Clovs] catalog index delete failed:', error);
+      const id = String(productId || '').trim();
+      if (!/^[A-Za-z0-9_-]{1,128}$/.test(id)) throw new Error('معرّف المنتج غير صالح');
+      const ref = productsRef.child(id);
+      if (appState.currentUser?.role === 'merchant') {
+        const current = await readFirebaseValueWithRetry(ref);
+        if (!current.exists() || current.val()?.merchantUid !== appState.currentUser.uid) throw new Error('لا يمكنك حذف منتج تاجر آخر');
       }
+
+      // Admin deletes use one multi-location commit so a product cannot survive as a ghost
+      // in the catalog/homepage if one of the individual removals fails halfway through.
+      if (directAdminAllowed()) {
+        const patch = {};
+        patch[`products/${id}`] = null;
+        patch[`productCatalog/${id}`] = null;
+        patch[`homeFeaturedProducts/items/${id}`] = null;
+        await firebaseDB.ref().update(patch);
+      } else {
+        await ref.remove();
+        await productCatalogRef.child(id).remove();
+      }
+
+      const [productCheck, catalogCheck] = await Promise.all([
+        readFirebaseValueWithRetry(productsRef.child(id)),
+        readFirebaseValueWithRetry(productCatalogRef.child(id))
+      ]);
+      if (productCheck.exists()) throw new Error('فشل التحقق من حذف المنتج من products');
+      if (catalogCheck.exists()) throw new Error('فشل التحقق من حذف المنتج من productCatalog');
+
+      try {
+        if (appState.homeFeaturedProducts?.items) delete appState.homeFeaturedProducts.items[id];
+      } catch (_) {}
       clearProductCaches();
     }
 
@@ -3631,7 +3795,7 @@ body.clovs-store-mode #modal-actions>.clovs-primary-button{background:#a15b38!im
         targetView.classList.remove('hidden');
         renderViewContent(viewName);
         clovsApplyPageCover(viewName);
-        if (viewName === 'admin-orders') markAdminOrdersSeen();
+        if (viewName === 'admin-orders' || (viewName === 'merchant-dashboard' && appState.currentUser?.role === 'merchant')) markAdminOrdersSeen();
         targetView.classList.remove('page-opening');
         void targetView.offsetWidth;
         targetView.classList.add('page-opening');
@@ -6597,8 +6761,28 @@ body.clovs-store-mode #modal-actions>.clovs-primary-button{background:#a15b38!im
       return `<section class="bg-white p-6 rounded-3xl border border-slate-100 space-y-4"><div><div class="flex items-center gap-2"><span class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-700 grid place-items-center"><i class="fa-solid fa-tags"></i></span><div><h3 class="font-black text-slate-900 text-lg">تعديل الأسعار الجماعي</h3><p class="text-xs text-slate-500 mt-1">خصم أو زيادة مبلغ أو نسبة، مع معاينة وسجل محفوظ للتراجع.</p></div></div></div>${!appState.adminProductsLoaded ? `<div class="rounded-xl bg-slate-50 p-4 text-sm text-slate-600">${appState.adminProductsLoading ? 'جاري تحميل المنتجات...' : 'حمّل المنتجات لبدء المعاينة.'}</div>` : `<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3"><label class="text-xs font-bold text-slate-700">العملية<select id="bulk-price-operation" onchange="clovsPreviewBulkPriceAdjustment()" class="mt-1 w-full rounded-xl border border-slate-200 bg-white p-3 text-sm"><option value="decrease">خصم من السعر الأساسي</option><option value="increase">زيادة على السعر الأساسي</option></select></label><label class="text-xs font-bold text-slate-700">طريقة التعديل<select id="bulk-price-method" onchange="clovsPreviewBulkPriceAdjustment()" class="mt-1 w-full rounded-xl border border-slate-200 bg-white p-3 text-sm"><option value="fixed">مبلغ ثابت بالجنيه</option><option value="percent">نسبة مئوية</option></select></label><label class="text-xs font-bold text-slate-700">القيمة<input id="bulk-price-value" type="number" min="0.01" max="1000000" step="0.01" value="50" oninput="clovsPreviewBulkPriceAdjustment()" class="mt-1 w-full rounded-xl border border-slate-200 bg-white p-3 text-sm" placeholder="مثال: 50"></label><label class="text-xs font-bold text-slate-700">تطبيق على<select id="bulk-price-scope" onchange="clovsBulkPriceScopeChanged()" class="mt-1 w-full rounded-xl border border-slate-200 bg-white p-3 text-sm"><option value="all">كل المنتجات</option><option value="category">تصنيف معين</option><option value="selected">منتجات أحددها</option></select></label></div><div id="bulk-price-category-wrap" class="hidden"><label class="text-xs font-bold text-slate-700">التصنيف<select id="bulk-price-category" onchange="clovsPreviewBulkPriceAdjustment()" class="mt-1 w-full rounded-xl border border-slate-200 bg-white p-3 text-sm">${categories.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('')}</select></label></div><div id="bulk-price-selected-wrap" class="hidden rounded-2xl border border-slate-100 p-3"><div class="flex flex-wrap items-center justify-between gap-2"><strong id="bulk-price-selected-count" class="text-xs">تم اختيار ${appState.bulkPriceSelectedIds.size} منتج</strong><input id="bulk-price-product-search" type="search" oninput="clovsRenderBulkProductPicker()" class="rounded-xl border border-slate-200 px-3 py-2 text-xs" placeholder="ابحث بالاسم أو الكود"></div><div id="bulk-price-product-picker" class="mt-3 grid max-h-60 grid-cols-1 gap-2 overflow-y-auto sm:grid-cols-2">${products.slice(0,100).map(p => `<label class="flex items-center gap-3 rounded-xl border border-slate-100 p-2.5 hover:bg-slate-50 cursor-pointer"><input type="checkbox" value="${escapeHtml(p.id)}" ${appState.bulkPriceSelectedIds.has(String(p.id)) ? 'checked' : ''} onchange="clovsBulkPriceToggleProduct(this)" class="w-4 h-4 accent-emerald-600"><img src="${escapeHtml(safeImageUrl(productMainImage(p)))}" class="w-9 h-9 rounded-lg object-cover" alt=""><span class="min-w-0"><strong class="block truncate text-xs">${escapeHtml(p.name)}</strong><small class="text-slate-500">${money(p.price)} ج.م · ${escapeHtml(p.category || 'عام')}</small></span></label>`).join('')}</div><p class="mt-2 text-[11px] text-slate-500">اعرض حتى 100 نتيجة في القائمة؛ استخدم البحث للوصول لمنتجات أخرى.</p></div><div id="bulk-price-preview" class="rounded-2xl bg-slate-50 p-4" role="status"></div><button id="bulk-price-apply" onclick="clovsApplyBulkPriceAdjustment()" class="rounded-xl bg-emerald-600 px-5 py-3 text-sm font-black text-white hover:bg-emerald-700 disabled:opacity-50" ${appState.bulkPriceBusy || !products.length ? 'disabled' : ''}>معاينة ثم تطبيق التعديل</button><p class="text-[11px] leading-6 text-slate-500">المعاينة توضح عدد المنتجات قبل التنفيذ. أقل سعر مسموح به 1 ج.م، والأسعار والعروض المحفوظة في الطلبات القديمة لا تتغير.</p>`}${latest}</section>`;
     }
 
+    function clovsOrderMerchantNames(order){
+      const items=Array.isArray(order?.items)?order.items:Object.values(order?.items||{}), names=[],seen=new Set();
+      const stored=order?.merchantNames&&typeof order.merchantNames==='object'?order.merchantNames:{};
+      for(const [uid,value] of Object.entries(stored)){
+        const name=String(value||'').trim();if(name&&!seen.has(name)){seen.add(name);names.push(name);}
+      }
+      let hasClovs=false;
+      for(const item of items){
+        const p=item?.product||{},uid=String(item?.merchantUid||p.merchantUid||'').trim();
+        if(!uid){hasClovs=true;continue;}
+        const profile=appState.usersList.find(u=>u.firebaseMerchant&&u.uid===uid);
+        const name=String(p.merchantName||stored[uid]||profile?.name||'تاجر CLOVS').trim();
+        if(name&&!seen.has(name)){seen.add(name);names.push(name);}
+      }
+      if(hasClovs||(!names.length&&!items.length))names.push('CLOVS');
+      return names;
+    }
+    function clovsOrderMerchantHTML(order){
+      return clovsOrderMerchantNames(order).map(name=>`<span class="clovs-order-merchant-chip"><i class="fa-solid ${name==='CLOVS'?'fa-shop':'fa-store'}"></i>${escapeHtml(name)}</span>`).join('');
+    }
     function clovsAdminOrderRowsHTML() {
-      if (!appState.orders.length) return `<tr><td colspan="7" class="text-center py-8 text-slate-400 text-sm">لا توجد أوردرات مستلمة حتى الآن.</td></tr>`;
+      if (!appState.orders.length) return `<tr><td colspan="8" class="text-center py-8 text-slate-400 text-sm">لا توجد أوردرات مستلمة حتى الآن.</td></tr>`;
       return appState.orders.map(o => {
         let proofBtn = '';
         if (o.paymentMethod === 'online' && o.paymentProof && o.paymentProof.screenshot) {
@@ -6607,6 +6791,7 @@ body.clovs-store-mode #modal-actions>.clovs-primary-button{background:#a15b38!im
         return `<tr class="border-b border-slate-100 text-xs">
           <td class="py-3 px-3 font-bold text-slate-900">${escapeHtml(o.id)}<br><button onclick="viewOrderItemsModal('${o.firebaseKey}')" class="text-xs text-brand-700 underline mt-1">المنتجات والاختيارات</button></td>
           <td class="py-3 px-3 font-bold text-brand-700">${o.orderSource === 'customer' ? '<span class="text-sky-700">شراء مباشر</span>' : escapeHtml(o.marketerName)}</td>
+          <td class="py-3 px-3"><div class="clovs-order-merchant-list">${clovsOrderMerchantHTML(o)}</div></td>
           <td class="py-3 px-3">${escapeHtml(o.customer?.name || '')}<br><span class="text-slate-400">${escapeHtml(o.customer?.phone || '')} - ${escapeHtml(o.customer?.governorate || '')}</span><div class="text-xs mt-1 max-w-xs">${escapeHtml(o.customer?.address||'')}</div>${o.customer?.landmark?`<div class="text-xs text-slate-500">${escapeHtml(o.customer.landmark)}</div>`:''}<button onclick="clovsViewLabel('${o.firebaseKey}')" class="text-brand-700 underline mt-1">بوليصة الشحن</button></td>
           <td class="py-3 px-3 font-black">${escapeHtml(o.grandTotal)} ج.م</td>
           <td class="py-3 px-3 font-bold text-emerald-600">${o.totalCommission} ج.م</td>
@@ -6673,7 +6858,7 @@ body.clovs-store-mode #modal-actions>.clovs-primary-button{background:#a15b38!im
 
     function renderAdminOrders() {
       const container=document.getElementById('view-admin-orders');if(!directAdminAllowed()||!container)return;
-      container.innerHTML=`<div class="admin-v22-page-head"><div><h2>الطلبات وإدارة الحالات</h2><p>كل الأوردرات في مكان واحد فقط، مع تحديث الحالة والإيصالات وبوليصة الشحن.</p></div><button class="admin-v22-back" onclick="switchView('admin-dashboard')"><i class="fa-solid fa-chart-line"></i> الإحصائيات</button></div><div class="bg-white p-6 rounded-3xl border border-slate-100 space-y-4"><div class="overflow-x-auto"><table class="w-full text-right"><thead><tr class="bg-slate-50 text-[11px] font-black text-slate-600 border-b border-slate-200"><th class="py-3 px-3">رقم الطلب</th><th class="py-3 px-3">المسوق</th><th class="py-3 px-3">العميل والمحافظة</th><th class="py-3 px-3">الإجمالي</th><th class="py-3 px-3">العمولة</th><th class="py-3 px-3">الدفع</th><th class="py-3 px-3">تحديث الحالة</th></tr></thead><tbody>${clovsAdminOrderRowsHTML()}</tbody></table></div></div>`;
+      container.innerHTML=`<div class="admin-v22-page-head"><div><h2>الطلبات وإدارة الحالات</h2><p>كل الأوردرات في مكان واحد فقط، مع تحديث الحالة والإيصالات وبوليصة الشحن.</p></div><button class="admin-v22-back" onclick="switchView('admin-dashboard')"><i class="fa-solid fa-chart-line"></i> الإحصائيات</button></div><div class="bg-white p-6 rounded-3xl border border-slate-100 space-y-4"><div class="overflow-x-auto"><table class="w-full text-right"><thead><tr class="bg-slate-50 text-[11px] font-black text-slate-600 border-b border-slate-200"><th class="py-3 px-3">رقم الطلب</th><th class="py-3 px-3">المسوق</th><th class="py-3 px-3">التاجر / المورد</th><th class="py-3 px-3">العميل والمحافظة</th><th class="py-3 px-3">الإجمالي</th><th class="py-3 px-3">العمولة</th><th class="py-3 px-3">الدفع</th><th class="py-3 px-3">تحديث الحالة</th></tr></thead><tbody>${clovsAdminOrderRowsHTML()}</tbody></table></div></div>`;
     }
 
     function renderAdminPricing() {
@@ -6735,6 +6920,7 @@ body.clovs-store-mode #modal-actions>.clovs-primary-button{background:#a15b38!im
       document.getElementById('modal-message').innerHTML = (order.items || []).map(item => `
         <div class="text-right p-3 border-b border-slate-100">
           <strong>${escapeHtml(item.product?.name || 'منتج')}</strong> × ${Number(item.quantity) || 1}
+          <div class="text-[11px] font-black text-emerald-700 mt-1"><i class="fa-solid fa-store ml-1"></i> المورد: ${escapeHtml(item.product?.merchantName || ((order.merchantNames||{})[item.merchantUid||item.product?.merchantUid] || (item.merchantUid||item.product?.merchantUid ? 'تاجر CLOVS' : 'CLOVS')))}</div>
           <div class="text-xs text-brand-700 mt-1">${Object.entries(item.selectedVariants || {}).map(([name, value]) => `${escapeHtml(name)}: ${escapeHtml(value)}`).join(' • ') || 'بدون متغيرات'}</div>
         </div>`).join('') || 'لا توجد منتجات في الأوردر.';
     }
@@ -6802,7 +6988,10 @@ body.clovs-store-mode #modal-actions>.clovs-primary-button{background:#a15b38!im
               <div class="font-bold text-sm text-slate-900">${escapeHtml(s.title)}</div>
               <div class="text-xs text-slate-500">${escapeHtml(s.desc)}</div>
             </div>
-            <button onclick="deleteSlide(${idx})" class="text-rose-500 hover:text-rose-700 p-2 text-xs font-bold">حذف</button>
+            <div class="flex items-center gap-1 flex-shrink-0">
+              <button type="button" onclick="openEditSlideModal(${idx})" class="text-brand-700 hover:text-brand-900 bg-brand-50 hover:bg-brand-100 px-3 py-2 rounded-xl text-xs font-black"><i class="fa-solid fa-pen"></i> تعديل</button>
+              <button type="button" onclick="deleteSlide(${idx})" class="text-rose-600 hover:text-rose-800 bg-rose-50 hover:bg-rose-100 px-3 py-2 rounded-xl text-xs font-black"><i class="fa-solid fa-trash"></i> حذف</button>
+            </div>
           </div>
         `;
       });
@@ -7762,8 +7951,8 @@ body.clovs-store-mode #modal-actions>.clovs-primary-button{background:#a15b38!im
     function renderClovsIntegrations(){if(appState.currentUser?.role!=='super_admin')return;const config=clovsV11.config;document.getElementById('view-clovs-integrations').innerHTML=`<div class="clovs-panel"><h2 class="text-2xl font-black">إعدادات الربط</h2><p>ربط خدمة الذكاء الاصطناعي وإشعارات تيليجرام.</p></div><form onsubmit="saveClovsIntegration(event)" class="clovs-panel space-y-4"><label class="clovs-label">رابط الخدمة<input id="clovs-endpoint" class="clovs-input" dir="ltr" placeholder="https://script.google.com/macros/s/.../exec" value="${escapeHtml(config.serviceUrl||'')}"></label><label class="clovs-label">عبارة الطلب في الإعلان<input id="clovs-shipping-message" class="clovs-input" maxlength="180" value="${escapeHtml(config.shippingMessage||'للطلب ابعتلنا على رسايل الصفحة أو سيب تعليق، وهنرد عليك في أسرع وقت.')}"></label><div class="flex flex-wrap gap-3"><button class="clovs-primary-button">حفظ الإعدادات</button><button class="clovs-soft-button" type="button" onclick="testClovsIntegration()">فحص الخدمة</button><button class="clovs-soft-button" type="button" onclick="clovsTestTelegram()">إرسال رسالة اختبار لتيليجرام</button><button class="clovs-soft-button" type="button" onclick="clovsDownloadBackend()"><i class="fa-solid fa-download"></i> تحميل خدمة CLOVS v30</button></div><p id="clovs-integration-status" role="status"></p></form><div class="clovs-panel"><h3>تشغيل استقبال الأوردرات</h3><p>يحتاج Apps Script إلى بيانات Firebase وTELEGRAM_BOT_TOKEN وTELEGRAM_CHAT_ID. نظام الدعوات v30 لا يحتاج بوت تأكيد. أضف TELEGRAM_GROUP_URL فقط لو عايز تغير رابط الجروب الافتراضي، ثم شغّل installClovsReferral() مرة واحدة لتركيب معالج المكافآت كل ساعة. للـAI أضف CLOUDFLARE_ACCOUNT_ID وCLOUDFLARE_API_TOKEN، ولدراسة السوق أضف مفتاح بحث واحد: SERPER_API_KEY أو BRAVE_SEARCH_API_KEY أو TAVILY_API_KEY.</p></div>`;}
     async function saveClovsIntegration(event){event.preventDefault();if(firebaseAuth.currentUser?.uid!==FIREBASE_ADMIN_UID)return;const serviceUrl=document.getElementById('clovs-endpoint').value.trim(),shippingMessage=document.getElementById('clovs-shipping-message').value.trim();if(!/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(serviceUrl)||!shippingMessage)return showToast('اكتب رابط /exec صحيح وعبارة الشحن','error');try{await setAndVerifyFirebase(firebaseDB.ref('siteSettings/clovsV11'),{serviceUrl,shippingMessage,version:29,updatedAt:Date.now()},s=>s&&s.serviceUrl===serviceUrl&&s.shippingMessage===shippingMessage,'إعدادات التحديث');clovsV11.config={serviceUrl,shippingMessage,version:29};showToast('تم حفظ الربط');}catch(e){showToast('تعذر حفظ الربط. راجع قواعد Firebase.','error');}}
     async function testClovsIntegration(){const el=document.getElementById('clovs-integration-status');el.textContent='جاري الاختبار...';try{const r=await clovsService('health');el.textContent=`الاتصال ناجح · تيليجرام: ${r.telegramReady?'يستقبل':'يحتاج ضبط'} · متابعة الطلبات: ${r.triggerInstalled?'مفعلة':'غير مفعلة؛ شغّل installClovs'} · AI: ${r.aiReady?'مفعّل':(r.aiMessage||'يحتاج إعداد')} · بحث السوق: ${r.marketSearchReady?'مفعّل عبر '+r.marketSearchProvider:'يحتاج Search API Key'}`;}catch(e){el.textContent=e.message;}}
-    function clovsDownloadBackend(){clovsDownload('CLOVS-v28-Service-Ads-Intelligence.gs',document.getElementById('clovs-backend-source').textContent);}
-    function clovsDownloadRules(){clovsDownload('CLOVS-v35-Firebase-Rules.json',document.getElementById('clovs-rules-source').textContent);}
+    function clovsDownloadBackend(){clovsDownload('CLOVS-v39-PRODUCTION-Code.gs',document.getElementById('clovs-backend-source').textContent);}
+    function clovsDownloadRules(){clovsDownload('CLOVS-v39-PRODUCTION-Firebase-Rules.json',document.getElementById('clovs-rules-source').textContent);}
 
     // v16 storefront, customer cart isolation and administrator tools.
     let clovsAuthResolved=false, clovsInviteShown=false, clovsInvitePreviousFocus=null;
@@ -7894,7 +8083,9 @@ body.clovs-store-mode #modal-actions>.clovs-primary-button{background:#a15b38!im
       const el=document.getElementById('view-merchant-dashboard'),u=appState.currentUser;if(!el||u?.role!=='merchant')return;
       const st=merchantStats(u.uid),products=(appState.adminProductsLoaded?appState.adminProducts:appState.products).filter(p=>p.merchantUid===u.uid);
       const rows=st.relevant.map(o=>{const part=merchantOrderPart(o,u.uid);return `<tr class="border-b border-slate-100"><td class="p-3 font-bold">${escapeHtml(o.id||o.firebaseKey||'')}</td><td class="p-3">${new Date(Number(o.createdAt)||Date.now()).toLocaleDateString('ar-EG',{timeZone:'Africa/Cairo'})}</td><td class="p-3">${part.items.reduce((n,i)=>n+(Number(i.quantity)||0),0)}</td><td class="p-3 font-black">${money(part.gross)} ج.م</td><td class="p-3 text-rose-700 font-bold">${o.status==='delivered'?money(part.fee)+' ج.م':'—'}</td><td class="p-3">${merchantStatusBadge(o.status)}</td></tr>`}).join('')||'<tr><td colspan="6" class="p-8 text-center text-slate-500">لا توجد طلبات مرتبطة بمنتجاتك حتى الآن.</td></tr>';
+      const merchantSeen=Number(localStorage.getItem(clovsOrderSeenStorageKey('merchant',firebaseAuth.currentUser?.uid||''))||0),merchantUnseen=st.relevant.filter(o=>Number(o.createdAt)>merchantSeen).length;
       el.innerHTML=`<div class="admin-v22-page-head"><div><span class="clovs-pill">حساب تاجر</span><h2>لوحة التاجر · ${escapeHtml(u.name||'')}</h2><p>مبيعات منتجاتك، رسوم CLOVS بنسبة 20%، وحالة كل أوردر في مكان واحد.</p></div><button class="clovs-primary-button" onclick="switchView('product-manager')"><i class="fa-solid fa-plus"></i> إدارة منتجاتي</button></div>
+      ${merchantUnseen?`<section class="clovs-merchant-order-alert"><span><i class="fa-solid fa-bell"></i></span><div><strong>عندك ${merchantUnseen} أوردر جديد لمنتجاتك</strong><p>الأوردرات دي مرتبطة بمنتجات حسابك فقط، وبتتحدث حالتها تلقائيًا من الإدارة.</p></div></section>`:''}
       <section class="admin-v22-kpis"><div class="admin-v22-kpi"><div class="admin-v22-kpi-top"><span>عدد المنتجات</span><div class="admin-v22-kpi-icon bg-sky-50 text-sky-700"><i class="fa-solid fa-box"></i></div></div><strong>${products.length}</strong><small>منتجات مرتبطة بحسابك</small></div><div class="admin-v22-kpi"><div class="admin-v22-kpi-top"><span>الأوردرات</span><div class="admin-v22-kpi-icon bg-slate-100 text-slate-700"><i class="fa-solid fa-receipt"></i></div></div><strong>${st.relevant.length}</strong><small>${st.delivered.length} تسليم · ${st.cancelled.length} إلغاء/مرتجع</small></div><div class="admin-v22-kpi"><div class="admin-v22-kpi-top"><span>مبيعات مسلّمة</span><div class="admin-v22-kpi-icon bg-emerald-50 text-emerald-700"><i class="fa-solid fa-sack-dollar"></i></div></div><strong>${money(st.gross)} ج.م</strong><small>قيمة منتجاتك فقط</small></div><div class="admin-v22-kpi"><div class="admin-v22-kpi-top"><span>رسوم CLOVS 20%</span><div class="admin-v22-kpi-icon bg-rose-50 text-rose-700"><i class="fa-solid fa-percent"></i></div></div><strong>${money(st.fee)} ج.م</strong><small>تُحسب على الطلبات المسلّمة</small></div></section>
       <section class="grid md:grid-cols-2 gap-4"><div class="clovs-panel"><h3>صافي مستحق التاجر</h3><div class="text-3xl font-black text-emerald-700 mt-3">${money(st.net)} ج.م</div><p>بعد خصم رسوم المنصة ${money(st.fee)} ج.م${st.penalties?` وغرامات إدارية ${money(st.penalties)} ج.م`:''}.</p></div><div class="clovs-panel"><h3>الغرامات الإدارية</h3><div class="text-3xl font-black ${st.penalties?'text-rose-700':'text-slate-700'} mt-3">${money(st.penalties)} ج.م</div><p>لا توجد رسوم إلغاء تلقائية على المسوقين. غرامات التجار فقط يضيفها أو يلغيها المدير من صفحة التجار.</p></div></section>
       <div class="clovs-panel overflow-x-auto"><h3 class="mb-4">طلبات منتجاتي</h3><table class="w-full text-right text-sm"><thead><tr class="border-b"><th class="p-3">الأوردر</th><th class="p-3">التاريخ</th><th class="p-3">الكمية</th><th class="p-3">قيمة منتجاتي</th><th class="p-3">رسوم 20%</th><th class="p-3">الحالة</th></tr></thead><tbody>${rows}</tbody></table></div>`;
@@ -8206,11 +8397,11 @@ body.clovs-store-mode #modal-actions>.clovs-primary-button{background:#a15b38!im
   function renderPaidAdsPlanner(){if(appState.currentUser?.role!=='marketer')return;clovsPaidAdsStoreInputs();const c=document.getElementById('view-paid-ads');if(!c)return;const s=clovsPaidAdsV29,p=s.product;c.innerHTML=`<div class="ads28-hero"><div class="relative z-10"><span class="clovs-pill"><i class="fa-solid fa-earth-africa"></i> CLOVS Market Intelligence</span><h2 class="mt-3">دراسة المنتج من السوق المصري الخارجي</h2><p>Amazon Egypt + إشارات إعلانات Meta + المصادر الرقمية المصرية. الدراسة لا تستخدم مبيعات CLOVS نهائيًا، وكل نتيجة بتظهر معها حدود الدقة والمصادر.</p></div></div><div class="ads28-grid"><aside class="ads28-panel ads28-sticky space-y-4"><div><h3>إعداد البحث</h3><p>اختيار منتج CLOVS هنا مجرد تعريف للمنتج؛ مش هنقرأ أوردراته.</p></div><button onclick="clovsPaidAdsPickProduct()" class="clovs-add-button w-full" ${s.busy?'disabled':''}><i class="fa-solid fa-box-open"></i> ${p?'تغيير المنتج':'اختيار المنتج'}</button>${p?`<div class="ads28-product"><img src="${clovs29Esc(safeImageUrl(productMainImage(p)))}" alt="${clovs29Esc(p.name)}"><div><strong>${clovs29Esc(p.name)}</strong><small>${clovs29Esc(p.category||'')} · ${clovs29Esc(p.id)}</small></div></div>`:'<div class="clovs-product-empty"><i class="fa-solid fa-earth-africa"></i><p>اختار المنتج اللي عايز تدرس سوقه.</p></div>'}<label class="clovs-label">سعر البيع المخطط<input id="ads29-price" type="number" min="1" max="1000000" step="1" class="clovs-input" value="${clovs29Esc(s.sellingPrice)}" oninput="clovsPaidAdsStoreInputs();clovsPaidAdsV29.result=null" placeholder="مثال: 399" ${s.busy?'disabled':''}></label><label class="clovs-label">كلمة البحث الرئيسية<input id="ads29-keyword" class="clovs-input" value="${clovs29Esc(s.keyword||p?.name||'')}" oninput="clovsPaidAdsStoreInputs();clovsPaidAdsV29.result=null" placeholder="اسم المنتج الشائع في السوق" ${s.busy?'disabled':''}></label><label class="clovs-label">رابط Amazon Egypt للمنتج أو أقرب منافس <small class="text-slate-400">اختياري</small><input id="ads29-amazon" type="url" dir="ltr" class="clovs-input" value="${clovs29Esc(s.amazonUrl)}" oninput="clovsPaidAdsStoreInputs();clovsPaidAdsV29.result=null" placeholder="https://www.amazon.eg/..." ${s.busy?'disabled':''}></label><label class="clovs-label">كلمة البحث في Meta Ads <small class="text-slate-400">اختياري</small><input id="ads29-meta" class="clovs-input" value="${clovs29Esc(s.metaKeyword||p?.name||'')}" oninput="clovsPaidAdsStoreInputs();clovsPaidAdsV29.result=null" placeholder="اسم المنتج أو المنافس" ${s.busy?'disabled':''}></label><button onclick="clovsRunPaidAdsStudy()" class="clovs-primary-button w-full" ${s.busy||!p?'disabled':''}><i class="fa-solid fa-satellite-dish ${s.busy?'fa-spin':''}"></i> ${s.busy?'بنبحث في السوق الخارجي...':'اعمل دراسة السوق بالـAI'}</button><div class="ads28-note"><strong>الدقة:</strong> مبيعات المنافسين الدقيقة على Facebook/Amazon ليست عامة. النظام يستخدم BSR/Best Sellers والمراجعات والأسعار ونشاط الإعلانات ومصادر السوق كإشارات، ويمنع AI من تحويلها لأرقام مبيعات مختلقة.</div></aside><main class="min-w-0"><div id="ads28-results">${s.busy?'<div class="ads28-empty"><i class="fa-solid fa-satellite-dish fa-spin"></i><h3>بنبحث في السوق</h3><p class="mt-2">Amazon Egypt، نتائج السوق المصري، وإشارات Meta ثم تحليل AI بالمصادر.</p></div>':clovsPaidAdsPlanResultHTML(s.result)}</div></main></div>`;}
   function renderClovsIntegrations(){if(appState.currentUser?.role!=='super_admin')return;const config=clovsV11.config;document.getElementById('view-clovs-integrations').innerHTML=`<div class="clovs-panel"><h2 class="text-2xl font-black">إعدادات الربط</h2><p>ربط خدمة الذكاء الاصطناعي، تيليجرام، والبحث الخارجي لدراسة السوق.</p></div><form onsubmit="saveClovsIntegration(event)" class="clovs-panel space-y-4"><label class="clovs-label">رابط الخدمة<input id="clovs-endpoint" class="clovs-input" dir="ltr" placeholder="https://script.google.com/macros/s/.../exec" value="${clovs29Esc(config.serviceUrl||'')}"></label><label class="clovs-label">عبارة الطلب في الإعلان<input id="clovs-shipping-message" class="clovs-input" maxlength="180" value="${clovs29Esc(config.shippingMessage||'للطلب ابعتلنا على رسايل الصفحة أو سيب تعليق، وهنرد عليك في أسرع وقت.')}"></label><div class="flex flex-wrap gap-3"><button class="clovs-primary-button">حفظ الإعدادات</button><button class="clovs-soft-button" type="button" onclick="testClovsIntegration()">فحص الخدمة</button><button class="clovs-soft-button" type="button" onclick="clovsTestTelegram()">اختبار تيليجرام</button><button class="clovs-soft-button" type="button" onclick="clovsDownloadBackend()"><i class="fa-solid fa-download"></i> تحميل خدمة CLOVS v29</button></div><p id="clovs-integration-status" role="status"></p></form><div class="clovs-panel"><h3>تشغيل Market Intelligence</h3><p>في Apps Script → Script Properties أضف واحدًا فقط: <b>SERPER_API_KEY</b> أو <b>BRAVE_SEARCH_API_KEY</b> أو <b>TAVILY_API_KEY</b>. Cloudflare AI يفسّر الأدلة، ومزود البحث هو اللي يجيب النتائج الحالية من الويب. من غير Search API الصفحة لن تختلق دراسة.</p></div>`;}
   async function testClovsIntegration(){const el=document.getElementById('clovs-integration-status');el.textContent='جاري الاختبار...';try{const r=await clovsService('health');el.textContent=`الاتصال ناجح · AI: ${r.aiReady?'مفعّل':'يحتاج إعداد'} · Market Search: ${r.marketSearchReady?('مفعّل ('+r.marketSearchProvider+')'):'غير مفعّل'} · تيليجرام: ${r.telegramReady?'يستقبل':'يحتاج ضبط'}`;}catch(e){el.textContent=e.message;}}
-  function clovsDownloadBackend(){clovsDownload('CLOVS-v29-Backend-Market-Intelligence.gs',document.getElementById('clovs-backend-source').textContent);}
+  function clovsDownloadBackend(){clovsDownload('CLOVS-v39-PRODUCTION-Code.gs',document.getElementById('clovs-backend-source').textContent);}
 </script>
 
 <script id="clovs-backend-source" type="text/plain">
-/* CLOVS v30 PRODUCTION — Merchants + Click-Only Referrals + Cloudflare AI + External Market Intelligence.
+/* CLOVS v39 PRODUCTION — Merchant order labels + merchant-aware notifications + Click-Only Referrals + Cloudflare AI + External Market Intelligence.
 Paste this whole file into Apps Script Code.gs. Keep every secret in Script Properties only.
 
 Required core properties:
@@ -8251,7 +8442,7 @@ C_GOVERNORATES.forEach(gov=>{C_DEFAULT_SHIPPING[gov]=(gov==='القاهرة'||go
 const C_OWNER = 'zAeUYXEN3jS18kBC3QXZOVcedk12';
 function cProp(k) { return PropertiesService.getScriptProperties().getProperty(k) || ''; }
 function cJSON(v) { return ContentService.createTextOutput(JSON.stringify(v)).setMimeType(ContentService.MimeType.JSON); }
-function doGet() { const marketProvider=cMarketSearchProvider(); return cJSON({success:true,service:'CLOVS v30 Production',version:30,aiProvider:'cloudflare',marketSearchReady:!!marketProvider,marketSearchProvider:marketProvider||'',plans:{beginner:8,intermediate:20,pro:60},aiConfigured:!!(cProp('CLOUDFLARE_ACCOUNT_ID') && cProp('CLOUDFLARE_API_TOKEN'))}); }
+function doGet() { const marketProvider=cMarketSearchProvider(); return cJSON({success:true,service:'CLOVS v39 Production',version:39,aiProvider:'cloudflare',marketSearchReady:!!marketProvider,marketSearchProvider:marketProvider||'',plans:{beginner:8,intermediate:20,pro:60},aiConfigured:!!(cProp('CLOUDFLARE_ACCOUNT_ID') && cProp('CLOUDFLARE_API_TOKEN'))}); }
 function cFetch(url, options) {
   const r = UrlFetchApp.fetch(url, Object.assign({muteHttpExceptions:true}, options || {}));
   const code = r.getResponseCode(); let j = {}; try { j = JSON.parse(r.getContentText()); } catch (_) {}
@@ -8405,7 +8596,7 @@ function cCustomerOrder(actor,data,mode) {
   const now=Date.now(), order={
     id:'ORD-'+orderKey,orderSource:store?'store':mode==='marketer'?'marketer':'customer',customerUid:mode==='marketer'?'':actor.uid,marketerUid:marketerUid,marketerId:(mode==='marketer'||store?'firebase-marketer-':'firebase-customer-')+marketerUid,marketerName:(mode==='marketer'||store)?String(marketerProfile.name||'مسوق'):'شراء مباشر من الموقع',
     marketerPageName:store?store.name:String((cDB('marketerPublicProfiles/'+marketerUid)||{}).pageName||''),storeSlug:store?store.slug:'',storeName:store?store.name:'',
-    createdAt:now,date:new Date(now).toLocaleDateString('ar-EG',{timeZone:'Africa/Cairo'}),items:items,merchantUids:Object.fromEntries(Array.from(new Set(items.map(i=>i.merchantUid).filter(Boolean))).map(uid=>[uid,true])),
+    createdAt:now,date:new Date(now).toLocaleDateString('ar-EG',{timeZone:'Africa/Cairo'}),items:items,merchantUids:Object.fromEntries(Array.from(new Set(items.map(i=>i.merchantUid).filter(Boolean))).map(uid=>[uid,true])),merchantNames:Object.fromEntries(Array.from(new Set(items.map(i=>i.merchantUid).filter(Boolean))).map(uid=>{const hit=items.find(i=>i.merchantUid===uid),stored=String(hit&&hit.product&&hit.product.merchantName||'').trim();let name=stored;try{if(!name)name=String((cDB('merchantProfiles/'+uid)||{}).name||'').trim();}catch(_){}return [uid,(name||'تاجر CLOVS').slice(0,100)];})),
     customer:{name:name,phone:phone,address:address,governorate:governorate,alternatePhone:alternatePhone,landmark:landmark,notes:notes},
     shippingRate:shippingRate,subtotal:subtotal,totalCommission:cMoney(totalCommission),grandTotal:cMoney(subtotal+shippingRate),paymentMethod:paymentMethod,
     paymentProof:paymentMethod==='online'?{screenshot:screenshot,senderPhone:senderPhone}:{screenshot:'',senderPhone:''},commissionCredited:false,status:'pending',shippingLabelData:label,stockReserved:true,stockReleased:false
@@ -8502,10 +8693,34 @@ function cTelegram(method, payload) {
   const result = cFetch('https://api.telegram.org/bot'+token+'/'+method,{method:'post',payload:Object.assign({chat_id:chat},payload)});
   if (!result.ok) throw new Error('تعذر إرسال إشعار تيليجرام'); return result.result;
 }
+function cOrderMerchantMap(o) {
+  const map = {};
+  const supplied = o && o.merchantNames && typeof o.merchantNames === 'object' ? o.merchantNames : {};
+  Object.keys(supplied).forEach(uid=>{if(/^[A-Za-z0-9_-]{1,128}$/.test(uid)){const name=String(supplied[uid]||'').trim();if(name)map[uid]=name.slice(0,100);}});
+  const items = Array.isArray(o&&o.items) ? o.items : Object.values((o&&o.items)||{});
+  items.forEach(item=>{
+    const p=item&&item.product||{},uid=String(item&&item.merchantUid||p.merchantUid||'');
+    if(!/^[A-Za-z0-9_-]{1,128}$/.test(uid))return;
+    let name=String(p.merchantName||'').trim();
+    if(!name){try{name=String((cDB('merchantProfiles/'+uid)||{}).name||'').trim();}catch(_) {}}
+    map[uid]=(name||'تاجر CLOVS').slice(0,100);
+  });
+  return map;
+}
+function cOrderMerchantSummary(o) {
+  const map=cOrderMerchantMap(o), names=Object.values(map).filter(Boolean);
+  return names.length?names.join(' + '):'CLOVS';
+}
 function cOrderText(key,o) {
   const c = o.customer || {}, direct=o.orderSource==='customer', m = direct ? {} : (cDB('marketerProfiles/'+cKey(o.marketerUid)) || {});
-  const lines = ['🟢 أوردر CLOVS جديد', 'النوع: '+(direct?'شراء مباشر من الموقع':o.orderSource==='store'?'طلب من متجر '+(o.storeName||o.storeSlug):'أوردر مسوق'), 'الرقم: '+(o.id || key),'التاريخ: '+new Date(Number(o.createdAt)||Date.now()).toLocaleString('en-GB',{timeZone:'Africa/Cairo'}),'','المستلم: '+(c.name||'—'),'الهاتف: '+(c.phone||'—'),'هاتف إضافي: '+(c.alternatePhone||'—'),'المحافظة: '+(c.governorate||'—'),'العنوان بالكامل: '+(c.address||'—'),'علامة مميزة: '+(c.landmark||'—'),'ملاحظات التسليم: '+(c.notes||'—'),'','المنتجات:'];
-  (Array.isArray(o.items)?o.items:Object.values(o.items||{})).forEach((i,n)=> { const p=i.product||{}, choices=Object.keys(i.selectedVariants||{}).map(k=>k+': '+i.selectedVariants[k]).join(' • '); const discount=Number(p.discountPercent);const base=Number(p.price)*(1-(Number.isFinite(discount)&&discount>0&&discount<100?discount:0)/100); lines.push((n+1)+'. '+(p.name||'منتج')+' | كود: '+(p.id||'—')+' | عدد: '+i.quantity,choices||'بدون اختيارات','سعر الوحدة للعميل: '+cMoney(cMoney(base)+Number(i.commission||0))+' ج.م'); });
+  const merchantSummary=cOrderMerchantSummary(o);
+  const lines = ['🟢 أوردر CLOVS جديد', 'النوع: '+(direct?'شراء مباشر من الموقع':o.orderSource==='store'?'طلب من متجر '+(o.storeName||o.storeSlug):'أوردر مسوق'), 'التاجر/المورد: '+merchantSummary, 'الرقم: '+(o.id || key),'التاريخ: '+new Date(Number(o.createdAt)||Date.now()).toLocaleString('en-GB',{timeZone:'Africa/Cairo'}),'','المستلم: '+(c.name||'—'),'الهاتف: '+(c.phone||'—'),'هاتف إضافي: '+(c.alternatePhone||'—'),'المحافظة: '+(c.governorate||'—'),'العنوان بالكامل: '+(c.address||'—'),'علامة مميزة: '+(c.landmark||'—'),'ملاحظات التسليم: '+(c.notes||'—'),'','المنتجات:'];
+  (Array.isArray(o.items)?o.items:Object.values(o.items||{})).forEach((i,n)=> {
+    const p=i.product||{}, choices=Object.keys(i.selectedVariants||{}).map(k=>k+': '+i.selectedVariants[k]).join(' • ');
+    const discount=Number(p.discountPercent);const base=Number(p.price)*(1-(Number.isFinite(discount)&&discount>0&&discount<100?discount:0)/100);
+    const mid=String(i.merchantUid||p.merchantUid||''),merchant=mid?(String(p.merchantName||((o.merchantNames||{})[mid])||'تاجر CLOVS')):'CLOVS';
+    lines.push((n+1)+'. '+(p.name||'منتج')+' | كود: '+(p.id||'—')+' | عدد: '+i.quantity+' | المورد: '+merchant,choices||'بدون اختيارات','سعر الوحدة للعميل: '+cMoney(cMoney(base)+Number(i.commission||0))+' ج.م');
+  });
   lines.push('','المنتجات: '+o.subtotal+' ج.م','الشحن: '+o.shippingRate+' ج.م','الإجمالي: '+o.grandTotal+' ج.م','الدفع: '+(o.paymentMethod==='online'?'تحويل أونلاين — راجع الإيصال':'عند الاستلام'),'رقم المحول: '+((o.paymentProof||{}).senderPhone||'—'));
   if(direct) lines.push('','مصدر الطلب: العميل اشترى مباشرة من CLOVS','حساب العميل: '+(o.customerUid||o.marketerUid||'—'));
   else lines.push('عمولة المسوق: '+o.totalCommission+' ج.م','','المسوق: '+(o.marketerName||m.name||'—'),'اسم المستخدم: '+(m.username||'—'),'هاتف المسوق: '+(m.phone||'—'),'حساب المسوق: '+o.marketerUid,'صفحة المسوق: '+(o.marketerPageName||'—'));
@@ -9712,5 +9927,188 @@ function cReserveAIProduct(actor,id) {
   })();
 </script>
 <script id="clovs-v34-build-marker">console.info('[CLOVS BUILD] v35-merchant-approval-catalog-nav-2026-10-17');document.documentElement.dataset.clovsBuild='v35-merchant-approval-catalog-nav-2026-10-17';</script>
-</body>
+
+<script id="clovs-v36-slider-delete-fixes">
+  window.__clovsSlideEditIndex = null;
+  window.__clovsSlideUploadBusy = false;
+
+  function clovsSlideDraft(index = null) {
+    const current = Number.isInteger(index) && index >= 0 ? (appState.slides[index] || {}) : {};
+    return {
+      tag: String(current.tag || ''),
+      title: String(current.title || ''),
+      desc: String(current.desc || ''),
+      image: String(current.image || '')
+    };
+  }
+
+  function clovsRenderSlideEditor(index = null) {
+    const draft = clovsSlideDraft(index);
+    const editing = Number.isInteger(index) && index >= 0;
+    window.__clovsSlideEditIndex = editing ? index : null;
+    const title = editing ? `تعديل الشريحة ${index + 1}` : 'إضافة شريحة جديدة';
+    const actions = `<button type="button" class="clovs-soft-button" onclick="closeModal()">إلغاء</button><button id="clovs-slide-save-btn" type="button" class="clovs-primary-button" onclick="saveSlideEditor()"><i class="fa-solid fa-floppy-disk"></i> ${editing ? 'حفظ التعديل' : 'إضافة الشريحة'}</button>`;
+    openModal(title, '', 'fa-images', actions);
+    const box = document.getElementById('modal-message');
+    if (!box) return;
+    const preview = safeImageUrl(draft.image, 'https://placehold.co/1200x500/0f172a/ffffff?text=CLOVS');
+    box.innerHTML = `<div class="clovs-slide-editor-grid">
+      <img id="clovs-slide-preview" class="clovs-slide-preview" src="${escapeHtml(preview)}" onerror="this.src='https://placehold.co/1200x500/0f172a/ffffff?text=CLOVS'" alt="معاينة السلايد">
+      <label>وسم صغير فوق العنوان<input id="clovs-slide-tag" maxlength="60" value="${escapeHtml(draft.tag)}" placeholder="مثال: عرض الأسبوع"></label>
+      <label>العنوان<input id="clovs-slide-title" maxlength="180" value="${escapeHtml(draft.title)}" placeholder="عنوان السلايد"></label>
+      <label>الوصف<textarea id="clovs-slide-desc" maxlength="600" placeholder="وصف مختصر">${escapeHtml(draft.desc)}</textarea></label>
+      <label>رابط الصورة<input id="clovs-slide-image" dir="ltr" value="${escapeHtml(draft.image)}" placeholder="https://..."></label>
+      <label>أو ارفع صورة من جهازك<input id="clovs-slide-file" type="file" accept="image/png,image/jpeg,image/webp" onchange="clovsPreviewSlideFile(event)"></label>
+      <small class="text-slate-400 text-[10px] leading-relaxed">الصورة المرفوعة تُرفع إلى Cloudinary تلقائياً. يفضل صورة عريضة بنسبة قريبة من 16:6 للحصول على أفضل نتيجة.</small>
+    </div>`;
+  }
+
+  function openAddSlideModal() { clovsRenderSlideEditor(null); }
+  function openEditSlideModal(index) {
+    const i = Number(index);
+    if (!Number.isInteger(i) || i < 0 || i >= (appState.slides || []).length) return showToast('السلايد غير موجود', 'error');
+    clovsRenderSlideEditor(i);
+  }
+
+  function clovsPreviewSlideFile(event) {
+    const file = event?.target?.files?.[0];
+    if (!file) return;
+    if (!['image/png','image/jpeg','image/webp'].includes(file.type) || file.size > 10 * 1024 * 1024) {
+      event.target.value = '';
+      return showToast('ارفع PNG أو JPG أو WebP أقل من 10 ميجا', 'error');
+    }
+    const preview = document.getElementById('clovs-slide-preview');
+    if (preview) preview.src = URL.createObjectURL(file);
+  }
+
+  async function clovsSaveSlides(nextSlides, successMessage) {
+    if (!directAdminAllowed() || firebaseAuth.currentUser?.uid !== FIREBASE_ADMIN_UID) throw new Error('تعديل السلايدر للمدير الأساسي فقط');
+    if (!Array.isArray(nextSlides) || !nextSlides.length) throw new Error('يجب ترك شريحة واحدة على الأقل');
+    if (nextSlides.length > 20) throw new Error('الحد الأقصى 20 شريحة');
+    const clean = nextSlides.map((slide, index) => ({
+      tag: String(slide?.tag || '').trim().slice(0,60),
+      title: String(slide?.title || '').trim().slice(0,180),
+      desc: String(slide?.desc || '').trim().slice(0,600),
+      image: String(slide?.image || '').trim()
+    }));
+    if (clean.some(s => !s.title || !s.image || !/^https:\/\//i.test(s.image))) throw new Error('كل شريحة تحتاج عنوان وصورة HTTPS');
+    const saved = await setAndVerifyFirebase(slidesRef, clean, value => {
+      const list = Array.isArray(value) ? value : Object.values(value || {});
+      return list.length === clean.length && list.every((s,i)=>String(s.title||'')===clean[i].title && String(s.image||'')===clean[i].image);
+    }, 'السلايدر');
+    const savedList = Array.isArray(saved) ? saved : Object.values(saved || {});
+    appState.slides = savedList;
+    appState.currentSlideIdx = Math.min(Math.max(0, Number(appState.currentSlideIdx)||0), savedList.length - 1);
+    try { localStorage.setItem('clovs_slides_cache_v1', JSON.stringify({t:Date.now(),slides:savedList})); } catch(_) {}
+    if (appState.currentView === 'home') renderSlider();
+    if (appState.currentView === 'super-customizer') renderSuperCustomizerView();
+    showToast(successMessage || 'تم حفظ السلايدر');
+  }
+
+  async function saveSlideEditor() {
+    if (window.__clovsSlideUploadBusy) return;
+    const button = document.getElementById('clovs-slide-save-btn');
+    const tag = document.getElementById('clovs-slide-tag')?.value.trim() || '';
+    const title = document.getElementById('clovs-slide-title')?.value.trim() || '';
+    const desc = document.getElementById('clovs-slide-desc')?.value.trim() || '';
+    let image = document.getElementById('clovs-slide-image')?.value.trim() || '';
+    const file = document.getElementById('clovs-slide-file')?.files?.[0] || null;
+    if (!title) return showToast('اكتب عنوان السلايد', 'error');
+    if (!file && !/^https:\/\//i.test(image)) return showToast('ارفع صورة أو أدخل رابط HTTPS للصورة', 'error');
+    try {
+      window.__clovsSlideUploadBusy = true;
+      if (button) { button.disabled = true; button.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> جاري الحفظ...'; }
+      if (file) image = await prepareAndUploadImage(file, 'clovs/sliders');
+      else image = await ensureCloudinaryImage(image, 'clovs/sliders');
+      if (!/^https:\/\//i.test(image)) throw new Error('تعذر تثبيت صورة السلايد');
+      const slides = [...(appState.slides || [])];
+      const payload = {tag,title,desc,image};
+      const editIndex = window.__clovsSlideEditIndex;
+      if (Number.isInteger(editIndex) && editIndex >= 0 && editIndex < slides.length) slides[editIndex] = payload;
+      else slides.push(payload);
+      await clovsSaveSlides(slides, Number.isInteger(editIndex) ? 'تم تعديل السلايد وحفظه في Firebase' : 'تمت إضافة السلايد وحفظه في Firebase');
+      closeModal();
+    } catch (error) {
+      console.error('[CLOVS slider save]', error);
+      showToast('فشل حفظ السلايد: ' + String(error?.message || error).slice(0,140), 'error');
+    } finally {
+      window.__clovsSlideUploadBusy = false;
+      if (button && button.isConnected) { button.disabled = false; button.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> حفظ'; }
+    }
+  }
+
+  async function deleteSlide(index) {
+    if (!directAdminAllowed() || firebaseAuth.currentUser?.uid !== FIREBASE_ADMIN_UID) return showToast('حذف السلايدر للمدير الأساسي فقط', 'error');
+    const slides = [...(appState.slides || [])];
+    const i = Number(index);
+    if (!Number.isInteger(i) || i < 0 || i >= slides.length) return showToast('السلايد غير موجود', 'error');
+    if (slides.length <= 1) return showToast('لا يمكن حذف آخر سلايد. عدّله بدل الحذف.', 'error');
+    const name = String(slides[i]?.title || `الشريحة ${i+1}`).slice(0,80);
+    if (!confirm(`حذف السلايد «${name}» نهائيًا؟`)) return;
+    slides.splice(i,1);
+    try {
+      if (appState.currentSlideIdx >= slides.length) appState.currentSlideIdx = slides.length - 1;
+      await clovsSaveSlides(slides, `تم حذف السلايد «${name}» نهائيًا`);
+    } catch (error) {
+      console.error('[CLOVS slider delete]', error);
+      showToast('فشل حذف السلايد: ' + String(error?.message || error).slice(0,140), 'error');
+    }
+  }
+
+  // This handler was referenced by the referral UI but missing from v35.
+  async function clovsOpenReferralTelegramGroup(rawUrl) {
+    const fallback = appState.contactInfo?.telegramGroup || 'https://t.me/Clovs_Marketing_Team';
+    const url = safeTelegramUrl(rawUrl) || safeTelegramUrl(fallback);
+    if (!url) return showToast('رابط جروب تيليجرام غير صالح', 'error');
+    const win = window.open(url, '_blank', 'noopener,noreferrer');
+    try {
+      const result = await clovsService('referralTelegramClick', {}, 30000);
+      clovsReferral.accountStatus = result;
+      if (appState.currentView === 'referral-verification') renderReferralVerification();
+      showToast('تم تسجيل فتح جروب تيليجرام');
+    } catch (error) {
+      console.warn('[CLOVS referral telegram click]', error);
+      if (!win) location.href = url;
+      showToast('تم فتح الجروب، لكن تعذر تسجيل الخطوة في الخدمة', 'error');
+    }
+  }
+</script>
+
+
+\n<script id="clovs-v39-neon-runtime">
+(function(){
+  if(window.__clovsV39NeonInstalled)return;
+  window.__clovsV39NeonInstalled=true;
+  let current=0,pointerAngle=0,pointerWeight=0,lastPointer=0,scrollTerm=(window.scrollY||0)*.19;
+  const wrap=n=>((n%360)+360)%360;
+  const delta=(a,b)=>((b-a+540)%360)-180;
+  const reduceMotion=!!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+  function bar(){return document.querySelector('.home-shop-search.clovs-neon-search');}
+  function ensure(){
+    const el=bar(); if(!el)return null;
+    let orbit=el.querySelector('.clovs-v38-neon-orbit');
+    if(!orbit){orbit=document.createElement('span');orbit.className='clovs-v38-neon-orbit';orbit.setAttribute('aria-hidden','true');el.prepend(orbit);}
+    return el;
+  }
+  document.addEventListener('pointermove',e=>{
+    const el=ensure(); if(!el)return;
+    const r=el.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;
+    pointerAngle=wrap(Math.atan2(e.clientY-cy,e.clientX-cx)*180/Math.PI+90);
+    pointerWeight=1; lastPointer=performance.now();
+  },{passive:true});
+  window.addEventListener('scroll',()=>{scrollTerm=(window.scrollY||document.documentElement.scrollTop||0)*.19;},{passive:true});
+  function frame(now){
+    const el=ensure();
+    if(el){
+      if(now-lastPointer>700)pointerWeight+=(0-pointerWeight)*.028;
+      const auto=reduceMotion?0:(now*.026)%360;
+      const target=wrap(auto+scrollTerm*.78+pointerAngle*.86*pointerWeight);
+      current=reduceMotion?target:wrap(current+delta(current,target)*.12);
+      el.style.setProperty('--clovs-v38-angle',current.toFixed(2)+'deg');
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>\n</body>
 </html>
