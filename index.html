@@ -6386,9 +6386,41 @@ body.clovs-store-mode #modal-actions>.clovs-primary-button{background:#a15b38!im
       renderProductImagePreviews();
     }
 
-    function optimizeProductImage(file) {
+    function isHeicImage(file) {
+      return /^image\/hei[cf]/i.test(file.type || '') || /\.hei[cf]$/i.test(file.name || '');
+    }
+
+    let heic2anyLoader = null;
+    function loadHeic2any() {
+      if (window.heic2any) return Promise.resolve(window.heic2any);
+      heic2anyLoader = heic2anyLoader || new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js';
+        script.onload = () => window.heic2any ? resolve(window.heic2any) : reject(new Error('heic-loader-failed'));
+        script.onerror = () => { heic2anyLoader = null; reject(new Error('heic-loader-failed')); };
+        document.head.appendChild(script);
+      });
+      return heic2anyLoader;
+    }
+
+    // iPhone photos arrive as HEIC, which most browsers outside Safari cannot draw on a canvas.
+    async function normalizeImageFile(file) {
+      if (!isHeicImage(file)) return file;
+      try {
+        const heic2any = await loadHeic2any();
+        const converted = await heic2any({ blob: file, toType: 'image/jpeg', quality: 0.85 });
+        return Array.isArray(converted) ? converted[0] : converted;
+      } catch (_) {
+        throw new Error('تعذر تحويل صورة الآيفون (HEIC). صوّرها Screenshot أو غيّر إعداد الكاميرا إلى Most Compatible وجرّب تاني.');
+      }
+    }
+
+    async function optimizeProductImage(file) {
+      const looksLikeImage = (file.type || '').startsWith('image/') || /\.(jpe?g|png|webp|gif|bmp|hei[cf])$/i.test(file.name || '');
+      if (!looksLikeImage) throw new Error('الملف ده مش صورة. اختار صورة JPG أو PNG أو WebP.');
+      if (file.size > 20 * 1024 * 1024) throw new Error('الصورة أكبر من 20 ميجا. اختار صورة أصغر.');
+      file = await normalizeImageFile(file);
       return new Promise((resolve, reject) => {
-        if (!file.type.startsWith('image/') || file.size > 12 * 1024 * 1024) return reject(new Error('invalid-image'));
         const url = URL.createObjectURL(file);
         const image = new Image();
         image.onload = () => {
@@ -6407,12 +6439,12 @@ body.clovs-store-mode #modal-actions>.clovs-primary-button{background:#a15b38!im
               result = canvas.toDataURL('image/jpeg', quality);
               if (result.length <= 420000) break;
             }
-            if (result.length > 500000) throw new Error('image-too-large');
+            if (result.length > 500000) throw new Error('الصورة كبيرة جدًا حتى بعد الضغط. جرّب صورة أبسط أو أصغر.');
             URL.revokeObjectURL(url);
             resolve(result);
           } catch (error) { URL.revokeObjectURL(url); reject(error); }
         };
-        image.onerror = () => { URL.revokeObjectURL(url); reject(new Error('image-load-failed')); };
+        image.onerror = () => { URL.revokeObjectURL(url); reject(new Error('المتصفح مش قادر يفتح الصورة دي. حوّلها لـ JPG أو PNG وجرّب تاني.')); };
         image.src = url;
       });
     }
@@ -6426,13 +6458,20 @@ body.clovs-store-mode #modal-actions>.clovs-primary-button{background:#a15b38!im
         return;
       }
       productImagesLoading = true;
+      const failures = [];
       try {
-        for (const file of files) tempProductImages.push(await prepareAndUploadImage(file, 'clovs/products'));
-        renderProductImagePreviews();
-        showToast('تم رفع صور المنتج إلى Cloudinary. اختر الصورة الرئيسية قبل الحفظ.');
-      } catch (error) {
-        console.error('[Clovs] product image processing failed:', error);
-        showToast('تعذر تجهيز إحدى الصور. جرّب صورة JPG أو PNG أصغر من 12 ميجابايت.', 'error');
+        for (const [index, file] of files.entries()) {
+          showToast(`جاري رفع الصورة ${index + 1} من ${files.length}...`, 'info');
+          try {
+            tempProductImages.push(await prepareAndUploadImage(file, 'clovs/products'));
+            renderProductImagePreviews();
+          } catch (error) {
+            console.error('[Clovs] product image upload failed:', file.name, error);
+            failures.push(`${file.name || 'صورة'}: ${error.message || 'خطأ غير معروف'}`);
+          }
+        }
+        if (failures.length) showToast(`تعذر رفع ${failures.length} من ${files.length} صور — ${failures[0]}`, 'error');
+        else showToast('تم رفع صور المنتج. اختر الصورة الرئيسية قبل الحفظ.');
       } finally {
         productImagesLoading = false;
         e.target.value = '';
